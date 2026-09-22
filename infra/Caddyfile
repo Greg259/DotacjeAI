@@ -1,0 +1,34 @@
+www.dotacjeai.eu {
+    redir https://dotacjeai.eu{uri} permanent
+}
+
+http://127.0.0.1:2015 {
+    respond /health "ok" 200
+}
+
+dotacjeai.eu {
+    encode zstd gzip
+
+    header {
+        -Server
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    handle /health {
+        respond "ok" 200
+    }
+
+    handle /api/* {
+        reverse_proxy api:8000
+    }
+
+    handle {
+        reverse_proxy frontend:3000
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}

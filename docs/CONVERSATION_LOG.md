@@ -1,0 +1,291 @@
+# DotacjeAI - zapis rozmowy i decyzji projektowych
+
+Data rozpoczęcia: 2026-09-22
+Użytkownik: właściciel projektu
+Asystent: Codex
+
+> Dokument jest uporządkowanym zapisem rozmowy, decyzji i wykonanych działań. Hasła oraz sekrety zostały usunięte. Szczegółowe komunikaty narzędziowe, logi instalatora i powtarzające się dane techniczne zostały skrócone.
+
+## 1. Weryfikacja dostępu do VPS
+
+### Użytkownik
+
+Poprosił o sprawdzenie dostępu do serwera Time4VPS i przekazał:
+
+- użytkownika `root`,
+- hasło: `[USUNIĘTO]`,
+- adres IP `185.69.52.106`.
+
+### Codex
+
+Sprawdzono dostępność portu SSH 22 oraz wykonano testowe logowanie bez modyfikacji serwera.
+
+Wynik:
+
+- SSH odpowiada,
+- uwierzytelnienie użytkownika `root` działa,
+- system Linux x86-64,
+- używany kernel w czasie pierwszej kontroli: `6.8.0-139-generic`.
+
+Zalecono zmianę przekazanego hasła oraz docelowe przejście na klucz SSH.
+
+## 2. Klucz SSH
+
+### Użytkownik
+
+Zapytał, gdzie znajduje się klucz SSH.
+
+### Codex
+
+Sprawdzono lokalny katalog użytkownika Windows. Znaleziono istniejącą parę:
+
+- klucz prywatny: `C:\Users\grzeg\.ssh\id_ed25519`,
+- klucz publiczny: `C:\Users\grzeg\.ssh\id_ed25519.pub`.
+
+Wyjaśniono, że klucza prywatnego nie wolno udostępniać, a klucz publiczny można dodać na serwerze do `authorized_keys`.
+
+### Użytkownik
+
+Zdecydował, aby na tym etapie nie instalować klucza.
+
+### Decyzja
+
+Logowanie roota hasłem pozostało aktywne, aby nie utracić dostępu. Wyłączenie hasła i logowania roota zostało przesunięte do czasu przetestowania logowania kluczem na koncie `deploy`.
+
+## 3. Analiza planu MVP z PDF
+
+### Użytkownik
+
+Poprosił o przejrzenie dokumentu:
+
+`C:\Users\grzeg\Downloads\DotacjeAI_MVP_plan_wdrozenia_Time4VPS.pdf`
+
+oraz przygotowanie planu implementacji z wykorzystaniem istniejącego VPS.
+
+### Codex
+
+Przeanalizowano pełny, 18-stronicowy dokument wraz z kontrolą wizualną stron. Potwierdzono, że VPS wystarczy do MVP obejmującego:
+
+- portal publiczny,
+- FastAPI i frontend,
+- PostgreSQL oraz Redis,
+- monitoring oficjalnych źródeł,
+- wersjonowanie stron i dokumentów,
+- ekstrakcję oraz klasyfikację LLM,
+- panel administratora,
+- konta użytkowników,
+- matching programów,
+- powiadomienia.
+
+Zalecono:
+
+- jeden VPS dla całego MVP,
+- Docker Compose zamiast Kubernetes,
+- zewnętrzne API LLM zamiast lokalnego modelu,
+- publiczne wystawienie wyłącznie Caddy,
+- pozostawienie PostgreSQL i Redis w sieci wewnętrznej,
+- budowę najpierw pionowego przepływu `źródło -> zmiana -> AI -> review -> publikacja -> alert`.
+
+Oszacowano pełne MVP na około 7-9 tygodni pracy jednego doświadczonego programisty.
+
+## 4. Audyt VPS przed wdrożeniem
+
+Przed zmianami wykonano diagnostykę tylko do odczytu.
+
+Stan początkowy:
+
+- Ubuntu 24.04.4 LTS,
+- 3 vCPU,
+- 7,8 GiB RAM,
+- około 77 GiB wolnego miejsca,
+- Docker aktywny,
+- brak Docker Compose,
+- UFW aktywny z portami 22, 80 i 443,
+- brak uruchomionych kontenerów,
+- brak swapu,
+- strefa czasowa `Europe/Vilnius`,
+- fail2ban nieaktywny,
+- 48 oczekujących aktualizacji,
+- bezpośrednie logowanie `root` hasłem aktywne,
+- około 7 GB starych obrazów Docker.
+
+## 5. Przygotowanie serwera
+
+### Użytkownik
+
+Polecił:
+
+1. zaktualizować system i zaplanować restart,
+2. ustawić `Europe/Warsaw`,
+3. dodać swap,
+4. zainstalować Docker Compose,
+5. uruchomić fail2ban,
+6. utworzyć użytkownika `deploy`,
+7. utworzyć `/opt/dotacje-ai`,
+8. przygotować dane, sekrety i backupy,
+9. uruchomić minimalny Compose z Caddy, API, frontendem, PostgreSQL i Redisem,
+10. przechowywać Markdown lokalnie i na serwerze,
+11. przygotować system pod OpenRouter.
+
+### Codex - wykonane działania
+
+- Zaktualizowano wszystkie pakiety systemowe.
+- System po aktualizacji zgłasza Ubuntu 24.04.5 LTS.
+- Wykonano kontrolowany restart.
+- Ustawiono strefę `Europe/Warsaw` i potwierdzono NTP.
+- Utworzono swap 2 GiB i ustawiono `vm.swappiness=10`.
+- Zainstalowano Docker Compose 2.40.3.
+- Zainstalowano i skonfigurowano fail2ban dla SSH.
+- Utworzono konto `deploy` w grupach `sudo` i `docker`.
+- Utworzono strukturę `/opt/dotacje-ai`.
+- Wygenerowano losowe hasła PostgreSQL i Redis.
+- Sekrety zapisano poza repozytorium z prawami 600.
+- Uruchomiono pięć kontenerów z healthcheckami i limitami zasobów.
+- Przetestowano automatyczny powrót kontenerów po restarcie VPS.
+
+Kontenery:
+
+- `caddy`,
+- `frontend`,
+- `api`,
+- `postgres`,
+- `redis`.
+
+Endpointy testowe:
+
+- `/`,
+- `/health`,
+- `/api/health`.
+
+Wszystkie kontenery uzyskały status `healthy`.
+
+### Świadomie niewykonane
+
+- Nie wyłączono logowania roota ani logowania hasłem, ponieważ użytkownik nie chciał jeszcze instalować klucza SSH.
+- Nie skonfigurowano HTTPS, ponieważ nie wskazano domeny.
+- Nie usunięto starych obrazów Docker bez dodatkowej zgody i weryfikacji.
+- Nie skonfigurowano produkcyjnego backupu zewnętrznego.
+
+## 6. Organizacja dokumentacji
+
+### Lokalnie
+
+`D:\Codex\ProjektDotacje`
+
+### Na serwerze
+
+`/home/deploy/Codex/ProjektDotacje`
+
+Dokumenty są synchronizowane do obu lokalizacji i przechowywane bez sekretów.
+
+## 7. Pierwsza rekomendacja modeli OpenRouter
+
+Początkowo zaproponowano:
+
+- `openai/gpt-5.6-luna` jako model szybki,
+- `openai/gpt-5.6-luna-pro` jako model dokładny,
+- `google/gemini-3.8-flash` jako model walidacyjny/multimodalny.
+
+Klucz OpenRouter pozostawiono pusty w:
+
+`/opt/dotacje-ai/secrets/app.env`
+
+Nie zapisano żadnego klucza API w repozytorium ani dokumentacji.
+
+## 8. Analiza tańszych modeli OpenRouter
+
+### Użytkownik
+
+Poprosił o sprawdzenie, czy można użyć tańszych modeli.
+
+### Codex
+
+Porównano aktualne ceny i funkcje modeli w katalogu OpenRouter. Zaproponowano routing wielopoziomowy:
+
+```dotenv
+LLM_MODEL_CLASSIFY=deepseek/deepseek-v4-flash-0731
+LLM_MODEL_EXTRACT=deepseek/deepseek-v4-flash-0731
+LLM_MODEL_VALIDATE=openai/gpt-5-nano
+LLM_MODEL_STRONG=openai/gpt-5.6-luna-pro
+LLM_MODEL_MULTIMODAL=google/gemini-3.1-flash-lite
+```
+
+Wnioski:
+
+- deterministyczny monitoring powinien eliminować większość wywołań LLM,
+- DeepSeek V4 Flash nadaje się do taniej analizy publicznego tekstu,
+- GPT-5 Nano może pełnić rolę taniego walidatora,
+- GPT-5.6 Luna Pro powinien obsługiwać wyłącznie trudne przypadki,
+- Gemini 3.1 Flash Lite powinien być używany tylko dla skanów, obrazów i trudnych PDF,
+- danych o niskiej pewności nie wolno publikować bez REVIEW,
+- model należy wybrać po teście na 20-30 ręcznie sprawdzonych regulaminach.
+
+Dla przykładu 50 000 tokenów wejścia i 2 000 wyjścia oszacowano:
+
+- DeepSeek V4 Flash: około 0,00282 USD,
+- GPT-5 Nano: około 0,00330 USD,
+- GPT-5.6 Luna: około 0,01240 USD.
+
+Aktywnej konfiguracji modeli nie zmieniono przed wykonaniem testów jakościowych.
+
+## 9. Utworzona dokumentacja
+
+W katalogu projektu znajdują się:
+
+- `README.md`,
+- `SERVER_SETUP.md`,
+- `IMPLEMENTATION_STATUS.md`,
+- `TECHNICAL_SERVER_DOCUMENTATION.md`,
+- `OPENROUTER_MODELS.md`,
+- `OPENROUTER_COST_OPTIMIZATION.md`,
+- `NEXT_STEPS_PLAN.md`,
+- `CONVERSATION_LOG.md` - niniejszy dokument.
+
+## 10. Ustalony plan dalszych działań
+
+Rekomendowana kolejność:
+
+1. domena i HTTPS,
+2. klucz SSH dla `deploy`, test logowania i zamknięcie dostępu hasłem,
+3. zmiana ujawnionego hasła roota,
+4. zewnętrzny backup i test odtworzenia,
+5. repozytorium Git, FastAPI, Next.js i migracje PostgreSQL,
+6. wybór 3-5 oficjalnych źródeł pilotażowych,
+7. monitoring deterministyczny i wersjonowanie dokumentów,
+8. integracja OpenRouter i test porównawczy modeli,
+9. panel REVIEW,
+10. portal publiczny, konta, matching i alerty.
+
+## 11. Aktualny stan końcowy
+
+- VPS działa po restarcie.
+- Wszystkie pięć kontenerów ma status `healthy`.
+- Oczekujące aktualizacje: 0.
+- UFW, fail2ban, Docker, AppArmor i unattended-upgrades są aktywne.
+- PostgreSQL i Redis nie mają publicznych portów.
+- HTTPS czeka na domenę.
+- Backup aplikacyjny czeka na zewnętrzny storage i harmonogram.
+- OpenRouter czeka na klucz API oraz test modeli.
+- Logowanie roota hasłem pozostaje tymczasowo aktywne.
+
+## 12. Domena produkcyjna
+
+Użytkownik wskazał świeżo zakupioną domenę `dotacjeai.eu` utrzymywaną w home.pl.
+
+Ustalono rekordy:
+
+- A dla domeny głównej -> `185.69.52.106`,
+- CNAME `www` -> `dotacjeai.eu`.
+
+Rekord TXT weryfikacyjny pozostawiono bez zmian. Po pojawieniu się rekordu A skonfigurowano automatyczne HTTPS w Caddy.
+
+Wynik:
+
+- `http://dotacjeai.eu` przekierowuje do HTTPS,
+- `https://dotacjeai.eu` działa,
+- `https://dotacjeai.eu/api/health` odpowiada poprawnie,
+- certyfikat został wystawiony przez Let's Encrypt,
+- wszystkie kontenery pozostały zdrowe,
+- rekord `www.dotacjeai.eu` pojawił się w DNS home.pl,
+- Caddy wystawił osobny certyfikat Let's Encrypt dla `www.dotacjeai.eu`,
+- `https://www.dotacjeai.eu` przekierowuje kodem 301 na `https://dotacjeai.eu`.
