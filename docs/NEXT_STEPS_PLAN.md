@@ -40,13 +40,15 @@ Definition of Done:
 
 ## Etap 2 - fundament aplikacji
 
-1. Utworzyć repozytorium Git i zasady branch/PR.
-2. Zastąpić placeholder frontendu minimalnym Next.js.
-3. Rozbudować FastAPI o konfigurację, logowanie JSON i obsługę błędów.
-4. Dodać SQLAlchemy oraz Alembic.
-5. Utworzyć pierwsze migracje: `users`, `sources`, `source_snapshots`, `programs`, `program_versions`, `program_documents`, `document_versions`, `llm_runs`, `audit_log`.
-6. Dodać worker i scheduler korzystające z Redis.
-7. Dodać testy, lint i kontrolę migracji w CI.
+1. [x] Utworzyć repozytorium GitHub i skonfigurować dostęp przez SSH.
+2. [x] Wysłać kod infrastruktury i dokumentację bez sekretów na `main`.
+3. [ ] Włączyć ochronę `main`, pracę przez pull request i podstawowe reguły przeglądu.
+4. [ ] Zastąpić placeholder frontendu minimalnym Next.js.
+5. [ ] Rozbudować FastAPI o konfigurację, logowanie JSON i obsługę błędów.
+6. [ ] Dodać SQLAlchemy oraz Alembic.
+7. [ ] Utworzyć pierwsze migracje: `users`, `sources`, `source_snapshots`, `programs`, `program_versions`, `program_documents`, `document_versions`, `llm_runs`, `audit_log`.
+8. [ ] Dodać worker i scheduler korzystające z Redis.
+9. [ ] Dodać testy, lint i kontrolę migracji w GitHub Actions.
 
 Definition of Done:
 
@@ -128,18 +130,63 @@ Definition of Done:
 
 ## Decyzje potrzebne od właściciela
 
-1. Domena projektu.
-2. Repozytorium Git i sposób dostępu.
-3. Pierwsze 3-5 źródeł dotacji.
-4. Dostawca poczty transakcyjnej.
-5. Dostawca zewnętrznego backupu.
-6. Miesięczny limit OpenRouter.
-7. Czy prywatne dokumenty użytkowników wchodzą do pierwszej bety, czy do etapu po uruchomieniu portalu.
+1. [x] Domena projektu: `dotacjeai.eu`.
+2. [x] Repozytorium i dostęp: `Greg259/DotacjeAI`, SSH.
+3. [ ] Pierwsze 3-5 oficjalnych źródeł dotacji.
+4. [ ] Dostawca poczty transakcyjnej.
+5. [ ] Dostawca zewnętrznego backupu.
+6. [ ] Miesięczny limit OpenRouter.
+7. [ ] Czy prywatne dokumenty użytkowników wchodzą do pierwszej bety, czy do etapu po uruchomieniu portalu.
 
-## Rekomendowana najbliższa kolejność
+## Najbliższy sprint - rekomendowana kolejność
 
-1. Klucz SSH i zamknięcie logowania hasłem.
-2. Backup poza VPS.
-3. Repozytorium i migracje bazy.
-4. Trzy realne źródła i monitoring deterministyczny.
-5. Dopiero potem klucz OpenRouter i porównanie modeli.
+### P0 - bezpieczeństwo dostępu
+
+1. Dodać obecny publiczny klucz SSH do `/home/deploy/.ssh/authorized_keys`.
+2. Otworzyć nową sesję jako `deploy` i potwierdzić działanie `sudo` oraz Dockera.
+3. Zachować istniejącą sesję awaryjną do końca testu.
+4. Zmienić hasło `root`, następnie wyłączyć `PermitRootLogin` i `PasswordAuthentication`.
+5. Sprawdzić ponownie SSH, fail2ban, UFW oraz dostępność aplikacji.
+
+Rezultat: administracja VPS jest możliwa wyłącznie kluczem przez konto `deploy`.
+
+### P0 - backup i odtwarzanie
+
+1. Wybrać zewnętrzny magazyn zgodny z S3 albo serwer backupowy.
+2. Przygotować codzienny `pg_dump`, backup dokumentów i konfiguracji bez kopiowania aktywnych sekretów w postaci jawnej.
+3. Szyfrować backup przed wysłaniem poza VPS.
+4. Ustawić retencję dzienną, tygodniową i miesięczną oraz alarm błędu zadania.
+5. Wykonać próbne odtworzenie do osobnej bazy i zapisać procedurę disaster recovery.
+
+Rezultat: istnieje sprawdzona kopia poza VPS, a nie tylko repozytorium GitHub.
+
+### P1 - kontrola działania
+
+1. Dodać zewnętrzny test `https://dotacjeai.eu/health`.
+2. Alarmować o niedostępności, małej ilości miejsca, błędach backupu i niezdrowych kontenerach.
+3. Ustawić rotację logów Dockera i prosty raport dzienny.
+
+Rezultat: administrator dowiaduje się o awarii bez ręcznego logowania na serwer.
+
+### P1 - fundament MVP
+
+1. Ustawić ochronę gałęzi `main` i GitHub Actions dla testów.
+2. Zbudować Next.js, FastAPI, SQLAlchemy/Alembic oraz pierwsze migracje.
+3. Dodać worker i scheduler oparte na Redis.
+4. Przygotować test uruchomienia od pustej bazy.
+
+Rezultat: zmiany aplikacji można bezpiecznie testować i wdrażać.
+
+### P1 - pierwszy pionowy przepływ
+
+1. Wskazać 3-5 źródeł, ale najpierw wdrożyć jedno źródło end-to-end.
+2. Pobrać stronę lub PDF, zapisać URL, datę, nagłówki i SHA-256.
+3. Wykrywać zmianę bez LLM, zapisywać snapshot i generować diff.
+4. Dopiero na wykrytej zmianie uruchomić ekstrakcję OpenRouter do walidowanego JSON.
+5. Zatwierdzić wynik w prostym panelu REVIEW i opublikować program.
+
+Rezultat: jeden audytowalny program przechodzi cały proces od źródła do publikacji.
+
+### P2 - użytkownicy i beta
+
+Po ustabilizowaniu przepływu należy dodać konta, matching, subskrypcje, e-mail, wymagania RODO i dopiero potem prywatne dokumenty użytkowników.

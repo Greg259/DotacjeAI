@@ -311,3 +311,18 @@ Wykonane działania:
 - wysłano commit do `origin/main`.
 
 GitHub przechowuje kod i dokumentację. Nie służy jako backup PostgreSQL, uploadów użytkowników, dokumentów prywatnych ani pliku `/opt/dotacje-ai/secrets/app.env`. Te dane wymagają osobnego, szyfrowanego backupu poza VPS.
+
+## 14. Aktualizacja planu realizacji
+
+Na prośbę użytkownika zaktualizowano status i plan kolejnych prac. Jako wykonane oznaczono domenę, HTTPS, repozytorium GitHub, dostęp do GitHuba przez SSH oraz pierwszy backup kodu i dokumentacji.
+
+Najbliższe działania uporządkowano według priorytetów:
+
+1. P0: klucz SSH dla `deploy`, test dostępu, zmiana hasła `root` i wyłączenie logowania hasłem oraz bezpośredniego logowania `root`.
+2. P0: szyfrowany backup poza VPS wraz z testem odtworzenia.
+3. P1: monitoring dostępności, zasobów, kontenerów i backupów.
+4. P1: ochrona gałęzi `main`, CI, Next.js, FastAPI, migracje i worker.
+5. P1: pierwszy kompletny przepływ od oficjalnego źródła do zatwierdzonej publikacji.
+6. P2: użytkownicy, matching, alerty e-mail, RODO i beta.
+
+Szczegóły oraz kryteria rezultatów zapisano w `NEXT_STEPS_PLAN.md`, a bieżące otwarte zadania w `IMPLEMENTATION_STATUS.md`.

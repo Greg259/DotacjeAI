@@ -42,6 +42,18 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 ## Otwarte zadania
 
 1. Dodać klucz SSH użytkownika `deploy`, a następnie wyłączyć hasło i logowanie `root`.
-2. Ustawić `OPENROUTER_API_KEY` w `/opt/dotacje-ai/secrets/app.env`.
-3. Wybrać dostawcę e-maili oraz zewnętrznego backupu.
-4. Zastąpić techniczny frontend docelową aplikacją Next.js.
+2. Zmienić ujawnione podczas konfiguracji hasło `root`.
+3. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia.
+4. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
+5. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
+6. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
+7. Wybrać 3-5 oficjalnych źródeł pilotażowych.
+8. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
+
+## Repozytorium i dokumentacja
+
+- Repozytorium GitHub: `Greg259/DotacjeAI`.
+- Kod infrastruktury i dokumentacja znajdują się na gałęzi `main`.
+- Sekrety i pliki `.env` nie są wersjonowane.
+- Kopia robocza repozytorium znajduje się w `D:\Codex\DotacjeAI`.
+- Dokumentacja jest również synchronizowana do `/home/deploy/Codex/ProjektDotacje` na VPS.
