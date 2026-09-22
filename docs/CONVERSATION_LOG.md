@@ -289,3 +289,25 @@ Wynik:
 - rekord `www.dotacjeai.eu` pojawił się w DNS home.pl,
 - Caddy wystawił osobny certyfikat Let's Encrypt dla `www.dotacjeai.eu`,
 - `https://www.dotacjeai.eu` przekierowuje kodem 301 na `https://dotacjeai.eu`.
+
+## 13. Repozytorium GitHub
+
+Użytkownik utworzył repozytorium:
+
+`git@github.com:Greg259/DotacjeAI.git`
+
+oraz dodał publiczny klucz SSH komputera do swojego konta GitHub.
+
+Wykonane działania:
+
+- potwierdzono uwierzytelnienie konta `Greg259`,
+- sklonowano istniejącą gałąź `main`,
+- zachowano pierwotny commit repozytorium,
+- dodano kod infrastruktury, aplikacje techniczne i dokumentację,
+- dodano `.gitignore` oraz `.gitattributes`,
+- przeskanowano staged diff pod kątem sekretów,
+- nie wykryto prawdziwych haseł ani kluczy API,
+- wykonano commit `832abd6` o opisie `Add DotacjeAI MVP infrastructure and documentation`,
+- wysłano commit do `origin/main`.
+
+GitHub przechowuje kod i dokumentację. Nie służy jako backup PostgreSQL, uploadów użytkowników, dokumentów prywatnych ani pliku `/opt/dotacje-ai/secrets/app.env`. Te dane wymagają osobnego, szyfrowanego backupu poza VPS.
