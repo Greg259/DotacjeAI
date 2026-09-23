@@ -63,9 +63,27 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - 7 testów lokalnych zakończonych poprawnie,
 - pełny cykl migracji zweryfikowany na odseparowanym PostgreSQL 16 na VPS.
 
-Fundament został wdrożony produkcyjnie. Aktywna migracja to `4167552a1c92`, API ma wersję `0.2.0`, w tabeli `sources` znajduje się siedem oficjalnych źródeł, a publiczna lista pozostaje pusta do czasu zatwierdzenia pierwszego programu. OpenRouter i crawler nie są jeszcze uruchomione.
+Fundament został wdrożony produkcyjnie. Po sprincie crawlera aktywna migracja to `a8d2f6c4b901`, API ma wersję `0.3.0`, a w tabeli `sources` znajduje się siedem oficjalnych źródeł. Publiczna lista pozostaje pusta do czasu zatwierdzenia pierwszego programu. OpenRouter nie jest jeszcze uruchomiony.
 
 Po migracji wykonano snapshot Restic `0e57cdc7`. Kontrola repozytorium, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie. Monitoring po wdrożeniu zwrócił `OK`.
+
+## Crawler produkcyjny wdrożony 2026-09-23
+
+- crawler HTML/PDF działa jako jednorazowe zadanie Docker bez uprawnień root,
+- obsługuje timeout, trzy próby, limit 25 MiB, redirecty, ETag i Last-Modified,
+- zapisuje surowy plik, dwa hashe SHA-256, tekst znormalizowany i opcjonalny diff,
+- pierwsza zmiana tworzy zadanie `NEW_PROGRAM`, kolejna `SOURCE_CHANGED`,
+- błędy są zapisywane przy źródle i nie wyłączają weryfikacji TLS,
+- cron użytkownika `deploy` uruchamia dwa priorytetowe źródła co sześć godzin,
+- Nadarzyn: PDF 360899 B, kolejne sprawdzenie zwróciło HTTP 304,
+- WFOŚiGW: HTML 231516 B, powtórne sprawdzenie miało identyczne hashe,
+- baza zawiera cztery sprawdzenia, dwa snapshoty oznaczone jako zmiana i dwa oczekujące zadania REVIEW,
+- oba źródła mają wyczyszczony stan ostatniego błędu,
+- 11 testów lokalnych oraz GitHub Actions zakończyły się sukcesem.
+
+Serwer WFOŚiGW nie wysyła kompletnego łańcucha TLS. Dodano publiczny certyfikat pośredni wskazany w AIA certyfikatu serwera. Nadal sprawdzane są hostname, podpis, ważność i zaufany root; weryfikacja TLS nie została wyłączona.
+
+Backup po wdrożeniu ma identyfikator `81688635`. Restic nie wykrył błędów, odtworzył 23 pliki i katalogi, zweryfikował SHA-256 dumpa oraz wykonał pełny import do bazy tymczasowej.
 
 ## Zatwierdzony zakres MVP-0
 

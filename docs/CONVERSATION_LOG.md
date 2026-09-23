@@ -428,3 +428,11 @@ Wykonano backup po migracji jako snapshot `0e57cdc7`. Restic nie wykrył błęd�
 Użytkownik polecił rozpocząć kolejny sprint. Zakres obejmuje pobieranie HTML i PDF bez LLM, warunkowe żądania ETag/Last-Modified, SHA-256, normalizację treści, trwałe snapshoty, diff oraz automatyczne kierowanie zmian do kolejki REVIEW.
 
 Jako pierwsze źródła wykonawcze pozostają WFOŚiGW Warszawa / Czyste Powietrze oraz regulamin Gminy Nadarzyn. Crawler ma działać w odseparowanym zadaniu Docker jako nieuprzywilejowany użytkownik, zapisywać pliki w drzewie objętym backupem i uruchamiać się co sześć godzin. OpenRouter nie jest częścią tego sprintu i klucz API pozostaje niewymagany.
+
+Zaimplementowano adapter HTTP z retry, timeoutem, limitem odpowiedzi, identyfikatorem aplikacji, redirectami i warunkowymi nagłówkami. HTML jest oczyszczany z elementów wykonywalnych i normalizowany wraz z linkami, a tekst PDF jest ekstrahowany przez `pypdf`. System zapisuje surowy SHA-256, hash treści znormalizowanej, rozmiar, metadane HTTP, snapshot i opcjonalny unified diff. Pierwsza treść oraz późniejsze zmiany trafiają do REVIEW bez automatycznej publikacji.
+
+Migrację `a8d2f6c4b901` wdrożono po backupie `1d863da0`. API 0.3.0 oraz wszystkie stałe kontenery wróciły do stanu healthy, a harmonogram crawlera został dodany na minutę 15 co sześć godzin.
+
+Pierwsze pobranie Nadarzyna zakończyło się sukcesem i zapisało PDF 360899 B. Kolejne żądanie wykorzystało ETag i otrzymało HTTP 304 bez nowego REVIEW. Pierwsza próba WFOŚiGW ujawniła brak certyfikatu pośredniego po stronie serwera. Nie wyłączono TLS; do standardowego magazynu dodano publiczny certyfikat `home pl OV TLS G2 R35 CA`, pobrany z adresu AIA i zweryfikowany odciskiem SHA-256. Następne pobranie WFOŚiGW zakończyło się sukcesem, a kolejne miało identyczne hashe i nie utworzyło duplikatu REVIEW.
+
+Stan końcowy to cztery rekordy sprawdzeń, dwie rzeczywiste wersje źródeł i dwa oczekujące zadania REVIEW. Snapshoty źródłowe znajdują się w `/opt/dotacje-ai/data/documents/sources`. Backup `81688635` przeszedł kontrolę Restic, odtworzenie plików, kontrolę sum i pełny import PostgreSQL do bazy tymczasowej. Dokumentację techniczną zapisano w `CRAWLER_PIPELINE.md`.

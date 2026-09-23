@@ -59,11 +59,11 @@ Definition of Done:
 
 ## Etap 3 - monitoring bez AI
 
-1. Wybrać 3-5 oficjalnych źródeł pilotażowych.
-2. Zbudować adapter HTTP z limitami, timeoutami, retry i identyfikacją aplikacji.
-3. Obsłużyć ETag, Last-Modified, status HTTP i SHA-256.
-4. Normalizować HTML przed hashowaniem.
-5. Zapisywać niezmienne snapshoty i wersje PDF.
+1. [ ] Rozszerzyć pilotaż z dwóch wdrożonych źródeł do 3-5 oficjalnych źródeł.
+2. [x] Zbudować adapter HTTP z limitami, timeoutami, retry i identyfikacją aplikacji.
+3. [x] Obsłużyć ETag, Last-Modified, status HTTP i SHA-256.
+4. [x] Normalizować HTML przed hashowaniem.
+5. [x] Zapisywać niezmienne snapshoty i wersje PDF.
 6. Generować diff tekstowy i listę nowych linków.
 7. Wprowadzić idempotency key dla każdego zadania.
 
@@ -185,15 +185,15 @@ Rezultat: administrator dowiaduje się o awarii bez ręcznego logowania na serwe
 1. Ustawić ochronę gałęzi `main` i GitHub Actions dla testów.
 2. Zbudować Next.js, FastAPI, SQLAlchemy/Alembic oraz pierwsze migracje.
 3. Dodać worker i scheduler oparte na Redis.
-4. Przygotować test uruchomienia od pustej bazy.
+4. [x] Przygotować test uruchomienia od pustej bazy w GitHub Actions.
 
 Rezultat: zmiany aplikacji można bezpiecznie testować i wdrażać.
 
 ### P1 - pierwszy pionowy przepływ
 
 1. Wdrożyć WFOŚiGW Warszawa / Czyste Powietrze jako pierwsze źródło end-to-end, a Gminę Nadarzyn jako drugi test PDF i zakończonego terminu.
-2. Pobrać stronę lub PDF, zapisać URL, datę, nagłówki i SHA-256.
-3. Wykrywać zmianę bez LLM, zapisywać snapshot i generować diff.
+2. [x] Pobrać stronę lub PDF, zapisać URL, datę, nagłówki i SHA-256.
+3. [x] Wykrywać zmianę bez LLM, zapisywać snapshot i generować diff.
 4. Dopiero na wykrytej zmianie uruchomić ekstrakcję OpenRouter do walidowanego JSON.
 5. Zatwierdzić wynik w prostym panelu REVIEW i opublikować program.
 
@@ -202,3 +202,12 @@ Rezultat: jeden audytowalny program przechodzi cały proces od źródła do publ
 ### P2 - użytkownicy i beta
 
 Po ustabilizowaniu przepływu należy dodać konta, matching, subskrypcje, e-mail, wymagania RODO i dopiero potem prywatne dokumenty użytkowników.
+
+## Najbliższe kroki po wdrożeniu crawlera
+
+1. Dodać jawny idempotency key i osobną listę nowych/usuniętych linków.
+2. Rozszerzyć pilotaż o harmonogram NFOŚiGW jako trzecie źródło.
+3. Przygotować walidowany schemat ekstrakcji programu wraz z dowodami dla każdego pola.
+4. Zaimplementować budżetowany provider OpenRouter bez ustawiania klucza w Git.
+5. Zbudować prosty panel administratora dla dwóch oczekujących zadań REVIEW.
+6. Dopiero po ręcznym zatwierdzeniu utworzyć pierwsze rekordy `programs` i opublikować je w portalu.
