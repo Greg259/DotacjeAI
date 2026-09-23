@@ -144,9 +144,10 @@ Definition of Done:
 
 1. [x] Ustanowić `D:\Codex\DotacjeAI` jedynym aktywnym repozytorium i zachować odzyskiwalne archiwum starej kopii.
 2. [ ] Wykonać zaszyfrowaną kopię odzyskiwania kluczy właściciela oraz zapisać nowe hasła w menedżerze haseł.
-3. [ ] Zainstalować oczekujące pakiety jądra `6.8.0-142` oraz narzędzie `restic`.
-4. [ ] Wykonać kontrolowany restart VPS.
-5. [ ] Potwierdzić nowe jądro, SSH, fail2ban, UFW, HTTPS i pięć zdrowych kontenerów.
+3. [x] Zainstalować oczekujące pakiety jądra `6.8.0-142`.
+4. [x] Wykonać kontrolowany restart VPS.
+5. [x] Potwierdzić nowe jądro, SSH, fail2ban, HTTPS i pięć zdrowych kontenerów; reguły ekspozycji portów zweryfikowano zewnętrznie.
+6. [ ] Dokończyć instalację narzędzia `restic`.
 
 Rezultat: serwer jest aktualny, a utrata obecnego komputera nie powoduje utraty dostępu.
 
@@ -162,9 +163,9 @@ Rezultat: administracja VPS jest możliwa wyłącznie kluczem przez konto `deplo
 
 ### P0 - backup i odtwarzanie
 
-1. Wybrać zewnętrzny magazyn zgodny z S3 albo serwer backupowy.
-2. Przygotować codzienny `pg_dump`, backup dokumentów i konfiguracji bez kopiowania aktywnych sekretów w postaci jawnej.
-3. Szyfrować backup przed wysłaniem poza VPS.
+1. [x] Wybrać Cloudflare R2 jako zewnętrzny magazyn zgodny z S3.
+2. [x] Przygotować skrypt codziennego `pg_dump` i backupu dokumentów bez kopiowania aktywnych sekretów w postaci jawnej.
+3. [x] Przygotować szyfrowanie po stronie Restic przed wysłaniem poza VPS.
 4. Ustawić retencję dzienną, tygodniową i miesięczną oraz alarm błędu zadania.
 5. Wykonać próbne odtworzenie do osobnej bazy i zapisać procedurę disaster recovery.
 

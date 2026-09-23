@@ -368,3 +368,9 @@ Jako kolejne działania wskazano: zaszyfrowaną kopię odzyskiwania kluczy i has
 Na polecenie użytkownika rozpoczęto realizację całej kolejki. Porównano `D:\Codex\DotacjeAI` i `D:\Codex\ProjektDotacje`; zestaw oraz treść plików były zgodne, a różnice binarne wynikały z końców linii Git. Dawną kopię przeniesiono do `D:\Codex\archive\ProjektDotacje-pre-git-20260923`, a ścieżkę `D:\Codex\ProjektDotacje` zastąpiono junctionem do `D:\Codex\DotacjeAI`. Od tego momentu istnieje jedno aktywne repozytorium robocze.
 
 Do zewnętrznego backupu zarekomendowano `restic` z magazynem Cloudflare R2, a do monitoringu zewnętrznego Better Stack lub HetrixTools. Aktywacja tych usług wymaga kont i sekretów wprowadzonych poza repozytorium oraz rozmową.
+
+## 19. Aktualizacja jądra i przygotowanie automatyzacji
+
+Użytkownik uruchomił aktualizację systemu i kontrolowany restart. Po ponownym uruchomieniu zweryfikowano jądro `6.8.0-142-generic`, brak potrzeby kolejnego restartu, aktywne i włączone usługi SSH, Docker oraz fail2ban, pięć zdrowych kontenerów, poprawne endpointy HTTPS i API, 23% zajętego dysku oraz 2 GiB aktywnego swapu.
+
+Polecenie aktualizacji nie zainstalowało pakietu `restic`, dlatego jego instalacja pozostała osobnym krótkim krokiem administracyjnym. W repozytorium przygotowano skrypt szyfrowanego backupu PostgreSQL i danych do Cloudflare R2, kontrolę integralności i odtworzenia oraz lokalny monitoring HTTPS, API, kontenerów, dysku i świeżości kopii. Sekrety R2 i heartbeat mają być wprowadzone bezpośrednio na serwerze i nie mogą trafić do rozmowy ani Git.

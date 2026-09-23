@@ -4,7 +4,7 @@ Ostatnia weryfikacja: 2026-09-23.
 
 ## Stan końcowy
 
-- System działa stabilnie; dostępna jest aktualizacja jądra z `6.8.0-139` do `6.8.0-142`, wymagająca instalacji i późniejszego restartu.
+- System działa stabilnie na jądrze `6.8.0-142-generic`; kontrolowany restart zakończył się poprawnie 2026-09-23.
 - Strefa czasowa `Europe/Warsaw`; NTP aktywne.
 - Swap 2 GB aktywny także po restarcie.
 - Docker i Docker Compose v2 aktywne.
@@ -44,8 +44,8 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Zainstalować pakiety jądra `6.8.0-142`, wykonać kontrolowany restart i ponownie sprawdzić usługi.
-2. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia; katalog backupów jest obecnie pusty.
+1. Dokończyć instalację `restic` (aktualizacja systemu i jądra została wykonana, lecz pakiet Restic nie został zainstalowany przez poprzedni łańcuch poleceń).
+2. Utworzyć prywatny bucket Cloudflare R2, wprowadzić dane dostępowe bezpośrednio na VPS i uruchomić szyfrowany backup z testem odtworzenia.
 3. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
 4. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
 5. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
@@ -61,3 +61,15 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - `D:\Codex\DotacjeAI` jest jedynym aktywnym lokalnym źródłem prawdy.
 - Dawny `D:\Codex\ProjektDotacje` jest junctionem do aktywnego repozytorium; jego stan sprzed konsolidacji zachowano w `D:\Codex\archive\ProjektDotacje-pre-git-20260923`.
 - Dokumentacja jest również synchronizowana do `/home/deploy/Codex/ProjektDotacje` na VPS.
+
+## Weryfikacja po aktualizacji z 2026-09-23
+
+- aktywne jądro: `6.8.0-142-generic`,
+- ponowny restart: niewymagany,
+- usługi `ssh`, `docker` i `fail2ban`: aktywne i włączone przy starcie,
+- kontenery `caddy`, `frontend`, `api`, `postgres` i `redis`: `healthy`,
+- `https://dotacjeai.eu/health`: `ok`,
+- `https://dotacjeai.eu/api/health`: poprawna odpowiedź JSON,
+- dysk: 23% zajęte, około 73 GB dostępne,
+- pamięć: około 7,1 GiB dostępne, swap 2 GiB,
+- `restic`: nadal wymaga instalacji.
