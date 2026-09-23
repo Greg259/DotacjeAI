@@ -374,3 +374,5 @@ Do zewnętrznego backupu zarekomendowano `restic` z magazynem Cloudflare R2, a d
 Użytkownik uruchomił aktualizację systemu i kontrolowany restart. Po ponownym uruchomieniu zweryfikowano jądro `6.8.0-142-generic`, brak potrzeby kolejnego restartu, aktywne i włączone usługi SSH, Docker oraz fail2ban, pięć zdrowych kontenerów, poprawne endpointy HTTPS i API, 23% zajętego dysku oraz 2 GiB aktywnego swapu.
 
 Polecenie aktualizacji nie zainstalowało pakietu `restic`, dlatego jego instalacja pozostała osobnym krótkim krokiem administracyjnym. W repozytorium przygotowano skrypt szyfrowanego backupu PostgreSQL i danych do Cloudflare R2, kontrolę integralności i odtworzenia oraz lokalny monitoring HTTPS, API, kontenerów, dysku i świeżości kopii. Sekrety R2 i heartbeat mają być wprowadzone bezpośrednio na serwerze i nie mogą trafić do rozmowy ani Git.
+
+Pakiet `restic 0.16.4` został następnie zainstalowany. Po skorygowaniu przełamanej podczas wklejania ścieżki potwierdzono, że `/opt/dotacje-ai/backups` należy do `deploy:deploy`, ma tryb `0700` i jest zapisywalny dla procesu backupu. Ponowna walidacja składni wszystkich trzech skryptów na Ubuntu zakończyła się poprawnie.

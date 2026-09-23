@@ -147,7 +147,7 @@ Definition of Done:
 3. [x] Zainstalować oczekujące pakiety jądra `6.8.0-142`.
 4. [x] Wykonać kontrolowany restart VPS.
 5. [x] Potwierdzić nowe jądro, SSH, fail2ban, HTTPS i pięć zdrowych kontenerów; reguły ekspozycji portów zweryfikowano zewnętrznie.
-6. [ ] Dokończyć instalację narzędzia `restic`.
+6. [x] Dokończyć instalację narzędzia `restic` i potwierdzić zapis do katalogu backupów.
 
 Rezultat: serwer jest aktualny, a utrata obecnego komputera nie powoduje utraty dostępu.
 

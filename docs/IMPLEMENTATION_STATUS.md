@@ -44,8 +44,7 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Dokończyć instalację `restic` (aktualizacja systemu i jądra została wykonana, lecz pakiet Restic nie został zainstalowany przez poprzedni łańcuch poleceń).
-2. Utworzyć prywatny bucket Cloudflare R2, wprowadzić dane dostępowe bezpośrednio na VPS i uruchomić szyfrowany backup z testem odtworzenia.
+1. Utworzyć prywatny bucket Cloudflare R2, wprowadzić dane dostępowe bezpośrednio na VPS i uruchomić szyfrowany backup z testem odtworzenia.
 3. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
 4. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
 5. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
@@ -72,4 +71,5 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - `https://dotacjeai.eu/api/health`: poprawna odpowiedź JSON,
 - dysk: 23% zajęte, około 73 GB dostępne,
 - pamięć: około 7,1 GiB dostępne, swap 2 GiB,
-- `restic`: nadal wymaga instalacji.
+- `restic`: wersja `0.16.4`, zainstalowana i gotowa do konfiguracji R2.
+- `/opt/dotacje-ai/backups`: właściciel `deploy:deploy`, tryb `0700`, zapis potwierdzony.
