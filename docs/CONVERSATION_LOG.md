@@ -356,3 +356,5 @@ Użytkownik zapytał o przekazanie dostępu do projektu osobie pracującej z inn
 Przyjęto model osobnych kluczy dla każdej osoby i każdego urządzenia, kont imiennych na VPS, indywidualnych kont GitHub oraz sekretów przekazywanych przez kontrolowany menedżer haseł. Codex korzysta z lokalnego `ssh-agent` i nie otrzymuje kopii klucza prywatnego ani passphrase.
 
 Pełną procedurę onboardingu, offboardingu, dostępu do GitHuba oraz bezpiecznego zakresu paczki startowej zapisano w `ACCESS_ONBOARDING.md`.
+
+Użytkownik doprecyzował, że chodzi o jego własny drugi komputer. Ustalono zachowanie tych samych kont OpenAI, GitHub `Greg259` i VPS `deploy`, ale z nowym kluczem przypisanym do drugiego urządzenia. Kod oraz trwały kontekst będą odtwarzane z repozytorium i dokumentacji, bez kopiowania produkcyjnego `.env`, folderu `.ssh` ani całego profilu `.codex`.

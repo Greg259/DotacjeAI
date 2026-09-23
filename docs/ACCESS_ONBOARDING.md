@@ -29,6 +29,48 @@ Dla małego zespołu można technicznie dodać kilka publicznych kluczy do konta
 
 Członkostwo w grupie `docker` daje w praktyce uprawnienia administracyjne. Należy je nadawać wyłącznie zaufanym administratorom, którzy faktycznie zarządzają aplikacją.
 
+## Ten sam właściciel na drugim komputerze
+
+Dla drugiego komputera Grzegorza można zachować te same konta:
+
+- OpenAI/Codex: to samo konto użytkownika,
+- GitHub: `Greg259`,
+- VPS: `deploy`.
+
+Nie należy jednak kopiować prywatnych kluczy z pierwszego komputera. Drugi komputer generuje własny klucz urządzenia, np.:
+
+```powershell
+ssh-keygen -t ed25519 -a 100 -f "$env:USERPROFILE\.ssh\id_ed25519_dotacjeai_pc2" -C "grzeg-pc2-2026"
+```
+
+Publiczną część `id_ed25519_dotacjeai_pc2.pub` należy:
+
+1. dodać do tego samego konta GitHub `Greg259`,
+2. dopisać jako osobną linię do `/home/deploy/.ssh/authorized_keys`,
+3. opisać nazwą urządzenia i datą,
+4. sprawdzić w nowej sesji przed zakończeniem konfiguracji.
+
+Najprostszy dopuszczalny wariant wykorzystuje ten jeden klucz urządzenia do GitHuba i VPS. Wariant o większej separacji tworzy dwa klucze: jeden dla GitHuba, drugi dla VPS.
+
+Na drugim komputerze należy uruchomić `ssh-agent`, dodać klucz i sklonować repozytorium:
+
+```powershell
+git clone git@github.com:Greg259/DotacjeAI.git D:\Codex\DotacjeAI
+```
+
+To repozytorium zawiera kod, status, plan, instrukcje i dziennik decyzji. Produkcyjny `.env` pozostaje na VPS; do wykonywania poleceń produkcyjnych użytkownik łączy się jako `deploy`, a Compose czyta `/opt/dotacje-ai/secrets/app.env` bez kopiowania go na PC.
+
+Na drugim PC należy zainstalować Codex i zalogować się na to samo konto OpenAI. Dostępność tej samej rozmowy może zależeć od klienta i sposobu zapisania wątku, dlatego źródłem trwałego kontekstu projektu pozostają pliki Markdown w repozytorium. Po otwarciu repozytorium nowa sesja Codexa powinna najpierw przeczytać:
+
+1. `README.md`,
+2. `docs/IMPLEMENTATION_STATUS.md`,
+3. `docs/NEXT_STEPS_PLAN.md`,
+4. `docs/TECHNICAL_SERVER_DOCUMENTATION.md`,
+5. `docs/CONVERSATION_LOG.md`,
+6. `docs/ACCESS_ONBOARDING.md`.
+
+Nie należy kopiować całego lokalnego katalogu `.codex`, ponieważ może zawierać ustawienia urządzenia, pamięć podręczną oraz dane uwierzytelniające niezwiązane bezpośrednio z projektem.
+
 ## Onboarding nowej osoby
 
 ### 1. Utworzenie klucza na jej komputerze
