@@ -326,3 +326,11 @@ Najbliższe działania uporządkowano według priorytetów:
 6. P2: użytkownicy, matching, alerty e-mail, RODO i beta.
 
 Szczegóły oraz kryteria rezultatów zapisano w `NEXT_STEPS_PLAN.md`, a bieżące otwarte zadania w `IMPLEMENTATION_STATUS.md`.
+
+## 15. Procedura zabezpieczenia SSH
+
+Użytkownik poprosił o opis wykonania zadania P0 dotyczącego SSH. Przygotowano instrukcję `SSH_HARDENING_RUNBOOK.md`.
+
+Ustalono bezpieczną kolejność: dostęp do konsoli awaryjnej, instalacja klucza publicznego dla `deploy`, ustawienie lokalnych haseł poza rozmową, test `sudo` i Dockera, walidacja konfiguracji przez `sshd -t`, przeładowanie usługi oraz testy pozytywne i negatywne w nowych sesjach.
+
+Zmian bezpieczeństwa nie wykonano jeszcze na VPS. Nie wolno wyłączać dostępu hasłem ani konta `root`, zanim logowanie kluczem i `sudo` użytkownika `deploy` nie zostaną potwierdzone.
