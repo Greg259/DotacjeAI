@@ -6,6 +6,8 @@ Aktualizacja: 2026-09-23.
 
 Pierwszy sprint aplikacyjny dostarcza asynchroniczne FastAPI, SQLAlchemy 2, Alembic, strukturalny model domeny, publiczne endpointy odczytowe, mechanizm wyliczania statusu oraz GitHub Actions. Nie uruchamia jeszcze crawlera ani OpenRouter.
 
+Stan produkcyjny: wdrożono 2026-09-23, API `0.2.0`, migracja `4167552a1c92`.
+
 ## Struktura
 
 - aplikacja: `apps/api/app/`,
@@ -81,6 +83,8 @@ GitHub Actions wykonuje:
 6. `alembic check` wykrywający rozbieżność modeli i migracji.
 
 Lokalnie sprawdzono również pełny cykl `upgrade -> downgrade -> upgrade` na SQLite oraz na izolowanym PostgreSQL 16 w Dockerze na VPS. Produkcyjna baza nie była używana podczas walidacji.
+
+Pierwszy workflow GitHub Actions dla commita `b78e4ff` zakończył się statusem `success`. Po wdrożeniu produkcyjnym potwierdzono zdrowe kontenery, gotowość bazy, siedem zasianych źródeł, backup oraz pełne odtworzenie dumpa.
 
 ## Sekrety i budżet
 

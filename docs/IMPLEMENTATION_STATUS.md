@@ -63,7 +63,9 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - 7 testów lokalnych zakończonych poprawnie,
 - pełny cykl migracji zweryfikowany na odseparowanym PostgreSQL 16 na VPS.
 
-Na moment zapisu sekcji fundament jest zweryfikowany przed wdrożeniem produkcyjnym. OpenRouter i crawler nie są jeszcze uruchomione.
+Fundament został wdrożony produkcyjnie. Aktywna migracja to `4167552a1c92`, API ma wersję `0.2.0`, w tabeli `sources` znajduje się siedem oficjalnych źródeł, a publiczna lista pozostaje pusta do czasu zatwierdzenia pierwszego programu. OpenRouter i crawler nie są jeszcze uruchomione.
+
+Po migracji wykonano snapshot Restic `0e57cdc7`. Kontrola repozytorium, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie. Monitoring po wdrożeniu zwrócił `OK`.
 
 ## Zatwierdzony zakres MVP-0
 

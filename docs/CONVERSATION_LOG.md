@@ -416,3 +416,9 @@ Na polecenie użytkownika rozpoczęto implementację właściwego MVP. Przygotow
 Dodano publiczne endpointy zdrowia, gotowości, listy oraz szczegółów programu. Lista obsługuje podstawowe filtry MVP-0. Mechanizm statusu otrzymał test Nadarzyna potwierdzający `closed` po 31.07.2026. Łącznie siedem testów oraz lint przechodzą lokalnie.
 
 Pierwszą migrację sprawdzono na SQLite, a następnie w odseparowanym projekcie Docker na VPS z PostgreSQL 16. Potwierdzono `upgrade`, brak rozbieżności Alembic, `downgrade`, ponowny `upgrade`, zdrowe API i seed siedmiu źródeł. Izolowane kontenery, wolumeny i katalog testowy usunięto po walidacji; produkcyjna baza nie została zmieniona.
+
+Workflow GitHub Actions dla commita `b78e4ff` zakończył się sukcesem. Przed wdrożeniem wykonano świeży backup, następnie zsynchronizowano dokładną zawartość commita, ustawiono uzgodnione limity OpenRouter 1/5/8/10 USD i uruchomiono migrację produkcyjną.
+
+Po wdrożeniu potwierdzono migrację `4167552a1c92`, API `0.2.0`, zdrowe kontenery, gotowość PostgreSQL, siedem zasianych źródeł i działającą pustą listę publiczną. Pusta lista jest oczekiwana, ponieważ żaden program nie może być publikowany przed REVIEW.
+
+Wykonano backup po migracji jako snapshot `0e57cdc7`. Restic nie wykrył błędów, suma dumpa była poprawna, pełne odtworzenie do tymczasowej bazy przeszło, a końcowy monitoring zwrócił `OK`.

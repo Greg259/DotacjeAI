@@ -15,7 +15,9 @@ Produkcja działa pod `https://dotacjeai.eu`. Kontenery `caddy`, `frontend`, `ap
 - `D:\Codex\ProjektDotacje` jest junctionem do głównego repozytorium,
 - aplikacja na VPS: `/opt/dotacje-ai/app`,
 - dokumentacja na VPS: `/home/deploy/Codex/ProjektDotacje`,
-- bazowy commit kompletnego backupu i monitoringu: `d6790f0`.
+- commit wdrożonego fundamentu API: `b78e4ff`,
+- produkcyjne API: `0.2.0`, migracja `4167552a1c92`,
+- seed: siedem oficjalnych źródeł.
 
 Nie wolno commitować plików `.env`, haseł, kluczy SSH, klucza OpenRouter ani hasła Restic.
 
@@ -42,7 +44,7 @@ Backup znajduje się na tym samym VPS. Zewnętrzną kopię i zewnętrzne alarmy 
 7. Dodać worker i scheduler wykorzystujące Redis.
 8. Zbudować pierwszy przepływ: pobranie oficjalnego źródła, hash, wersja, diff, ekstrakcja AI, review i publikacja.
 
-Fundament API, modele SQLAlchemy, pierwsza migracja Alembic, publiczne endpointy oraz CI zostały przygotowane i zweryfikowane. Szczegóły znajdują się w `API_FOUNDATION.md`. Najbliższy kodowy krok to crawler HTTP/PDF i trwałe snapshoty, nie ponowne tworzenie modeli.
+Fundament API, modele SQLAlchemy, pierwsza migracja Alembic, publiczne endpointy oraz CI zostały wdrożone produkcyjnie i zweryfikowane. Szczegóły znajdują się w `API_FOUNDATION.md`. Najbliższy kodowy krok to crawler HTTP/PDF i trwałe snapshoty, nie ponowne tworzenie modeli.
 
 ## Decyzje produktu MVP-0
 
