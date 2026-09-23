@@ -348,3 +348,11 @@ W nowych sesjach potwierdzono logowanie jako `deploy`, grupy `sudo` i `docker`, 
 Użytkownik ustawił nowe, nieujawnione hasła `deploy` i `root`, a testy niedozwolonych metod zakończyły się oczekiwaną odmową dostępu. Etap P0 zabezpieczenia SSH uznano za wykonany.
 
 Po uruchomieniu lokalnego `ssh-agent` potwierdzono bezinterakcyjne uwierzytelnienie konta `deploy` właściwym kluczem. Zewnętrzny test portów wykazał dostępność 22, 80 i 443 oraz brak publicznego dostępu do 3000, 5432, 6379 i 8000. Zaktualizowane dokumenty zsynchronizowano przez `deploy`, a ich lokalne i serwerowe sumy SHA-256 są identyczne.
+
+## 17. Dostęp dla kolejnej osoby i komputera
+
+Użytkownik zapytał o przekazanie dostępu do projektu osobie pracującej z innego komputera i Codexa. Odrzucono pomysł paczki zawierającej produkcyjny `.env` i prywatne klucze.
+
+Przyjęto model osobnych kluczy dla każdej osoby i każdego urządzenia, kont imiennych na VPS, indywidualnych kont GitHub oraz sekretów przekazywanych przez kontrolowany menedżer haseł. Codex korzysta z lokalnego `ssh-agent` i nie otrzymuje kopii klucza prywatnego ani passphrase.
+
+Pełną procedurę onboardingu, offboardingu, dostępu do GitHuba oraz bezpiecznego zakresu paczki startowej zapisano w `ACCESS_ONBOARDING.md`.
