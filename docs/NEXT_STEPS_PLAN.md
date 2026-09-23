@@ -205,6 +205,8 @@ Po ustabilizowaniu przepływu należy dodać konta, matching, subskrypcje, e-mai
 
 ## Najbliższe kroki po wdrożeniu crawlera
 
+Szczegółowy zakres wykonawczy znajduje się w `SPRINT_03_EXTRACTION_REVIEW_PLAN.md`.
+
 1. Dodać jawny idempotency key i osobną listę nowych/usuniętych linków.
 2. Rozszerzyć pilotaż o harmonogram NFOŚiGW jako trzecie źródło.
 3. Przygotować walidowany schemat ekstrakcji programu wraz z dowodami dla każdego pola.

@@ -436,3 +436,11 @@ Migrację `a8d2f6c4b901` wdrożono po backupie `1d863da0`. API 0.3.0 oraz wszyst
 Pierwsze pobranie Nadarzyna zakończyło się sukcesem i zapisało PDF 360899 B. Kolejne żądanie wykorzystało ETag i otrzymało HTTP 304 bez nowego REVIEW. Pierwsza próba WFOŚiGW ujawniła brak certyfikatu pośredniego po stronie serwera. Nie wyłączono TLS; do standardowego magazynu dodano publiczny certyfikat `home pl OV TLS G2 R35 CA`, pobrany z adresu AIA i zweryfikowany odciskiem SHA-256. Następne pobranie WFOŚiGW zakończyło się sukcesem, a kolejne miało identyczne hashe i nie utworzyło duplikatu REVIEW.
 
 Stan końcowy to cztery rekordy sprawdzeń, dwie rzeczywiste wersje źródeł i dwa oczekujące zadania REVIEW. Snapshoty źródłowe znajdują się w `/opt/dotacje-ai/data/documents/sources`. Backup `81688635` przeszedł kontrolę Restic, odtworzenie plików, kontrolę sum i pełny import PostgreSQL do bazy tymczasowej. Dokumentację techniczną zapisano w `CRAWLER_PIPELINE.md`.
+
+## 25. Plan Sprintu 03 — ekstrakcja i REVIEW
+
+Użytkownik poprosił o zaplanowanie kolejnego sprintu. Przyjęto cel przeprowadzenia pełnego przepływu od istniejącego snapshotu przez walidowaną ekstrakcję OpenRouter i ręczny REVIEW do osobnej, jawnej publikacji programu.
+
+Ze względów bezpieczeństwa panel webowy administratora nie będzie w tym sprincie wystawiany bez uwierzytelnienia. Operacje list, show, approve, reject i publish zostaną przygotowane jako CLI dostępne przez konto `deploy` i SSH. Publikacja nie będzie skutkiem samego zatwierdzenia.
+
+Plan obejmuje wersjonowany schemat danych i dowodów, ekstrakcję deterministyczną, budżety OpenRouter 1/5/8/10 USD, benchmark do 0,50 USD, idempotencję, audyt, test konfliktu Nadarzyna oraz pierwszą kontrolowaną publikację. Szczegóły zapisano w `SPRINT_03_EXTRACTION_REVIEW_PLAN.md`.
