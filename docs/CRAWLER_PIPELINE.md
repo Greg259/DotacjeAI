@@ -57,6 +57,8 @@ Wszystkie aktywne źródła:
 
 Kod zakończenia `0` oznacza sukces wszystkich źródeł, `1` co najmniej jeden błąd pobierania, a `2` nieznany slug. Wynik każdego źródła jest pojedynczym obiektem JSON, bez sekretów.
 
+Wrapper zawsze jawnie uruchamia moduł `app.cli.crawl_sources`, dlatego argumenty `--slug` i `--all` nie zastępują komendy startowej kontenera Compose.
+
 ## Harmonogram i backup
 
 Cron użytkownika `deploy` uruchamia priorytetowy crawler co sześć godzin, 15 minut po pełnej godzinie. Log trafia do `/opt/dotacje-ai/backups/logs/crawler.log`.

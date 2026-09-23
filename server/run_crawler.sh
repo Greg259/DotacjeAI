@@ -11,4 +11,4 @@ mkdir -p "${SNAPSHOT_ROOT}"
 docker compose \
   --env-file "${SECRETS_FILE}" \
   --file "${APP_ROOT}/infra/docker-compose.yml" \
-  run --rm --no-deps crawler "$@"
+  run --rm --no-deps crawler python -m app.cli.crawl_sources "$@"
