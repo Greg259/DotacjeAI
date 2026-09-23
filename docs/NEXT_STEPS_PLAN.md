@@ -140,6 +140,15 @@ Definition of Done:
 
 ## Najbliższy sprint - rekomendowana kolejność
 
+### P0 - bieżąca konserwacja po zabezpieczeniu SSH
+
+1. [ ] Wykonać zaszyfrowaną kopię odzyskiwania kluczy właściciela oraz zapisać nowe hasła w menedżerze haseł.
+2. [ ] Zainstalować oczekujące pakiety jądra `6.8.0-142`.
+3. [ ] Wykonać kontrolowany restart VPS.
+4. [ ] Potwierdzić nowe jądro, SSH, fail2ban, UFW, HTTPS i pięć zdrowych kontenerów.
+
+Rezultat: serwer jest aktualny, a utrata obecnego komputera nie powoduje utraty dostępu.
+
 ### P0 - bezpieczeństwo dostępu
 
 1. [x] Dodać publiczny klucz RSA 4096 do `/home/deploy/.ssh/authorized_keys`.

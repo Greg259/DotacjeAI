@@ -1,10 +1,10 @@
 # Status przygotowania serwera DotacjeAI
 
-Weryfikacja: 2026-09-22 po kontrolowanym restarcie.
+Ostatnia weryfikacja: 2026-09-23.
 
 ## Stan końcowy
 
-- System zaktualizowany; brak oczekujących aktualizacji.
+- System działa stabilnie; dostępna jest aktualizacja jądra z `6.8.0-139` do `6.8.0-142`, wymagająca instalacji i późniejszego restartu.
 - Strefa czasowa `Europe/Warsaw`; NTP aktywne.
 - Swap 2 GB aktywny także po restarcie.
 - Docker i Docker Compose v2 aktywne.
@@ -44,12 +44,13 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia.
-2. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
-3. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
-4. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
-5. Wybrać 3-5 oficjalnych źródeł pilotażowych.
-6. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
+1. Zainstalować pakiety jądra `6.8.0-142`, wykonać kontrolowany restart i ponownie sprawdzić usługi.
+2. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia; katalog backupów jest obecnie pusty.
+3. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
+4. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
+5. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
+6. Wybrać 3-5 oficjalnych źródeł pilotażowych.
+7. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
 
 ## Repozytorium i dokumentacja
 

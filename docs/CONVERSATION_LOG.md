@@ -358,3 +358,9 @@ Przyjęto model osobnych kluczy dla każdej osoby i każdego urządzenia, kont i
 Pełną procedurę onboardingu, offboardingu, dostępu do GitHuba oraz bezpiecznego zakresu paczki startowej zapisano w `ACCESS_ONBOARDING.md`.
 
 Użytkownik doprecyzował, że chodzi o jego własny drugi komputer. Ustalono zachowanie tych samych kont OpenAI, GitHub `Greg259` i VPS `deploy`, ale z nowym kluczem przypisanym do drugiego urządzenia. Kod oraz trwały kontekst będą odtwarzane z repozytorium i dokumentacji, bez kopiowania produkcyjnego `.env`, folderu `.ssh` ani całego profilu `.codex`.
+
+## 18. Kolejność dalszych prac na obecnym komputerze
+
+Kontrola odczytowa wykazała 74 GB wolnego miejsca, około 7,1 GB dostępnej pamięci, nieużywany swap i pięć zdrowych kontenerów. Katalog `/opt/dotacje-ai/backups` nie zawiera backupów. Dostępna jest aktualizacja jądra z `6.8.0-139` do `6.8.0-142`; przed jej instalacją system nie wymaga jeszcze restartu.
+
+Jako kolejne działania wskazano: zaszyfrowaną kopię odzyskiwania kluczy i haseł, instalację aktualizacji z kontrolowanym restartem, zewnętrzny szyfrowany backup z testem odtworzenia, monitoring, a następnie fundament aplikacji MVP.
