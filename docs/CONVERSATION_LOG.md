@@ -422,3 +422,9 @@ Workflow GitHub Actions dla commita `b78e4ff` zakończył się sukcesem. Przed w
 Po wdrożeniu potwierdzono migrację `4167552a1c92`, API `0.2.0`, zdrowe kontenery, gotowość PostgreSQL, siedem zasianych źródeł i działającą pustą listę publiczną. Pusta lista jest oczekiwana, ponieważ żaden program nie może być publikowany przed REVIEW.
 
 Wykonano backup po migracji jako snapshot `0e57cdc7`. Restic nie wykrył błędów, suma dumpa była poprawna, pełne odtworzenie do tymczasowej bazy przeszło, a końcowy monitoring zwrócił `OK`.
+
+## 24. Sprint crawlera źródeł
+
+Użytkownik polecił rozpocząć kolejny sprint. Zakres obejmuje pobieranie HTML i PDF bez LLM, warunkowe żądania ETag/Last-Modified, SHA-256, normalizację treści, trwałe snapshoty, diff oraz automatyczne kierowanie zmian do kolejki REVIEW.
+
+Jako pierwsze źródła wykonawcze pozostają WFOŚiGW Warszawa / Czyste Powietrze oraz regulamin Gminy Nadarzyn. Crawler ma działać w odseparowanym zadaniu Docker jako nieuprzywilejowany użytkownik, zapisywać pliki w drzewie objętym backupem i uruchamiać się co sześć godzin. OpenRouter nie jest częścią tego sprintu i klucz API pozostaje niewymagany.

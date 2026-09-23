@@ -76,6 +76,9 @@ class Source(UuidPrimaryKeyMixin, TimestampMixin, Base):
     )
     crawl_interval_minutes: Mapped[int] = mapped_column(Integer, nullable=False, default=360)
     last_checked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_success_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error_message: Mapped[str | None] = mapped_column(Text)
 
     snapshots: Mapped[list["SourceSnapshot"]] = relationship(back_populates="source")
 
@@ -102,7 +105,10 @@ class SourceSnapshot(UuidPrimaryKeyMixin, Base):
     etag: Mapped[str | None] = mapped_column(Text)
     last_modified: Mapped[str | None] = mapped_column(Text)
     sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    normalized_sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    size_bytes: Mapped[int] = mapped_column(Integer, nullable=False)
     storage_path: Mapped[str] = mapped_column(Text, nullable=False)
+    diff_path: Mapped[str | None] = mapped_column(Text)
     normalized_text: Mapped[str | None] = mapped_column(Text)
     is_changed: Mapped[bool] = mapped_column(Boolean, nullable=False)
 

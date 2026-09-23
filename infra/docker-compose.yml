@@ -8,8 +8,13 @@ x-logging: &default-logging
 
 x-api-environment: &api-environment
   APP_ENV: production
-  APP_VERSION: "0.2.0"
+  APP_VERSION: "0.3.0"
   LOG_LEVEL: INFO
+  SOURCE_STORAGE_ROOT: /data/source-snapshots
+  CRAWLER_USER_AGENT: "DotacjeAI/0.3 (+https://dotacjeai.eu)"
+  CRAWLER_TIMEOUT_SECONDS: 30
+  CRAWLER_RETRIES: 3
+  CRAWLER_MAX_RESPONSE_BYTES: 26214400
   POSTGRES_HOST: postgres
   POSTGRES_PORT: 5432
   POSTGRES_DB: ${POSTGRES_DB}
@@ -96,6 +101,26 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
+    mem_limit: 768m
+    cpus: 0.75
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    networks:
+      - edge
+      - backend
+
+  crawler:
+    image: dotacje-ai-api:local
+    profiles: ["jobs"]
+    command: ["python", "-m", "app.cli.crawl_sources"]
+    user: "1000:1000"
+    environment: *api-environment
+    volumes:
+      - /opt/dotacje-ai/data/documents/sources:/data/source-snapshots
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
     mem_limit: 768m
     cpus: 0.75
     security_opt:

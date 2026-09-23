@@ -1,5 +1,6 @@
 from decimal import Decimal
 from functools import lru_cache
+from pathlib import Path
 from urllib.parse import quote_plus
 
 from pydantic import Field, SecretStr
@@ -10,8 +11,25 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(case_sensitive=True, extra="ignore")
 
     app_env: str = Field(default="development", validation_alias="APP_ENV")
-    app_version: str = Field(default="0.2.0", validation_alias="APP_VERSION")
+    app_version: str = Field(default="0.3.0", validation_alias="APP_VERSION")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
+
+    source_storage_root: Path = Field(
+        default=Path("/data/source-snapshots"), validation_alias="SOURCE_STORAGE_ROOT"
+    )
+    crawler_user_agent: str = Field(
+        default="DotacjeAI/0.3 (+https://dotacjeai.eu)",
+        validation_alias="CRAWLER_USER_AGENT",
+    )
+    crawler_timeout_seconds: float = Field(
+        default=30.0, gt=0, validation_alias="CRAWLER_TIMEOUT_SECONDS"
+    )
+    crawler_retries: int = Field(default=3, ge=1, le=10, validation_alias="CRAWLER_RETRIES")
+    crawler_max_response_bytes: int = Field(
+        default=25 * 1024 * 1024,
+        ge=1024,
+        validation_alias="CRAWLER_MAX_RESPONSE_BYTES",
+    )
 
     postgres_host: str = Field(default="localhost", validation_alias="POSTGRES_HOST")
     postgres_port: int = Field(default=5432, validation_alias="POSTGRES_PORT")
