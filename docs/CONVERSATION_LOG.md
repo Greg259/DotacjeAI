@@ -334,3 +334,5 @@ Użytkownik poprosił o opis wykonania zadania P0 dotyczącego SSH. Przygotowano
 Ustalono bezpieczną kolejność: dostęp do konsoli awaryjnej, instalacja klucza publicznego dla `deploy`, ustawienie lokalnych haseł poza rozmową, test `sudo` i Dockera, walidacja konfiguracji przez `sshd -t`, przeładowanie usługi oraz testy pozytywne i negatywne w nowych sesjach.
 
 Zmian bezpieczeństwa nie wykonano jeszcze na VPS. Nie wolno wyłączać dostępu hasłem ani konta `root`, zanim logowanie kluczem i `sudo` użytkownika `deploy` nie zostaną potwierdzone.
+
+Użytkownik wskazał opcję SSH Key Management w Time4VPS. Zalecono zapisanie w panelu istniejącego klucza publicznego `id_ed25519.pub`, bez tworzenia zbędnej drugiej pary i bez udostępniania klucza prywatnego. Dokumentacja Time4VPS opisuje użycie klucza podczas instalacji lub reinstalacji systemu, dlatego dla działającego VPS klucz zostanie dodatkowo zainstalowany bezpośrednio na koncie `deploy`.

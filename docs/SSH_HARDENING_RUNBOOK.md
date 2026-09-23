@@ -31,6 +31,16 @@ Zalecane jest zabezpieczenie klucza prywatnego passphrase oraz przechowywanie ko
 
 Przed zmianami należy zalogować się do panelu dostawcy VPS i potwierdzić dostęp do konsoli/KVM. Konsola jest drogą odzyskania dostępu, jeśli konfiguracja SSH okaże się błędna.
 
+### SSH Key Management w Time4VPS
+
+W panelu można zapisać ten sam klucz publiczny pod nazwą, np. `grzeg-dotacjeai-2026`. Do pola klucza należy wkleić całą pojedynczą linię wyświetloną lokalnie przez:
+
+```powershell
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
+```
+
+Nie należy wklejać zawartości pliku `id_ed25519` bez rozszerzenia `.pub`. Według instrukcji Time4VPS zapisany klucz wybiera się podczas instalacji lub reinstalacji systemu. Nie należy zakładać, że samo dodanie go w panelu zmieni działający VPS albo konto `deploy`; klucz zostanie również zainstalowany bezpośrednio w `authorized_keys` istniejącego konta.
+
 ## Etap 1 - dodać klucz publiczny do `deploy`
 
 Z PowerShell na komputerze administratora:
