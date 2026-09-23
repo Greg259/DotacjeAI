@@ -386,3 +386,13 @@ Zewnętrzny backup pozostaje obowiązkowym zadaniem przed betą, ponieważ kopia
 Utworzono zaszyfrowane lokalne repozytorium Restic, a hasło zapisano wyłącznie w chronionym pliku z trybem `0600`. Pierwszy test wykrył absolutną ścieżkę w pliku sum kontrolnych; poprawiono ją na względną i powtórzono cały proces. Snapshot `858176df` przeszedł kontrolę repozytorium, odtworzenie plików, weryfikację SHA-256 oraz pełny import do tymczasowej bazy PostgreSQL. Poprawiono także grupowanie retencji po hoście i tagu.
 
 Crontab użytkownika `deploy` uruchamia backup codziennie o 02:30 oraz monitoring co 5 minut. Końcowy test monitoringu potwierdził HTTPS, API, stan pięciu kontenerów, poziom zajętości dysku oraz świeżość backupu.
+
+## 21. Decyzja o pominięciu Cloudflare na etapie MVP
+
+Użytkownik zapytał, czy Cloudflare jest konieczny do uruchomienia MVP. Ustalono, że Cloudflare R2 nie jest zależnością aplikacji i można go odłożyć. Na czas budowy przyjęto lokalne, szyfrowane backupy Restic na VPS oraz GitHub jako osobną kopię kodu i dokumentacji.
+
+Po instalacji Restic skorygowano uprawnienia katalogów `/opt/dotacje-ai` i `/opt/dotacje-ai/backups`. Potwierdzono wersję `restic 0.16.4`, możliwość zapisu przez użytkownika `deploy` oraz prawidłowe tryby chronionych plików. Następnie wykonano rzeczywisty backup, test integralności, odtworzenie plików i pełny import dumpa do tymczasowej bazy.
+
+Automatyzacja została zakończona: backup działa codziennie o 02:30, monitoring co 5 minut, a ostatni automatyczny wpis miał status `OK`. Kod, skrypty i dokumentację zapisano na GitHubie w commicie `d6790f0` oraz zsynchronizowano do `/home/deploy/Codex/ProjektDotacje`.
+
+Kolejna sesja powinna rozpocząć właściwy fundament MVP: GitHub Actions i zasady pracy z `main`, docelowy frontend, rozbudowę FastAPI, SQLAlchemy/Alembic, pierwsze migracje oraz worker oparty na Redis. Zewnętrzny backup i zewnętrzne alarmy pozostają obowiązkowe przed betą.

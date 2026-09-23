@@ -45,4 +45,5 @@ Prawdziwy plik `app.env` nigdy nie może trafić do repozytorium ani dokumentacj
 - `docs/SERVER_SETUP.md` - operacyjna instrukcja środowiska.
 - `docs/SSH_HARDENING_RUNBOOK.md` - wykonana procedura utwardzenia SSH.
 - `docs/ACCESS_ONBOARDING.md` - dostęp z kolejnego komputera i onboarding operatorów.
-- `docs/BACKUP_AND_MONITORING.md` - szyfrowany backup poza VPS, test odtworzenia i monitoring.
+- `docs/BACKUP_AND_MONITORING.md` - szyfrowany backup MVP, test odtworzenia i monitoring.
+- `docs/CONTINUATION_HANDOFF.md` - krótki punkt startowy i kolejność prac dla następnej sesji.
