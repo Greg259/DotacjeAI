@@ -346,3 +346,5 @@ Potwierdzono działanie Emergency Console Time4VPS oraz logowanie lokalne jako `
 W nowych sesjach potwierdzono logowanie jako `deploy`, grupy `sudo` i `docker`, działanie `sudo`, dostęp do Dockera, pięć zdrowych kontenerów oraz odpowiedź `ok` aplikacji. Wdrożono i zweryfikowano konfigurację `/etc/ssh/sshd_config.d/00-dotacje-ai-hardening.conf`. Logowanie hasłem, keyboard-interactive i bezpośrednie logowanie `root` zostały wyłączone. Usługę SSH włączono przy starcie systemu.
 
 Użytkownik ustawił nowe, nieujawnione hasła `deploy` i `root`, a testy niedozwolonych metod zakończyły się oczekiwaną odmową dostępu. Etap P0 zabezpieczenia SSH uznano za wykonany.
+
+Po uruchomieniu lokalnego `ssh-agent` potwierdzono bezinterakcyjne uwierzytelnienie konta `deploy` właściwym kluczem. Zewnętrzny test portów wykazał dostępność 22, 80 i 443 oraz brak publicznego dostępu do 3000, 5432, 6379 i 8000. Zaktualizowane dokumenty zsynchronizowano przez `deploy`, a ich lokalne i serwerowe sumy SHA-256 są identyczne.
