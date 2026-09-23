@@ -132,11 +132,11 @@ Definition of Done:
 
 1. [x] Domena projektu: `dotacjeai.eu`.
 2. [x] Repozytorium i dostęp: `Greg259/DotacjeAI`, SSH.
-3. [ ] Pierwsze 3-5 oficjalnych źródeł dotacji.
-4. [ ] Dostawca poczty transakcyjnej.
-5. [ ] Dostawca zewnętrznego backupu.
-6. [ ] Miesięczny limit OpenRouter.
-7. [ ] Czy prywatne dokumenty użytkowników wchodzą do pierwszej bety, czy do etapu po uruchomieniu portalu.
+3. [x] Pierwsze źródła: WFOŚiGW Warszawa / Czyste Powietrze i Gmina Nadarzyn; następnie harmonogram NFOŚiGW, Moje Ciepło, magazyny energii, Moja Elektrownia Wiatrowa i Ciepłe Mieszkanie.
+4. [x] Dostawcę poczty transakcyjnej odłożyć do MVP-1.
+5. [x] Zewnętrzny backup odłożyć na etap obowiązkowy przed betą; podczas budowy używać lokalnego Restic i GitHuba dla kodu oraz dokumentacji.
+6. [x] Miesięczny limit OpenRouter: 10 USD; ostrzeżenia przy 5 i 8 USD, twarde zatrzymanie przy 10 USD.
+7. [x] Konta i prywatne dokumenty użytkowników pominąć w MVP-0 i rozważyć w MVP-1.
 
 ## Najbliższy sprint - rekomendowana kolejność
 
@@ -191,7 +191,7 @@ Rezultat: zmiany aplikacji można bezpiecznie testować i wdrażać.
 
 ### P1 - pierwszy pionowy przepływ
 
-1. Wskazać 3-5 źródeł, ale najpierw wdrożyć jedno źródło end-to-end.
+1. Wdrożyć WFOŚiGW Warszawa / Czyste Powietrze jako pierwsze źródło end-to-end, a Gminę Nadarzyn jako drugi test PDF i zakończonego terminu.
 2. Pobrać stronę lub PDF, zapisać URL, datę, nagłówki i SHA-256.
 3. Wykrywać zmianę bez LLM, zapisywać snapshot i generować diff.
 4. Dopiero na wykrytej zmianie uruchomić ekstrakcję OpenRouter do walidowanego JSON.

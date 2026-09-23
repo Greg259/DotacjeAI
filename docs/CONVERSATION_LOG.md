@@ -396,3 +396,13 @@ Po instalacji Restic skorygowano uprawnienia katalogów `/opt/dotacje-ai` i `/op
 Automatyzacja została zakończona: backup działa codziennie o 02:30, monitoring co 5 minut, a ostatni automatyczny wpis miał status `OK`. Kod, skrypty i dokumentację zapisano na GitHubie w commicie `d6790f0` oraz zsynchronizowano do `/home/deploy/Codex/ProjektDotacje`.
 
 Kolejna sesja powinna rozpocząć właściwy fundament MVP: GitHub Actions i zasady pracy z `main`, docelowy frontend, rozbudowę FastAPI, SQLAlchemy/Alembic, pierwsze migracje oraz worker oparty na Redis. Zewnętrzny backup i zewnętrzne alarmy pozostają obowiązkowe przed betą.
+
+## 22. Zatwierdzenie zakresu produktu MVP-0
+
+Użytkownik zatwierdził publiczny portal bez logowania oraz przesunięcie kont, profili nieruchomości, subskrypcji, matchingu, poczty i prywatnych dokumentów do MVP-1. Pierwszym obszarem jest województwo mazowieckie, ze szczególnym uwzględnieniem Gminy Nadarzyn.
+
+Jako pierwsze źródło produkcyjne wybrano WFOŚiGW w Warszawie i program Czyste Powietrze. Drugim źródłem jest regulamin Gminy Nadarzyn dotyczący wymiany źródła ciepła, który ma sprawdzać rozpoznawanie zakończonego naboru. Do kolejki P1 dodano harmonogram NFOŚiGW, Moje Ciepło, przydomowe magazyny energii, Moją Elektrownię Wiatrową oraz Ciepłe Mieszkanie.
+
+Ustalono miesięczny limit OpenRouter 10 USD, ostrzeżenia przy 5 i 8 USD oraz twarde zatrzymanie niekrytycznych wywołań po osiągnięciu limitu. Klucz będzie wpisany później wyłącznie jako `OPENROUTER_API_KEY` na VPS.
+
+Zweryfikowano oficjalne źródła i zapisano wymagania w `MVP0_PRODUCT_REQUIREMENTS.md`, a adresy, statusy początkowe i reguły wiarygodności w `SOURCE_CATALOG.md`.

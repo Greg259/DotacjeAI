@@ -47,8 +47,18 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 1. Dodać zewnętrzny backup i alarmy przed rozpoczęciem bety.
 2. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
 3. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
-4. Wybrać 3-5 oficjalnych źródeł pilotażowych.
-5. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
+4. Zaimplementować pierwsze źródła opisane w `SOURCE_CATALOG.md`.
+5. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM; limit miesięczny wynosi 10 USD.
+
+## Zatwierdzony zakres MVP-0
+
+- portal publiczny bez logowania,
+- pierwszy obszar: Mazowieckie, ze szczególnym uwzględnieniem Nadarzyna,
+- pierwsze źródło: WFOŚiGW Warszawa / Czyste Powietrze,
+- drugi test: Gmina Nadarzyn / wymiana źródła ciepła,
+- crawler stron i PDF, wersjonowanie, diff, AI, REVIEW i publikacja,
+- filtry lokalizacji, nieruchomości, beneficjenta, inwestycji, statusu, terminu i poziomu wsparcia,
+- bez kont użytkowników, matchingu, poczty i prywatnych dokumentów do czasu MVP-1.
 
 ## Repozytorium i dokumentacja
 

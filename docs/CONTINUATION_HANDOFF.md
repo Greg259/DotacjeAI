@@ -15,7 +15,7 @@ Produkcja działa pod `https://dotacjeai.eu`. Kontenery `caddy`, `frontend`, `ap
 - `D:\Codex\ProjektDotacje` jest junctionem do głównego repozytorium,
 - aplikacja na VPS: `/opt/dotacje-ai/app`,
 - dokumentacja na VPS: `/home/deploy/Codex/ProjektDotacje`,
-- ostatni commit kompletnego backupu i monitoringu: `d6790f0`.
+- bazowy commit kompletnego backupu i monitoringu: `d6790f0`.
 
 Nie wolno commitować plików `.env`, haseł, kluczy SSH, klucza OpenRouter ani hasła Restic.
 
@@ -41,5 +41,15 @@ Backup znajduje się na tym samym VPS. Zewnętrzną kopię i zewnętrzne alarmy 
 6. Utworzyć pierwsze migracje domeny DotacjeAI.
 7. Dodać worker i scheduler wykorzystujące Redis.
 8. Zbudować pierwszy przepływ: pobranie oficjalnego źródła, hash, wersja, diff, ekstrakcja AI, review i publikacja.
+
+## Decyzje produktu MVP-0
+
+- portal publiczny działa bez logowania,
+- konta użytkowników i prywatne dokumenty przechodzą do MVP-1,
+- pierwszy crawler: WFOŚiGW Warszawa / Czyste Powietrze,
+- drugi crawler: Gmina Nadarzyn / wymiana źródła ciepła,
+- miesięczny limit OpenRouter: 10 USD, alerty przy 5 i 8 USD,
+- zatwierdzone wymagania: `MVP0_PRODUCT_REQUIREMENTS.md`,
+- zweryfikowane adresy startowe: `SOURCE_CATALOG.md`.
 
 Pełny status znajduje się w `IMPLEMENTATION_STATUS.md`, kolejność etapów w `NEXT_STEPS_PLAN.md`, a historia decyzji w `CONVERSATION_LOG.md`.

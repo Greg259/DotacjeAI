@@ -47,3 +47,5 @@ Prawdziwy plik `app.env` nigdy nie może trafić do repozytorium ani dokumentacj
 - `docs/ACCESS_ONBOARDING.md` - dostęp z kolejnego komputera i onboarding operatorów.
 - `docs/BACKUP_AND_MONITORING.md` - szyfrowany backup MVP, test odtworzenia i monitoring.
 - `docs/CONTINUATION_HANDOFF.md` - krótki punkt startowy i kolejność prac dla następnej sesji.
+- `docs/MVP0_PRODUCT_REQUIREMENTS.md` - zatwierdzony zakres, filtry i kryteria ukończenia MVP-0.
+- `docs/SOURCE_CATALOG.md` - oficjalne źródła, status początkowy i reguły weryfikacji.
