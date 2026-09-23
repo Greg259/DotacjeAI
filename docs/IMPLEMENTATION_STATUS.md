@@ -58,4 +58,6 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - Kod infrastruktury i dokumentacja znajdują się na gałęzi `main`.
 - Sekrety i pliki `.env` nie są wersjonowane.
 - Kopia robocza repozytorium znajduje się w `D:\Codex\DotacjeAI`.
+- `D:\Codex\DotacjeAI` jest jedynym aktywnym lokalnym źródłem prawdy.
+- Dawny `D:\Codex\ProjektDotacje` jest junctionem do aktywnego repozytorium; jego stan sprzed konsolidacji zachowano w `D:\Codex\archive\ProjektDotacje-pre-git-20260923`.
 - Dokumentacja jest również synchronizowana do `/home/deploy/Codex/ProjektDotacje` na VPS.

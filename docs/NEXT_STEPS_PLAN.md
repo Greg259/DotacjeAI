@@ -142,10 +142,11 @@ Definition of Done:
 
 ### P0 - bieżąca konserwacja po zabezpieczeniu SSH
 
-1. [ ] Wykonać zaszyfrowaną kopię odzyskiwania kluczy właściciela oraz zapisać nowe hasła w menedżerze haseł.
-2. [ ] Zainstalować oczekujące pakiety jądra `6.8.0-142`.
-3. [ ] Wykonać kontrolowany restart VPS.
-4. [ ] Potwierdzić nowe jądro, SSH, fail2ban, UFW, HTTPS i pięć zdrowych kontenerów.
+1. [x] Ustanowić `D:\Codex\DotacjeAI` jedynym aktywnym repozytorium i zachować odzyskiwalne archiwum starej kopii.
+2. [ ] Wykonać zaszyfrowaną kopię odzyskiwania kluczy właściciela oraz zapisać nowe hasła w menedżerze haseł.
+3. [ ] Zainstalować oczekujące pakiety jądra `6.8.0-142` oraz narzędzie `restic`.
+4. [ ] Wykonać kontrolowany restart VPS.
+5. [ ] Potwierdzić nowe jądro, SSH, fail2ban, UFW, HTTPS i pięć zdrowych kontenerów.
 
 Rezultat: serwer jest aktualny, a utrata obecnego komputera nie powoduje utraty dostępu.
 

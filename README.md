@@ -24,6 +24,14 @@ Ten katalog zawiera minimalny, produkcyjnie ukierunkowany szkielet środowiska D
 - backupy: `/opt/dotacje-ai/backups`
 - dokumentacja: `/home/deploy/Codex/ProjektDotacje`
 
+## Repozytorium robocze
+
+Jedynym aktywnym repozytorium na komputerze administratora jest:
+
+`D:\Codex\DotacjeAI`
+
+Historyczna ścieżka `D:\Codex\ProjektDotacje` jest junctionem prowadzącym do tego repozytorium. Archiwum stanu sprzed konsolidacji znajduje się w `D:\Codex\archive\ProjektDotacje-pre-git-20260923` i nie służy do dalszej pracy.
+
 Prawdziwy plik `app.env` nigdy nie może trafić do repozytorium ani dokumentacji.
 
 ## Dokumentacja
@@ -35,3 +43,5 @@ Prawdziwy plik `app.env` nigdy nie może trafić do repozytorium ani dokumentacj
 - `docs/OPENROUTER_MODELS.md` - pierwotna rekomendacja modeli.
 - `docs/NEXT_STEPS_PLAN.md` - kolejność dalszej implementacji.
 - `docs/SERVER_SETUP.md` - operacyjna instrukcja środowiska.
+- `docs/SSH_HARDENING_RUNBOOK.md` - wykonana procedura utwardzenia SSH.
+- `docs/ACCESS_ONBOARDING.md` - dostęp z kolejnego komputera i onboarding operatorów.

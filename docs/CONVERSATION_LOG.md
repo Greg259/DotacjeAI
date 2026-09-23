@@ -364,3 +364,7 @@ Użytkownik doprecyzował, że chodzi o jego własny drugi komputer. Ustalono za
 Kontrola odczytowa wykazała 74 GB wolnego miejsca, około 7,1 GB dostępnej pamięci, nieużywany swap i pięć zdrowych kontenerów. Katalog `/opt/dotacje-ai/backups` nie zawiera backupów. Dostępna jest aktualizacja jądra z `6.8.0-139` do `6.8.0-142`; przed jej instalacją system nie wymaga jeszcze restartu.
 
 Jako kolejne działania wskazano: zaszyfrowaną kopię odzyskiwania kluczy i haseł, instalację aktualizacji z kontrolowanym restartem, zewnętrzny szyfrowany backup z testem odtworzenia, monitoring, a następnie fundament aplikacji MVP.
+
+Na polecenie użytkownika rozpoczęto realizację całej kolejki. Porównano `D:\Codex\DotacjeAI` i `D:\Codex\ProjektDotacje`; zestaw oraz treść plików były zgodne, a różnice binarne wynikały z końców linii Git. Dawną kopię przeniesiono do `D:\Codex\archive\ProjektDotacje-pre-git-20260923`, a ścieżkę `D:\Codex\ProjektDotacje` zastąpiono junctionem do `D:\Codex\DotacjeAI`. Od tego momentu istnieje jedno aktywne repozytorium robocze.
+
+Do zewnętrznego backupu zarekomendowano `restic` z magazynem Cloudflare R2, a do monitoringu zewnętrznego Better Stack lub HetrixTools. Aktywacja tych usług wymaga kont i sekretów wprowadzonych poza repozytorium oraz rozmową.
