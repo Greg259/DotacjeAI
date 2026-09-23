@@ -406,3 +406,5 @@ Jako pierwsze źródło produkcyjne wybrano WFOŚiGW w Warszawie i program Czyst
 Ustalono miesięczny limit OpenRouter 10 USD, ostrzeżenia przy 5 i 8 USD oraz twarde zatrzymanie niekrytycznych wywołań po osiągnięciu limitu. Klucz będzie wpisany później wyłącznie jako `OPENROUTER_API_KEY` na VPS.
 
 Zweryfikowano oficjalne źródła i zapisano wymagania w `MVP0_PRODUCT_REQUIREMENTS.md`, a adresy, statusy początkowe i reguły wiarygodności w `SOURCE_CATALOG.md`.
+
+W oficjalnych materiałach Nadarzyna wykryto konflikt wersji: starsza podstrona nadal podaje 60% i maksymalnie 5000 zł na podstawie uchwały z 2021 r., natomiast regulamin z 2026 r. podaje 100% i maksymalnie 6000 zł. Przypadek zapisano jako obowiązkowy test wersjonowania, pierwszeństwa nowszego aktu i kolejki REVIEW.

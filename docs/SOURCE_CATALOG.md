@@ -32,6 +32,8 @@ Statusy są danymi zmiennymi. Crawler ma je ponownie ustalać z oficjalnych źr�
 - według stanu na 23.09.2026 program ma być prezentowany jako zakończony,
 - sam dokument powinien pozostać dostępny w historii programu.
 
+Znana sprzeczność źródeł: starsza oficjalna podstrona `https://www.nadarzyn.pl/816%2Cwymiana-kotlow-do-centralnego-ogrzewania` nadal opisuje uchwałę z 2021 r. oraz warunki 60% i maksymalnie 5000 zł. Dla edycji 2026 pierwszeństwo ma nowszy, datowany regulamin PDF wskazujący 100% i maksymalnie 6000 zł. Crawler ma zachować obie wersje, rozpoznać konflikt i utworzyć zadanie REVIEW.
+
 ### Moje Ciepło
 
 - nabór ciągły do 26.02.2027 albo do wyczerpania środków,
