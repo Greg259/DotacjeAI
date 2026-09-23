@@ -376,3 +376,13 @@ Użytkownik uruchomił aktualizację systemu i kontrolowany restart. Po ponownym
 Polecenie aktualizacji nie zainstalowało pakietu `restic`, dlatego jego instalacja pozostała osobnym krótkim krokiem administracyjnym. W repozytorium przygotowano skrypt szyfrowanego backupu PostgreSQL i danych do Cloudflare R2, kontrolę integralności i odtworzenia oraz lokalny monitoring HTTPS, API, kontenerów, dysku i świeżości kopii. Sekrety R2 i heartbeat mają być wprowadzone bezpośrednio na serwerze i nie mogą trafić do rozmowy ani Git.
 
 Pakiet `restic 0.16.4` został następnie zainstalowany. Po skorygowaniu przełamanej podczas wklejania ścieżki potwierdzono, że `/opt/dotacje-ai/backups` należy do `deploy:deploy`, ma tryb `0700` i jest zapisywalny dla procesu backupu. Ponowna walidacja składni wszystkich trzech skryptów na Ubuntu zakończyła się poprawnie.
+
+## 20. Lokalny backup na czas budowy MVP
+
+Użytkownik zdecydował, że na etapie budowy MVP nie będzie zakładał Cloudflare R2. Przyjęto szyfrowane repozytorium Restic na tym samym VPS oraz GitHub jako kopię kodu i dokumentacji. Baza danych, uploady oraz sekrety nie będą umieszczane w Git.
+
+Zewnętrzny backup pozostaje obowiązkowym zadaniem przed betą, ponieważ kopia na tym samym VPS nie chroni przed utratą całej maszyny. Przygotowano automatyczną konfigurację lokalnego repozytorium, codzienny backup, retencję, pełny test importu dumpa do tymczasowej bazy i harmonogram lokalnego monitoringu.
+
+Utworzono zaszyfrowane lokalne repozytorium Restic, a hasło zapisano wyłącznie w chronionym pliku z trybem `0600`. Pierwszy test wykrył absolutną ścieżkę w pliku sum kontrolnych; poprawiono ją na względną i powtórzono cały proces. Snapshot `858176df` przeszedł kontrolę repozytorium, odtworzenie plików, weryfikację SHA-256 oraz pełny import do tymczasowej bazy PostgreSQL. Poprawiono także grupowanie retencji po hoście i tagu.
+
+Crontab użytkownika `deploy` uruchamia backup codziennie o 02:30 oraz monitoring co 5 minut. Końcowy test monitoringu potwierdził HTTPS, API, stan pięciu kontenerów, poziom zajętości dysku oraz świeżość backupu.

@@ -50,7 +50,7 @@ log "Walidacja formatu pg_dump"
 docker compose --env-file "${APP_ENV}" -f "${COMPOSE_FILE}" exec -T postgres \
   pg_restore --list <"${SNAPSHOT_DIR}/postgres.dump" >/dev/null
 
-sha256sum "${SNAPSHOT_DIR}/postgres.dump" >"${SNAPSHOT_DIR}/SHA256SUMS"
+(cd "${SNAPSHOT_DIR}" && sha256sum postgres.dump >SHA256SUMS)
 printf 'created_utc=%s\nhost=%s\n' "${TIMESTAMP}" "$(hostname -f)" >"${SNAPSHOT_DIR}/metadata.txt"
 
 backup_paths=("${SNAPSHOT_DIR}")
@@ -63,7 +63,7 @@ log "Wysyłanie szyfrowanego snapshotu Restic"
 restic backup "${backup_paths[@]}" --tag dotacje-ai --host "$(hostname -s)"
 
 log "Stosowanie retencji: 7 dziennych, 5 tygodniowych, 12 miesięcznych"
-restic forget --tag dotacje-ai --keep-daily 7 --keep-weekly 5 --keep-monthly 12 --prune
+restic forget --tag dotacje-ai --group-by host,tags --keep-daily 7 --keep-weekly 5 --keep-monthly 12 --prune
 
 date -u --iso-8601=seconds >"${SUCCESS_MARKER}.tmp"
 mv "${SUCCESS_MARKER}.tmp" "${SUCCESS_MARKER}"

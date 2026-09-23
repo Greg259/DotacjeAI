@@ -163,19 +163,20 @@ Rezultat: administracja VPS jest możliwa wyłącznie kluczem przez konto `deplo
 
 ### P0 - backup i odtwarzanie
 
-1. [x] Wybrać Cloudflare R2 jako zewnętrzny magazyn zgodny z S3.
+1. [x] Przyjąć lokalne, szyfrowane repozytorium Restic na VPS jako rozwiązanie dla etapu budowy MVP; zewnętrzny storage przesunąć przed betę.
 2. [x] Przygotować skrypt codziennego `pg_dump` i backupu dokumentów bez kopiowania aktywnych sekretów w postaci jawnej.
-3. [x] Przygotować szyfrowanie po stronie Restic przed wysłaniem poza VPS.
-4. Ustawić retencję dzienną, tygodniową i miesięczną oraz alarm błędu zadania.
-5. Wykonać próbne odtworzenie do osobnej bazy i zapisać procedurę disaster recovery.
+3. [x] Włączyć szyfrowanie repozytorium po stronie Restic.
+4. [x] Ustawić retencję 7 kopii dziennych, 5 tygodniowych i 12 miesięcznych oraz lokalną kontrolę błędu zadania.
+5. [x] Wykonać próbne odtworzenie plików i pełny import dumpa do osobnej bazy.
 
-Rezultat: istnieje sprawdzona kopia poza VPS, a nie tylko repozytorium GitHub.
+Rezultat MVP: istnieje sprawdzona, szyfrowana kopia bazy i danych na VPS oraz osobna kopia kodu i dokumentacji na GitHubie. Przed betą wynik musi zostać rozszerzony o kopię poza VPS.
 
 ### P1 - kontrola działania
 
-1. Dodać zewnętrzny test `https://dotacjeai.eu/health`.
-2. Alarmować o niedostępności, małej ilości miejsca, błędach backupu i niezdrowych kontenerach.
-3. Ustawić rotację logów Dockera i prosty raport dzienny.
+1. [x] Dodać lokalny test `https://dotacjeai.eu/health` i `/api/health` co 5 minut.
+2. [x] Kontrolować lokalnie niedostępność, miejsce, świeżość backupu i zdrowie kontenerów.
+3. [x] Ustawić rotację logów Dockera.
+4. [ ] Przed betą podłączyć zewnętrzne alarmy, aby awaria całego VPS była widoczna poza serwerem.
 
 Rezultat: administrator dowiaduje się o awarii bez ręcznego logowania na serwer.
 

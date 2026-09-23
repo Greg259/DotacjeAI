@@ -44,12 +44,11 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Utworzyć prywatny bucket Cloudflare R2, wprowadzić dane dostępowe bezpośrednio na VPS i uruchomić szyfrowany backup z testem odtworzenia.
-3. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
-4. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
-5. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
-6. Wybrać 3-5 oficjalnych źródeł pilotażowych.
-7. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
+1. Dodać zewnętrzny backup i alarmy przed rozpoczęciem bety.
+2. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
+3. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
+4. Wybrać 3-5 oficjalnych źródeł pilotażowych.
+5. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
 
 ## Repozytorium i dokumentacja
 
@@ -71,5 +70,16 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - `https://dotacjeai.eu/api/health`: poprawna odpowiedź JSON,
 - dysk: 23% zajęte, około 73 GB dostępne,
 - pamięć: około 7,1 GiB dostępne, swap 2 GiB,
-- `restic`: wersja `0.16.4`, zainstalowana i gotowa do konfiguracji R2.
+- `restic`: wersja `0.16.4`; lokalne zaszyfrowane repozytorium działa.
 - `/opt/dotacje-ai/backups`: właściciel `deploy:deploy`, tryb `0700`, zapis potwierdzony.
+
+## Backup i monitoring lokalny z 2026-09-23
+
+- pierwszy poprawnie zweryfikowany snapshot: `858176df`,
+- dump PostgreSQL przechodzi kontrolę formatu i SHA-256,
+- pełny import do tymczasowej bazy zakończył się poprawnie,
+- kontrola Restic nie wykryła błędów,
+- retencja grupuje snapshoty po hoście i tagu: 7 dziennych, 5 tygodniowych, 12 miesięcznych,
+- backup uruchamia się codziennie o 02:30,
+- monitoring uruchamia się co 5 minut,
+- ręczny test monitoringu: `OK` dla HTTPS, API, pięciu kontenerów, dysku i świeżości backupu.
