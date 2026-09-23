@@ -11,6 +11,9 @@ Weryfikacja: 2026-09-22 po kontrolowanym restarcie.
 - Fail2ban aktywny z jail `sshd`.
 - UFW aktywny; publicznie dozwolone tylko 22, 80 i 443.
 - Konto `deploy` należy do grup `sudo` i `docker`.
+- Logowanie `deploy` działa przy użyciu osobnego klucza RSA 4096 chronionego passphrase.
+- Logowanie SSH hasłem oraz bezpośrednie logowanie `root` są wyłączone.
+- Hasła `deploy` i `root` zostały ustawione poza dokumentacją; ujawnione wcześniej hasło `root` jest nieaktualne.
 - Sekrety mają uprawnienia 700 dla katalogu i 600 dla pliku.
 - Klucz OpenRouter pozostaje pusty i gotowy do późniejszego ustawienia.
 
@@ -41,14 +44,12 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Dodać klucz SSH użytkownika `deploy`, a następnie wyłączyć hasło i logowanie `root`.
-2. Zmienić ujawnione podczas konfiguracji hasło `root`.
-3. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia.
-4. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
-5. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
-6. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
-7. Wybrać 3-5 oficjalnych źródeł pilotażowych.
-8. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
+1. Wybrać zewnętrzny storage i uruchomić szyfrowany backup z testem odtworzenia.
+2. Dodać monitoring dostępności, miejsca na dysku i stanu kontenerów.
+3. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
+4. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
+5. Wybrać 3-5 oficjalnych źródeł pilotażowych.
+6. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM.
 
 ## Repozytorium i dokumentacja
 

@@ -40,7 +40,7 @@ System został zaktualizowany. W czasie ostatniej weryfikacji liczba oczekujący
 
 ### `root`
 
-Aktualnie możliwe jest logowanie przez SSH jako `root` przy użyciu hasła. Pozostawiono je świadomie, ponieważ klucz SSH nie został jeszcze dodany. Jest to stan przejściowy.
+Bezpośrednie logowanie `root` przez SSH jest wyłączone. Ujawnione podczas pierwszej konfiguracji hasło zostało zmienione 2026-09-23. Konto pozostaje dostępne wyłącznie lokalnie przez przetestowaną Emergency Console Time4VPS lub przez `sudo` użytkownika `deploy`.
 
 ### `deploy`
 
@@ -51,7 +51,21 @@ Utworzono użytkownika `deploy` należącego do grup:
 - `docker`,
 - `users`.
 
-Konto nie ma skonfigurowanego hasła ani klucza SSH, więc nie służy jeszcze do bezpośredniego logowania. Członkostwo w grupie `docker` daje w praktyce uprawnienia administracyjne.
+Konto ma osobne hasło lokalne do `sudo` oraz publiczny klucz RSA 4096 w `authorized_keys`. Klucz prywatny jest przechowywany wyłącznie na komputerze administratora i chroniony passphrase. Logowanie kluczem, `sudo` oraz Docker zostały sprawdzone w nowej sesji.
+
+Członkostwo w grupie `docker` daje w praktyce uprawnienia administracyjne.
+
+Efektywne ustawienia SSH:
+
+- `PubkeyAuthentication yes`,
+- `PasswordAuthentication no`,
+- `KbdInteractiveAuthentication no`,
+- `PermitRootLogin no`,
+- `PermitEmptyPasswords no`,
+- `MaxAuthTries 3`,
+- `X11Forwarding no`.
+
+Plik: `/etc/ssh/sshd_config.d/00-dotacje-ai-hardening.conf`. Przed zmianą zachowano kopie konfiguracji z oznaczeniem `before-dotacje-ai-20260923`. Usługa `ssh` jest aktywna i włączona przy starcie systemu.
 
 ## 5. Firewall i porty
 

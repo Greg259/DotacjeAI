@@ -48,15 +48,18 @@ docker compose --env-file /opt/dotacje-ai/secrets/app.env logs --tail=200
 docker compose --env-file /opt/dotacje-ai/secrets/app.env up -d --build
 ```
 
-## Dalsze kroki bezpieczeństwa
+## Bezpieczeństwo dostępu SSH
 
-Po dodaniu i sprawdzeniu klucza SSH dla `deploy`:
+Wykonano 2026-09-23:
 
-1. wyłączyć logowanie SSH hasłem,
-2. wyłączyć bezpośrednie logowanie `root`,
-3. zmienić ujawnione wcześniej hasło roota,
-4. ograniczyć SSH do zaufanego adresu lub VPN,
-5. skonfigurować zewnętrzny, szyfrowany backup i test odtworzenia.
+1. dodano i sprawdzono osobny klucz RSA 4096 dla `deploy`,
+2. potwierdzono działanie `sudo` oraz Dockera,
+3. wyłączono logowanie SSH hasłem i keyboard-interactive,
+4. wyłączono bezpośrednie logowanie `root`,
+5. zmieniono ujawnione wcześniej hasło `root`,
+6. potwierdzono Emergency Console oraz odmowę niedozwolonych metod logowania.
+
+Pozostaje skonfigurowanie zewnętrznego, szyfrowanego backupu z testem odtworzenia. Ograniczenie SSH do stałego adresu IP lub VPN można wdrożyć później, jeśli administrator będzie korzystał ze stabilnego adresu albo tunelu.
 
 ## HTTPS
 

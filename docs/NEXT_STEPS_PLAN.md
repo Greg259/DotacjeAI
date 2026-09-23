@@ -24,9 +24,9 @@ Priorytet: natychmiast po podjęciu decyzji o domenie i dostępie.
 1. [x] Skierować domenę `dotacjeai.eu` na VPS.
 2. [x] Uruchomić automatyczny certyfikat HTTPS dla domeny głównej.
 3. [x] Potwierdzić propagację i certyfikat dla `www.dotacjeai.eu`.
-4. [ ] Dodać klucz SSH do konta `deploy` i przetestować osobną sesję.
-5. [ ] Wyłączyć logowanie roota oraz logowanie hasłem dopiero po teście klucza.
-6. [ ] Zmienić obecne hasło roota.
+4. [x] Dodać klucz SSH do konta `deploy` i przetestować osobną sesję.
+5. [x] Wyłączyć logowanie roota oraz logowanie hasłem po teście klucza.
+6. [x] Zmienić ujawnione hasło roota.
 7. [ ] Wybrać zewnętrzny storage backupów.
 8. [ ] Wdrożyć codzienny `pg_dump`, backup dokumentów, szyfrowanie, retencję i test odtworzenia.
 9. [ ] Dodać monitoring dostępności, dysku i błędów kontenerów.
@@ -142,11 +142,11 @@ Definition of Done:
 
 ### P0 - bezpieczeństwo dostępu
 
-1. Dodać obecny publiczny klucz SSH do `/home/deploy/.ssh/authorized_keys`.
-2. Otworzyć nową sesję jako `deploy` i potwierdzić działanie `sudo` oraz Dockera.
-3. Zachować istniejącą sesję awaryjną do końca testu.
-4. Zmienić hasło `root`, następnie wyłączyć `PermitRootLogin` i `PasswordAuthentication`.
-5. Sprawdzić ponownie SSH, fail2ban, UFW oraz dostępność aplikacji.
+1. [x] Dodać publiczny klucz RSA 4096 do `/home/deploy/.ssh/authorized_keys`.
+2. [x] Otworzyć nową sesję jako `deploy` i potwierdzić działanie `sudo` oraz Dockera.
+3. [x] Potwierdzić dostęp przez Emergency Console i zachować sesje awaryjne do końca testu.
+4. [x] Zmienić hasło `root`, następnie wyłączyć `PermitRootLogin` i `PasswordAuthentication`.
+5. [x] Sprawdzić ponownie SSH, fail2ban oraz dostępność aplikacji; UFW pozostał aktywny z portami 22, 80 i 443.
 
 Rezultat: administracja VPS jest możliwa wyłącznie kluczem przez konto `deploy`.
 

@@ -338,3 +338,11 @@ Zmian bezpieczeństwa nie wykonano jeszcze na VPS. Nie wolno wyłączać dostęp
 Użytkownik wskazał opcję SSH Key Management w Time4VPS. Zalecono zapisanie w panelu istniejącego klucza publicznego `id_ed25519.pub`, bez tworzenia zbędnej drugiej pary i bez udostępniania klucza prywatnego. Dokumentacja Time4VPS opisuje użycie klucza podczas instalacji lub reinstalacji systemu, dlatego dla działającego VPS klucz zostanie dodatkowo zainstalowany bezpośrednio na koncie `deploy`.
 
 Panel odrzucił klucz ED25519, ale zaakceptował osobną parę RSA 4096 przeznaczoną dla VPS. Ustalono rozdzielenie: ED25519 dla GitHuba, RSA dla VPS. Konfiguracja działającego serwera pozostaje bez zmian do czasu potwierdzenia dostępu do konsoli awaryjnej.
+
+## 16. Zakończenie zabezpieczania SSH
+
+Potwierdzono działanie Emergency Console Time4VPS oraz logowanie lokalne jako `root`. Publiczny klucz RSA 4096 dodano do `/home/deploy/.ssh/authorized_keys` z uprawnieniami `0700` dla `.ssh` i `0600` dla pliku kluczy.
+
+W nowych sesjach potwierdzono logowanie jako `deploy`, grupy `sudo` i `docker`, działanie `sudo`, dostęp do Dockera, pięć zdrowych kontenerów oraz odpowiedź `ok` aplikacji. Wdrożono i zweryfikowano konfigurację `/etc/ssh/sshd_config.d/00-dotacje-ai-hardening.conf`. Logowanie hasłem, keyboard-interactive i bezpośrednie logowanie `root` zostały wyłączone. Usługę SSH włączono przy starcie systemu.
+
+Użytkownik ustawił nowe, nieujawnione hasła `deploy` i `root`, a testy niedozwolonych metod zakończyły się oczekiwaną odmową dostępu. Etap P0 zabezpieczenia SSH uznano za wykonany.

@@ -1,7 +1,7 @@
 # DotacjeAI - bezpieczne utwardzenie SSH
 
 Data przygotowania: 2026-09-23
-Status: instrukcja gotowa, zmiany nie zostały jeszcze wykonane.
+Status: wykonano i zweryfikowano 2026-09-23.
 
 ## Cel
 
@@ -222,3 +222,5 @@ Jeśli wszystkie sesje zostały utracone, należy wykonać te same czynności pr
 - SSH, fail2ban, UFW, Docker i aplikacja działają,
 - nowe hasła znajdują się wyłącznie w menedżerze haseł,
 - konfiguracja oraz wyniki testów są zapisane w dokumentacji technicznej.
+
+Wszystkie kryteria zostały spełnione. Efektywna konfiguracja SSH została zapisana w `/etc/ssh/sshd_config.d/00-dotacje-ai-hardening.conf`, a jej wersjonowana kopia znajduje się w `server/00-dotacje-ai-hardening.conf`.
