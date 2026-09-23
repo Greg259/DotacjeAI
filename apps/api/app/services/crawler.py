@@ -5,6 +5,7 @@ import difflib
 import hashlib
 import io
 import re
+import ssl
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -48,6 +49,16 @@ def _validate_web_url(url: str) -> None:
     parsed = urlparse(url)
     if parsed.scheme not in {"http", "https"} or not parsed.hostname:
         raise CrawlError(f"Unsupported source URL: {url}")
+
+
+def _build_ssl_context(settings: Settings) -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    extra_ca_path = settings.crawler_extra_ca_path
+    if extra_ca_path is not None:
+        if not extra_ca_path.is_file():
+            raise CrawlError(f"Configured extra CA file does not exist: {extra_ca_path}")
+        context.load_verify_locations(cafile=extra_ca_path)
+    return context
 
 
 def normalize_html(raw: bytes, base_url: str) -> str:
@@ -153,6 +164,7 @@ async def crawl_source(
             follow_redirects=True,
             timeout=settings.crawler_timeout_seconds,
             max_redirects=10,
+            verify=_build_ssl_context(settings),
         )
 
     checked_at = datetime.now(UTC)

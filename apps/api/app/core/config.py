@@ -30,6 +30,12 @@ class Settings(BaseSettings):
         ge=1024,
         validation_alias="CRAWLER_MAX_RESPONSE_BYTES",
     )
+    crawler_extra_ca_path: Path | None = Field(
+        default=Path(__file__).resolve().parents[2]
+        / "certs"
+        / "homepl-ov-tls-g2-r35-ca.pem",
+        validation_alias="CRAWLER_EXTRA_CA_PATH",
+    )
 
     postgres_host: str = Field(default="localhost", validation_alias="POSTGRES_HOST")
     postgres_port: int = Field(default=5432, validation_alias="POSTGRES_PORT")

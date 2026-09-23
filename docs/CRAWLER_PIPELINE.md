@@ -17,6 +17,8 @@ Crawler pobiera oficjalne strony HTML i dokumenty PDF bez użycia LLM. Każde po
 9. Zapis unified diff dla rzeczywistej zmiany treści.
 10. Utworzenie zadania `NEW_PROGRAM` dla pierwszego pobrania albo `SOURCE_CHANGED` dla kolejnej zmiany.
 
+WFOŚiGW nie wysyła obecnie kompletnego łańcucha TLS. W repozytorium znajduje się wyłącznie publiczny certyfikat pośredni `home pl OV TLS G2 R35 CA`, pobrany z adresu AIA wskazanego przez certyfikat serwera. Crawler dodaje go do standardowego magazynu CA, ale nadal rygorystycznie sprawdza nazwę hosta, podpis, terminy ważności i zaufany root. Weryfikacja TLS nie jest wyłączana.
+
 Odpowiedź `304 Not Modified` również jest zapisywana jako sprawdzenie, ale nie tworzy nowego zadania REVIEW ani kopii pliku.
 
 ## Dane audytowe
