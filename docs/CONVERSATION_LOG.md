@@ -336,3 +336,5 @@ Ustalono bezpieczną kolejność: dostęp do konsoli awaryjnej, instalacja klucz
 Zmian bezpieczeństwa nie wykonano jeszcze na VPS. Nie wolno wyłączać dostępu hasłem ani konta `root`, zanim logowanie kluczem i `sudo` użytkownika `deploy` nie zostaną potwierdzone.
 
 Użytkownik wskazał opcję SSH Key Management w Time4VPS. Zalecono zapisanie w panelu istniejącego klucza publicznego `id_ed25519.pub`, bez tworzenia zbędnej drugiej pary i bez udostępniania klucza prywatnego. Dokumentacja Time4VPS opisuje użycie klucza podczas instalacji lub reinstalacji systemu, dlatego dla działającego VPS klucz zostanie dodatkowo zainstalowany bezpośrednio na koncie `deploy`.
+
+Panel odrzucił klucz ED25519, ale zaakceptował osobną parę RSA 4096 przeznaczoną dla VPS. Ustalono rozdzielenie: ED25519 dla GitHuba, RSA dla VPS. Konfiguracja działającego serwera pozostaje bez zmian do czasu potwierdzenia dostępu do konsoli awaryjnej.

@@ -17,15 +17,15 @@ Status: instrukcja gotowa, zmiany nie zostały jeszcze wykonane.
 2. Nie zamykać bieżącej sesji `root` przed zakończeniem wszystkich testów.
 3. Otwierać testy w drugiej i trzeciej sesji terminala.
 4. Nowych haseł nie wpisywać do rozmowy, skryptów, GitHuba ani dokumentacji.
-5. Nie kopiować na serwer klucza prywatnego `id_ed25519`. Kopiowany jest wyłącznie `id_ed25519.pub`.
+5. Nie kopiować na serwer żadnego klucza prywatnego. Dla VPS kopiowany jest wyłącznie `id_rsa_time4vps.pub`.
 6. Przed przeładowaniem SSH zawsze wykonać `sshd -t`.
 
 ## Etap 0 - przygotowanie
 
-Na komputerze administratora istnieje para kluczy:
+Na komputerze administratora istnieją rozdzielone pary kluczy:
 
-- prywatny: `C:\Users\grzeg\.ssh\id_ed25519`,
-- publiczny: `C:\Users\grzeg\.ssh\id_ed25519.pub`.
+- GitHub: `id_ed25519` oraz `id_ed25519.pub`,
+- VPS: `id_rsa_time4vps` oraz `id_rsa_time4vps.pub`.
 
 Zalecane jest zabezpieczenie klucza prywatnego passphrase oraz przechowywanie kopii odzyskiwania w bezpiecznym miejscu.
 
@@ -41,12 +41,20 @@ Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
 
 Nie należy wklejać zawartości pliku `id_ed25519` bez rozszerzenia `.pub`. Według instrukcji Time4VPS zapisany klucz wybiera się podczas instalacji lub reinstalacji systemu. Nie należy zakładać, że samo dodanie go w panelu zmieni działający VPS albo konto `deploy`; klucz zostanie również zainstalowany bezpośrednio w `authorized_keys` istniejącego konta.
 
+Formularz odrzucił istniejący klucz ED25519, ale zaakceptował osobny klucz RSA 4096 utworzony dla VPS:
+
+- prywatny: `C:\Users\grzeg\.ssh\id_rsa_time4vps`,
+- publiczny: `C:\Users\grzeg\.ssh\id_rsa_time4vps.pub`,
+- nazwa w panelu: `grzeg-dotacjeai-rsa-2026`.
+
+Klucz prywatny RSA powinien być chroniony passphrase i nie może być kopiowany na serwer ani do repozytorium. W dalszych krokach publiczna część RSA będzie instalowana na koncie `deploy`; klucz ED25519 pozostaje używany przez GitHub.
+
 ## Etap 1 - dodać klucz publiczny do `deploy`
 
 Z PowerShell na komputerze administratora:
 
 ```powershell
-scp $env:USERPROFILE\.ssh\id_ed25519.pub root@185.69.52.106:/tmp/grzeg_id_ed25519.pub
+scp $env:USERPROFILE\.ssh\id_rsa_time4vps.pub root@185.69.52.106:/tmp/grzeg_id_rsa_time4vps.pub
 ssh root@185.69.52.106
 ```
 
@@ -55,10 +63,10 @@ W otwartej sesji `root`:
 ```bash
 install -d -o deploy -g deploy -m 0700 /home/deploy/.ssh
 touch /home/deploy/.ssh/authorized_keys
-grep -qxF "$(cat /tmp/grzeg_id_ed25519.pub)" /home/deploy/.ssh/authorized_keys || cat /tmp/grzeg_id_ed25519.pub >> /home/deploy/.ssh/authorized_keys
+grep -qxF "$(cat /tmp/grzeg_id_rsa_time4vps.pub)" /home/deploy/.ssh/authorized_keys || cat /tmp/grzeg_id_rsa_time4vps.pub >> /home/deploy/.ssh/authorized_keys
 chown deploy:deploy /home/deploy/.ssh/authorized_keys
 chmod 0600 /home/deploy/.ssh/authorized_keys
-rm /tmp/grzeg_id_ed25519.pub
+rm /tmp/grzeg_id_rsa_time4vps.pub
 namei -l /home/deploy/.ssh/authorized_keys
 ```
 
@@ -86,7 +94,7 @@ Należy ustawić dwa różne, losowe hasła i zapisać je wyłącznie w menedże
 Nie zamykając sesji `root`, otworzyć drugi PowerShell:
 
 ```powershell
-ssh -i $env:USERPROFILE\.ssh\id_ed25519 deploy@185.69.52.106
+ssh -i $env:USERPROFILE\.ssh\id_rsa_time4vps deploy@185.69.52.106
 ```
 
 Po zalogowaniu:
@@ -165,7 +173,7 @@ Użycie `reload` pozwala pozostawić istniejące sesje aktywne.
 Otworzyć trzeci PowerShell i ponownie sprawdzić klucz:
 
 ```powershell
-ssh -i $env:USERPROFILE\.ssh\id_ed25519 deploy@185.69.52.106
+ssh -i $env:USERPROFILE\.ssh\id_rsa_time4vps deploy@185.69.52.106
 ```
 
 Sprawdzić odrzucenie hasła:
