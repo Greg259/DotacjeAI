@@ -42,6 +42,8 @@ Backup znajduje się na tym samym VPS. Zewnętrzną kopię i zewnętrzne alarmy 
 7. Dodać worker i scheduler wykorzystujące Redis.
 8. Zbudować pierwszy przepływ: pobranie oficjalnego źródła, hash, wersja, diff, ekstrakcja AI, review i publikacja.
 
+Fundament API, modele SQLAlchemy, pierwsza migracja Alembic, publiczne endpointy oraz CI zostały przygotowane i zweryfikowane. Szczegóły znajdują się w `API_FOUNDATION.md`. Najbliższy kodowy krok to crawler HTTP/PDF i trwałe snapshoty, nie ponowne tworzenie modeli.
+
 ## Decyzje produktu MVP-0
 
 - portal publiczny działa bez logowania,

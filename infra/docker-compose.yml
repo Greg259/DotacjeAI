@@ -6,6 +6,29 @@ x-logging: &default-logging
     max-size: "10m"
     max-file: "3"
 
+x-api-environment: &api-environment
+  APP_ENV: production
+  APP_VERSION: "0.2.0"
+  LOG_LEVEL: INFO
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: ${POSTGRES_DB}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  LLM_PROVIDER: ${LLM_PROVIDER}
+  OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL}
+  OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+  LLM_MODEL_FAST: ${LLM_MODEL_FAST}
+  LLM_MODEL_STRONG: ${LLM_MODEL_STRONG}
+  LLM_MODEL_VALIDATOR: ${LLM_MODEL_VALIDATOR}
+  LLM_DAILY_BUDGET_USD: ${LLM_DAILY_BUDGET_USD}
+  LLM_WARNING_BUDGET_USD: ${LLM_WARNING_BUDGET_USD:-5}
+  LLM_CRITICAL_BUDGET_USD: ${LLM_CRITICAL_BUDGET_USD:-8}
+  LLM_MONTHLY_BUDGET_USD: ${LLM_MONTHLY_BUDGET_USD}
+
 services:
   caddy:
     image: caddy:2-alpine
@@ -56,30 +79,14 @@ services:
       - edge
 
   api:
+    image: dotacje-ai-api:local
     build:
       context: ../apps/api
     restart: unless-stopped
-    environment:
-      APP_ENV: production
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      LLM_PROVIDER: ${LLM_PROVIDER}
-      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL}
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
-      LLM_MODEL_FAST: ${LLM_MODEL_FAST}
-      LLM_MODEL_STRONG: ${LLM_MODEL_STRONG}
-      LLM_MODEL_VALIDATOR: ${LLM_MODEL_VALIDATOR}
-      LLM_DAILY_BUDGET_USD: ${LLM_DAILY_BUDGET_USD}
-      LLM_MONTHLY_BUDGET_USD: ${LLM_MONTHLY_BUDGET_USD}
+    environment: *api-environment
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
     expose:
@@ -96,6 +103,24 @@ services:
     logging: *default-logging
     networks:
       - edge
+      - backend
+
+  migrate:
+    image: dotacje-ai-api:local
+    build:
+      context: ../apps/api
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+    environment: *api-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 256m
+    cpus: 0.25
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    networks:
       - backend
 
   postgres:

@@ -2,5 +2,10 @@
 *.env
 !.env.example
 __pycache__/
+.pytest_cache/
+.ruff_cache/
+pytest-cache-files-*/
+.venv*/
+*.db
 .next/
 node_modules/

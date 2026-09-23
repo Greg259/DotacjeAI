@@ -44,11 +44,11 @@ Definition of Done:
 2. [x] Wysłać kod infrastruktury i dokumentację bez sekretów na `main`.
 3. [ ] Włączyć ochronę `main`, pracę przez pull request i podstawowe reguły przeglądu.
 4. [ ] Zastąpić placeholder frontendu minimalnym Next.js.
-5. [ ] Rozbudować FastAPI o konfigurację, logowanie JSON i obsługę błędów.
-6. [ ] Dodać SQLAlchemy oraz Alembic.
-7. [ ] Utworzyć pierwsze migracje: `users`, `sources`, `source_snapshots`, `programs`, `program_versions`, `program_documents`, `document_versions`, `llm_runs`, `audit_log`.
+5. [x] Rozbudować FastAPI o konfigurację, logowanie JSON i obsługę błędów.
+6. [x] Dodać SQLAlchemy oraz Alembic.
+7. [x] Utworzyć pierwszą migrację MVP-0: źródła, snapshoty, lokalizacje, programy, wersje, dokumenty, LLM, REVIEW i audit log; tabelę użytkowników przesunąć do MVP-1.
 8. [ ] Dodać worker i scheduler korzystające z Redis.
-9. [ ] Dodać testy, lint i kontrolę migracji w GitHub Actions.
+9. [x] Dodać testy, lint i kontrolę migracji w GitHub Actions.
 
 Definition of Done:
 

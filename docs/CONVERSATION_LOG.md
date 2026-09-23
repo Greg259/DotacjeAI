@@ -408,3 +408,11 @@ Ustalono miesięczny limit OpenRouter 10 USD, ostrzeżenia przy 5 i 8 USD oraz t
 Zweryfikowano oficjalne źródła i zapisano wymagania w `MVP0_PRODUCT_REQUIREMENTS.md`, a adresy, statusy początkowe i reguły wiarygodności w `SOURCE_CATALOG.md`.
 
 W oficjalnych materiałach Nadarzyna wykryto konflikt wersji: starsza podstrona nadal podaje 60% i maksymalnie 5000 zł na podstawie uchwały z 2021 r., natomiast regulamin z 2026 r. podaje 100% i maksymalnie 6000 zł. Przypadek zapisano jako obowiązkowy test wersjonowania, pierwszeństwa nowszego aktu i kolejki REVIEW.
+
+## 23. Pierwszy sprint aplikacyjny MVP-0
+
+Na polecenie użytkownika rozpoczęto implementację właściwego MVP. Przygotowano asynchroniczne FastAPI, konfigurację maskującą sekrety, logowanie JSON, SQLAlchemy 2, Alembic oraz strukturalny model źródeł, snapshotów, lokalizacji, programów, dokumentów, wywołań LLM, zadań REVIEW i audytu.
+
+Dodano publiczne endpointy zdrowia, gotowości, listy oraz szczegółów programu. Lista obsługuje podstawowe filtry MVP-0. Mechanizm statusu otrzymał test Nadarzyna potwierdzający `closed` po 31.07.2026. Łącznie siedem testów oraz lint przechodzą lokalnie.
+
+Pierwszą migrację sprawdzono na SQLite, a następnie w odseparowanym projekcie Docker na VPS z PostgreSQL 16. Potwierdzono `upgrade`, brak rozbieżności Alembic, `downgrade`, ponowny `upgrade`, zdrowe API i seed siedmiu źródeł. Izolowane kontenery, wolumeny i katalog testowy usunięto po walidacji; produkcyjna baza nie została zmieniona.

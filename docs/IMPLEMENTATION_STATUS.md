@@ -50,6 +50,21 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 4. Zaimplementować pierwsze źródła opisane w `SOURCE_CATALOG.md`.
 5. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM; limit miesięczny wynosi 10 USD.
 
+## Fundament API przygotowany 2026-09-23
+
+- FastAPI z konfiguracją środowiskową i logami JSON,
+- SQLAlchemy 2 z sesją asynchroniczną,
+- pierwsza migracja Alembic dla domeny MVP-0,
+- strukturalne filtry lokalizacji, nieruchomości, beneficjentów i inwestycji,
+- tabele wersji, dokumentów, wywołań LLM, REVIEW i audytu,
+- publiczne endpointy zdrowia, gotowości, listy i szczegółów programu,
+- idempotentny seed siedmiu oficjalnych źródeł i lokalizacji pilotażowych,
+- GitHub Actions dla lint, testów, migracji i seeda,
+- 7 testów lokalnych zakończonych poprawnie,
+- pełny cykl migracji zweryfikowany na odseparowanym PostgreSQL 16 na VPS.
+
+Na moment zapisu sekcji fundament jest zweryfikowany przed wdrożeniem produkcyjnym. OpenRouter i crawler nie są jeszcze uruchomione.
+
 ## Zatwierdzony zakres MVP-0
 
 - portal publiczny bez logowania,
