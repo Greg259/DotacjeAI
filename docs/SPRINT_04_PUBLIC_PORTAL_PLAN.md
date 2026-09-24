@@ -40,6 +40,19 @@ Stan produkcyjny po wdrożeniu:
 
 Rekomendacje dla trzech zadań opisuje `SPRINT_04_REVIEW_DECISION.md`.
 
+Aktualizacja po decyzji właściciela:
+
+- Nadarzyn zatwierdzony i opublikowany,
+- pełniejszy wynik Czystego Powietrza zatwierdzony i opublikowany,
+- duplikat Czystego Powietrza odrzucony z zapisanym uzasadnieniem,
+- przed publikacją oba rekordy były prawidłowo ukryte (`404`),
+- po publikacji lista zawiera dokładnie 2 programy,
+- filtry lokalizacji, statusu i kategorii zwracają poprawne wyniki,
+- obie karty, dokumenty i zatwierdzona historia wersji są dostępne przez HTTPS,
+- backup po publikacji `bdb9f3f2` przeszedł kontrolę Restic, SHA-256 i pełny import do tymczasowej bazy.
+
+Do pełnego zamknięcia sprintu pozostała kontrola wizualna mobile/desktop oraz końcowa rotacja klucza OpenRouter.
+
 ## 1. Rezultat sprintu
 
 Po zakończeniu sprintu użytkownik powinien móc wejść na `dotacjeai.eu`, znaleźć program według lokalizacji, kategorii i statusu, otworzyć jego kartę oraz przejść do oficjalnego źródła. Co najmniej jeden program musi być ręcznie zatwierdzony i opublikowany.

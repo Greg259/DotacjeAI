@@ -163,3 +163,5 @@ Najbliższa obowiązkowa czynność bezpieczeństwa: unieważnić ujawniony kluc
 - na życzenie właściciela rotacja ujawnionego klucza pozostaje ostatnim krokiem; do tego czasu nie wykonujemy nowych wywołań LLM.
 
 Wdrożenie produkcyjne Sprintu 04 wykonano z commita `99f22c7` po zielonym GitHub Actions run 22. Backup przed wdrożeniem ma identyfikator `570de219`. Wszystkie wymagane trasy HTTPS zwracają 200, API raportuje `0.5.0`, pięć usług jest zdrowych, migracja pozostaje na `c4e7b9a210f3 (head)`, a logi po wdrożeniu nie zawierają błędów. Lista publiczna jest pusta do chwili ręcznego zatwierdzenia i osobnej publikacji programu.
+
+Po jawnej decyzji właściciela wykonano dwa `approve`, jedno `reject` oraz dwie osobne operacje `publish`. Portal publiczny zawiera obecnie dwa programy: zakończony nabór Gminy Nadarzyn oraz otwarty program Czyste Powietrze dla Mazowsza. API, filtry i obie karty przeszły test HTTPS. Backup po publikacji `bdb9f3f2` przeszedł kontrolę repozytorium, sumy SHA-256 i pełny import do tymczasowej bazy.

@@ -1,14 +1,15 @@
 # Sprint 04 — decyzje REVIEW przed pierwszą publikacją
 
-Stan: 2026-09-24  
-Kolejka: 3 zadania `pending`, 3 ekstrakcje `ready_for_review`, 0 programów publicznych
+Stan: wykonane 2026-09-24  
+Wynik: 2 zadania `approved`, 1 zadanie `rejected`, 2 programy opublikowane
 
-Dokument nie wykonuje `approve`, `reject` ani `publish`. Zawiera rekomendację techniczną do jawnej decyzji właściciela.
+Właściciel jawnie zatwierdził rekomendację. Operacje `approve`, `reject` i późniejsze, osobne operacje `publish` zostały wykonane oraz zweryfikowane.
 
 ## 1. Gmina Nadarzyn
 
 Review ID: `b14946a7-1d07-466b-88b3-c9dbd23516f6`  
-Rekomendacja: **approve**, a następnie osobne **publish**.
+Decyzja: **approved** i **published**.  
+Program ID: `00af1be1-e50d-49fb-a77c-8be877478173`
 
 Najważniejsze dane potwierdzone w oficjalnym regulaminie:
 
@@ -28,7 +29,8 @@ Oficjalny dokument: `https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1
 
 Review ID: `7605513b-f481-4860-adee-34f6d367d67b`  
 Powód: `new_program`  
-Rekomendacja: **approve**, a następnie osobne **publish**.
+Decyzja: **approved** i **published**.  
+Program ID: `4b672da8-5e6c-4b1d-90ef-ab8f208b318b`
 
 Dlaczego ten wariant:
 
@@ -45,18 +47,20 @@ Oficjalne źródło: `https://wfosigw.pl/czyste-powietrze/ogloszenie-o-naborze/`
 
 Review ID: `4777f3b0-fe97-4fbe-a5d6-3aae786a00b2`  
 Powód: `source_changed`  
-Rekomendacja: **reject** jako słabszy duplikat.
+Decyzja: **rejected** jako słabszy duplikat.
 
 Proponowane uzasadnienie odrzucenia:
 
 > Duplikat wyniku bazowego. Wariant ustawia 100% jako jedną wartość wsparcia mimo kilku poziomów programu i nie zachowuje listy dokumentów. Do publikacji wybrano pełniejszy wynik `7605513b-f481-4860-adee-34f6d367d67b`.
 
-## 4. Kolejność po decyzji właściciela
+## 4. Weryfikacja po publikacji
 
-1. Wykonać `approve` dla zatwierdzonych review ID.
-2. Sprawdzić utworzone rekordy, wersje, dokumenty i audit log.
-3. Niezwłocznie sprawdzić karty w API przed publikacją — nadal powinny zwracać `404`.
-4. Wykonać osobne `publish` dla każdego zaakceptowanego programu.
-5. Przetestować listę, filtry, kartę, dokumenty i oficjalne źródło przez HTTPS.
-6. Wykonać backup oraz pełny test odtworzenia.
-7. Rotację ujawnionego klucza OpenRouter wykonać dopiero jako ostatnią czynność Sprintu 04.
+1. Przed publikacją oba programy zwracały publicznie `404`, a lista miała `total: 0`.
+2. Po publikacji lista ma `total: 2`.
+3. Filtr Nadarzyn + `closed` zwraca jeden program.
+4. Filtr Mazowieckie + `open` + `heat_pump` zwraca jeden program.
+5. Nadarzyn ma jedną zatwierdzoną wersję i jeden dokument.
+6. Czyste Powietrze ma jedną zatwierdzoną wersję i trzy dokumenty.
+7. Landing, lista, strony regionu/gminy i obie karty zwracają HTTP 200 oraz treść programów.
+8. Backup po publikacji: `bdb9f3f2`; Restic, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie.
+9. Rotacja ujawnionego klucza OpenRouter pozostaje ostatnią czynnością Sprintu 04.

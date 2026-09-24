@@ -236,10 +236,12 @@ Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyz
 4. [x] Dodać frontend do GitHub Actions i lokalnie sprawdzić typecheck/build.
 5. [x] Wysłać commit, potwierdzić zielone CI i wykonać backup przed wdrożeniem.
 6. [x] Zbudować obrazy na VPS, wdrożyć dokładny commit i sprawdzić HTTPS oraz healthchecki.
-7. [ ] Otrzymać od właściciela decyzje REVIEW dla Nadarzyna i dwóch wyników WFOŚiGW.
-8. [ ] Wykonać jawne `approve`, a potem osobne `publish` tylko dla zatwierdzonych danych.
-9. [ ] Przejść test lista → filtr → karta → oficjalne źródło oraz sprawdzić mobile.
-10. [ ] Wykonać backup po publikacji i pełny test odtworzenia.
+7. [x] Otrzymać od właściciela decyzje REVIEW dla Nadarzyna i dwóch wyników WFOŚiGW.
+8. [x] Wykonać jawne `approve`, a potem osobne `publish` tylko dla zatwierdzonych danych.
+9. [ ] Przejść test lista → filtr → karta → oficjalne źródło oraz sprawdzić mobile. Test techniczny HTTPS ukończony; pozostała kontrola wizualna.
+10. [x] Wykonać backup po publikacji i pełny test odtworzenia.
 11. [ ] Na samym końcu obrócić ujawniony klucz OpenRouter bez wpisywania nowego klucza do rozmowy lub Git.
 
 Stan wdrożenia: commit `99f22c7`, CI run 22 `success`, backup przed wdrożeniem `570de219`, API `0.5.0`, pięć zdrowych kontenerów i HTTP 200 dla wszystkich tras MVP. Następna czynność wymaga jawnej decyzji opisanej w `SPRINT_04_REVIEW_DECISION.md`.
+
+Stan po decyzji REVIEW: dwa programy publiczne, dwa zadania zatwierdzone, jeden duplikat odrzucony, filtry i karty działają. Zweryfikowany backup po publikacji: `bdb9f3f2`. Pozostały kontrola wizualna oraz końcowa rotacja ujawnionego klucza.
