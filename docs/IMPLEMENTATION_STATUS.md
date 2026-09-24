@@ -1,6 +1,6 @@
 # Status przygotowania serwera DotacjeAI
 
-Ostatnia weryfikacja: 2026-09-23.
+Ostatnia weryfikacja: 2026-09-24.
 
 ## Stan końcowy
 
@@ -15,7 +15,7 @@ Ostatnia weryfikacja: 2026-09-23.
 - Logowanie SSH hasłem oraz bezpośrednie logowanie `root` są wyłączone.
 - Hasła `deploy` i `root` zostały ustawione poza dokumentacją; ujawnione wcześniej hasło `root` jest nieaktualne.
 - Sekrety mają uprawnienia 700 dla katalogu i 600 dla pliku.
-- Klucz OpenRouter pozostaje pusty i gotowy do późniejszego ustawienia.
+- Klucz OpenRouter jest tymczasowo skonfigurowany na VPS, ale został ujawniony w rozmowie i musi zostać niezwłocznie obrócony. Wartość nie znajduje się w Git ani dokumentacji.
 
 ## Kontenery po restarcie
 
@@ -63,7 +63,7 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 - 7 testów lokalnych zakończonych poprawnie,
 - pełny cykl migracji zweryfikowany na odseparowanym PostgreSQL 16 na VPS.
 
-Fundament został wdrożony produkcyjnie. Po sprincie crawlera aktywna migracja to `a8d2f6c4b901`, API ma wersję `0.3.0`, a w tabeli `sources` znajduje się siedem oficjalnych źródeł. Publiczna lista pozostaje pusta do czasu zatwierdzenia pierwszego programu. OpenRouter nie jest jeszcze uruchomiony.
+Fundament został wdrożony produkcyjnie. Po sprincie crawlera aktywna migracja wynosiła `a8d2f6c4b901`, a API miało wersję `0.3.0`. Aktualny stan po Sprincie 03 opisano poniżej.
 
 Po migracji wykonano snapshot Restic `0e57cdc7`. Kontrola repozytorium, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie. Monitoring po wdrożeniu zwrócił `OK`.
 
@@ -128,3 +128,21 @@ Backup po wdrożeniu ma identyfikator `81688635`. Restic nie wykrył błędów, 
 - backup uruchamia się codziennie o 02:30,
 - monitoring uruchamia się co 5 minut,
 - ręczny test monitoringu: `OK` dla HTTPS, API, pięciu kontenerów, dysku i świeżości backupu.
+
+## Sprint 03 — ekstrakcja i prywatny REVIEW (2026-09-24)
+
+- wdrożona migracja `c4e7b9a210f3` oraz API `0.4.0`,
+- dodano wersjonowany `ExtractionCandidate`, dowody pól, ostrzeżenia i `ExtractionJob`,
+- klient OpenRouter wymusza ścisły JSON Schema, walidację Pydantic i `require_parameters=true`,
+- modele produkcyjne: `openai/gpt-6-luna` oraz awaryjny `openai/gpt-6-luna-pro`,
+- limity kosztów pozostają ustawione na 1 USD dziennie oraz 5/8/10 USD miesięcznie,
+- trzy zadania mają status `ready_for_review`, a trzy zadania REVIEW nadal są `pending`,
+- Nadarzyn: `closed`, termin 31.07.2026, maksymalnie 6000 PLN, wsparcie 100%,
+- dwa snapshoty WFOŚiGW: `open`; wymagają ręcznego porównania jako `new_program` i `source_changed`,
+- 8 rozliczonych odpowiedzi wykorzystało 255521 tokenów wejścia i 22984 wyjścia; łączny koszt wyniósł 0,026836 USD,
+- powtórne uruchomienie potwierdziło idempotencję i nie zwiększyło kosztu,
+- 23 testy lokalne, lint oraz GitHub Actions dla commita `d2ba81e` zakończyły się sukcesem,
+- publiczne `/api/programs` pozostaje puste; nic nie zostało zatwierdzone ani opublikowane,
+- backup po wdrożeniu: `8fc846f5`; Restic, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie.
+
+Najbliższa obowiązkowa czynność bezpieczeństwa: unieważnić ujawniony klucz OpenRouter, utworzyć nowy i podmienić go bezpośrednio w `/opt/dotacje-ai/secrets/app.env`, bez przesyłania przez rozmowę.

@@ -237,3 +237,20 @@ Klucza ani jego fragmentu nie należy przesyłać w rozmowie.
 ## 10. Następny sprint po tym etapie
 
 Po udanej publikacji należy zbudować docelowy frontend publiczny i bezpieczny panel administratora z uwierzytelnieniem. Następnie można rozszerzyć crawler o harmonogram NFOŚiGW, kolejne programy oraz OCR.
+
+## 11. Stan realizacji — 2026-09-24
+
+- [x] schemat ekstrakcji, dowody, ostrzeżenia i migracja bazy,
+- [x] reguły deterministyczne z bramką dopuszczającą reguły bez LLM tylko dla stabilnych źródeł,
+- [x] OpenRouter ze ścisłym JSON Schema, budżetem, kosztami i jedną próbą naprawczą,
+- [x] prywatne CLI REVIEW: list, show, replace, approve, reject i osobne publish,
+- [x] wdrożenie produkcyjne, API 0.4.0 i 23 testy,
+- [x] trzy wyniki `ready_for_review`, w tym poprawnie zamknięty Nadarzyn,
+- [x] koszt benchmarku 0,026836 USD, poniżej limitu 0,50 USD,
+- [x] test idempotencji bez kolejnego kosztu,
+- [x] backup i pełny test odtworzenia po wdrożeniu,
+- [ ] rotacja ujawnionego klucza OpenRouter,
+- [ ] ręczna decyzja administratora dla Nadarzyna i dwóch snapshotów WFOŚiGW,
+- [ ] osobna decyzja o publikacji zatwierdzonych programów.
+
+Sprint pozostaje otwarty wyłącznie na ręczny REVIEW, rotację klucza i pierwszą jawną publikację. Automatyczna publikacja jest celowo zablokowana.

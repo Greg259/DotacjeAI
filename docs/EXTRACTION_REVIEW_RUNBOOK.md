@@ -83,3 +83,14 @@ Przed każdym wywołaniem system sumuje zapisane koszty z bieżącego dnia i mie
 ## Publikacja
 
 Publiczne API pokazuje wyłącznie rekordy z `is_published=true`. Zatwierdzenie ustawia dane programu i tworzy `ProgramVersion`; publikacja ustawia `published_at` dopiero po osobnym poleceniu. Dzięki temu wynik LLM nigdy nie trafia automatycznie do portalu.
+
+## Stan produkcyjny 2026-09-24
+
+- 3 zadania ekstrakcji: `ready_for_review`,
+- 3 zadania REVIEW: `pending`,
+- koszt dotychczasowego benchmarku: 0,026836 USD,
+- publiczne programy: 0,
+- domyślny model: `openai/gpt-6-luna`,
+- model naprawczy: `openai/gpt-6-luna-pro`.
+
+Klucz użyty w pierwszym benchmarku został ujawniony w rozmowie. Jest tymczasowo aktywny wyłącznie w chronionym pliku serwera, ale należy go unieważnić i podmienić przed dalszymi wywołaniami. Nowego klucza nie wolno przesyłać w rozmowie ani umieszczać w poleceniu zapisującym się w historii powłoki.

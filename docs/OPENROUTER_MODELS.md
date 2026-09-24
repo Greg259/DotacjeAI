@@ -1,70 +1,54 @@
-# OpenRouter - rekomendacja modeli dla DotacjeAI
+# OpenRouter — modele dla DotacjeAI
 
-Data rekomendacji: 2026-09-22
+Aktualizacja: 2026-09-24. Ceny i dostępność należy ponownie sprawdzać w publicznym katalogu OpenRouter przed zmianą konfiguracji.
 
-## Rekomendowany zestaw startowy
-
-### Model szybki
-
-`openai/gpt-5.6-luna`
-
-Zastosowanie:
-
-- klasyfikacja, czy zmiana źródła jest istotna,
-- ekstrakcja prostych pól,
-- deduplikacja i tagowanie,
-- streszczenia na podstawie zatwierdzonych danych.
-
-Model obsługuje pliki, duży kontekst i structured outputs. Według katalogu OpenRouter koszt wynosi obecnie 0,20 USD za milion tokenów wejściowych i 1,20 USD za milion tokenów wyjściowych.
-
-### Model dokładny
-
-`openai/gpt-5.6-luna-pro`
-
-Zastosowanie:
-
-- złożone regulaminy,
-- konfliktujące zapisy i wyjątki,
-- analiza wymagań kwalifikacyjnych,
-- ponowna analiza wyniku o niskiej pewności.
-
-Wariant Pro używa silniejszego trybu rozumowania, zachowując obsługę structured outputs i plików PDF.
-
-### Model walidacyjny / alternatywny
-
-`google/gemini-3.8-flash`
-
-Zastosowanie:
-
-- drugi niezależny od OpenAI odczyt trudnego dokumentu,
-- analiza dokumentów zawierających tabele, obrazy lub skany,
-- testy porównawcze ekstrakcji.
-
-Model przyjmuje tekst, obrazy i PDF, obsługuje JSON Schema i ma kontekst około miliona tokenów. Nie powinien być wywoływany dla każdej zmiany - tylko do walidacji trudnych przypadków.
-
-## Konfiguracja aplikacji
+## Konfiguracja produkcyjna
 
 ```dotenv
 LLM_PROVIDER=openrouter
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 OPENROUTER_API_KEY=
-LLM_MODEL_FAST=openai/gpt-5.6-luna
-LLM_MODEL_STRONG=openai/gpt-5.6-luna-pro
-LLM_MODEL_VALIDATOR=google/gemini-3.8-flash
-LLM_DAILY_BUDGET_USD=5
-LLM_MONTHLY_BUDGET_USD=100
+LLM_MODEL_FAST=openai/gpt-6-luna
+LLM_MODEL_STRONG=openai/gpt-6-luna-pro
+LLM_MODEL_VALIDATOR=openai/gpt-6-luna
+LLM_DAILY_BUDGET_USD=1
+LLM_WARNING_BUDGET_USD=5
+LLM_CRITICAL_BUDGET_USD=8
+LLM_MONTHLY_BUDGET_USD=10
 ```
 
-## Zasady implementacyjne
+Klucz pozostaje pusty w przykładzie i repozytorium. Produkcyjny klucz jest przechowywany wyłącznie w `/opt/dotacje-ai/secrets/app.env` z trybem `0600`.
 
-- Wymuszać `response_format.type=json_schema`, `strict=true` i walidację Pydantic.
-- Ustawiać `provider.require_parameters=true`, aby routing wybierał tylko endpointy obsługujące wymagane parametry.
-- Dla danych użytkowników wymuszać `provider.data_collection=deny` i, jeśli dostępne, `provider.zdr=true`.
-- Nie wysyłać niepotrzebnych danych osobowych ani całych prywatnych dokumentów.
-- Zapisywać model, wersję promptu, tokeny, koszt i wynik walidacji.
-- Nie używać aliasu `openrouter/auto` w przepływach audytowalnych; jawny model daje powtarzalniejsze wyniki.
-- Uruchomić test porównawczy na 20-30 rzeczywistych regulaminach przed ostatecznym wyborem modeli.
+## Wybór modeli
 
-## Uwaga o prywatności
+| Rola | Model | Input / 1M | Output / 1M | Uzasadnienie |
+|---|---|---:|---:|---|
+| domyślna ekstrakcja | `openai/gpt-6-luna` | 0,10 USD | 0,50 USD | niski koszt, duży kontekst, JSON Schema |
+| naprawa trudnego wyniku | `openai/gpt-6-luna-pro` | 0,10 USD | 0,50 USD | tryb Pro tylko po błędzie walidacji |
+| alternatywa do benchmarku | `google/gemini-2.5-flash-lite` | 0,10 USD | 0,40 USD | tani structured output; nie jest obecnie modelem produkcyjnym |
 
-OpenRouter przekazuje wejście do wybranego dostawcy modelu. Polityki retencji i trenowania mogą różnić się między providerami. Dla dokumentów użytkowników potrzebna jest konfiguracja prywatności, minimalizacja danych oraz osobna analiza RODO.
+Ceny pochodzą z publicznego endpointu `GET https://openrouter.ai/api/v1/models` odczytanego 2026-09-24. OpenRouter może je zmienić.
+
+## Wymagania techniczne
+
+- `response_format.type=json_schema`,
+- `json_schema.strict=true`,
+- `provider.require_parameters=true`,
+- brak parametrów niewspieranych przez wybrany model,
+- wszystkie pola ścisłego schematu wymagane, a opcjonalność reprezentowana przez `null`,
+- końcowa walidacja Pydantic po odpowiedzi modelu,
+- maksymalnie jedna próba naprawcza,
+- zapis modelu, tokenów, kosztu, czasu i statusu,
+- brak automatycznej publikacji.
+
+Dokumentacja: [Structured Outputs](https://openrouter.ai/docs/guides/features/structured-outputs), [Models API](https://openrouter.ai/docs/api/api-reference/models/get-models).
+
+## Wynik pierwszego benchmarku
+
+- 3 kandydatów gotowych do ręcznego REVIEW,
+- 8 rozliczonych odpowiedzi, wliczając odpowiedzi odrzucone podczas dostrajania schematu,
+- 255521 tokenów wejściowych i 22984 wyjściowe,
+- koszt łączny: 0,026836 USD,
+- ponowne uruchomienie: 0 nowych wywołań i 0 dodatkowego kosztu.
+
+Klucz użyty podczas benchmarku został ujawniony w rozmowie i musi zostać obrócony przed dalszą eksploatacją.

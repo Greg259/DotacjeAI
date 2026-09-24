@@ -177,7 +177,7 @@ Plik produkcyjny: `/opt/dotacje-ai/secrets/app.env`.
 - plik `app.env`: prawa 600,
 - właściciel: `deploy`,
 - hasła PostgreSQL i Redis zostały wygenerowane losowo,
-- `OPENROUTER_API_KEY` pozostaje pusty,
+- `OPENROUTER_API_KEY` jest tymczasowo ustawiony w chronionym pliku `app.env`; ponieważ został ujawniony w rozmowie, wymaga pilnej rotacji,
 - prawdziwe sekrety nie znajdują się w dokumentacji ani `.env.example`.
 
 ## 11. Zarządzanie

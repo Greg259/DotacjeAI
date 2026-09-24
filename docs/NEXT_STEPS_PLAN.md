@@ -1,6 +1,6 @@
 # DotacjeAI - plan kolejnych kroków
 
-Aktualizacja: 2026-09-22.
+Aktualizacja: 2026-09-24.
 
 ## Cel najbliższego etapu
 
@@ -213,3 +213,15 @@ Szczegółowy zakres wykonawczy znajduje się w `SPRINT_03_EXTRACTION_REVIEW_PLA
 4. Zaimplementować budżetowany provider OpenRouter bez ustawiania klucza w Git.
 5. Zbudować prosty panel administratora dla dwóch oczekujących zadań REVIEW.
 6. Dopiero po ręcznym zatwierdzeniu utworzyć pierwsze rekordy `programs` i opublikować je w portalu.
+
+## Aktualny krok po ekstrakcji produkcyjnej — 2026-09-24
+
+1. [ ] P0: unieważnić ujawniony klucz OpenRouter i wprowadzić nowy bezpośrednio na VPS.
+2. [ ] Sprawdzić przez `review_cli.sh show` Nadarzyn oraz dwa wyniki WFOŚiGW.
+3. [ ] Zatwierdzić Nadarzyn albo skorygować ostrzeżenie dotyczące typu nieruchomości.
+4. [ ] Dla WFOŚiGW wybrać właściwy wynik bazowy i odrzucić zbędne zadanie zmiany z uzasadnieniem.
+5. [ ] Osobnym poleceniem opublikować wyłącznie ręcznie zatwierdzone programy.
+6. [ ] Sprawdzić publiczne filtry i karty programów po pierwszej publikacji.
+7. [ ] Rozpocząć Sprint 04: docelowy frontend publiczny i bezpieczne uwierzytelnienie administratora.
+
+Stan techniczny: 3/3 ekstrakcje są `ready_for_review`, 0 programów publicznych, koszt 0,026836 USD, backup `8fc846f5` zweryfikowany pełnym odtworzeniem.

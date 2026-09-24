@@ -444,3 +444,15 @@ Użytkownik poprosił o zaplanowanie kolejnego sprintu. Przyjęto cel przeprowad
 Ze względów bezpieczeństwa panel webowy administratora nie będzie w tym sprincie wystawiany bez uwierzytelnienia. Operacje list, show, approve, reject i publish zostaną przygotowane jako CLI dostępne przez konto `deploy` i SSH. Publikacja nie będzie skutkiem samego zatwierdzenia.
 
 Plan obejmuje wersjonowany schemat danych i dowodów, ekstrakcję deterministyczną, budżety OpenRouter 1/5/8/10 USD, benchmark do 0,50 USD, idempotencję, audyt, test konfliktu Nadarzyna oraz pierwszą kontrolowaną publikację. Szczegóły zapisano w `SPRINT_03_EXTRACTION_REVIEW_PLAN.md`.
+
+## 26. Realizacja Sprintu 03 i benchmark OpenRouter
+
+Zaimplementowano migrację `c4e7b9a210f3`, wersjonowany schemat ekstrakcji, deterministyczne reguły, kontrolę kosztów, klienta OpenRouter oraz prywatny workflow REVIEW przez SSH. Operacje approve i publish są rozdzielone, a wynik LLM nigdy nie jest publikowany automatycznie.
+
+Pierwszy test produkcyjny wykrył fałszywą deterministyczną interpretację historycznych treści WFOŚiGW. Bramkę poprawiono: złożone strony zawsze wymagają LLM, natomiast samymi regułami może przejść tylko jawnie dopuszczone, stabilne źródło. Następnie dostosowano ścisły JSON Schema do rzeczywistych ograniczeń OpenRouter/OpenAI: usunięto nieobsługiwany parametr `temperature`, wartości domyślne, `format: uri` oraz wzorce Decimal, a pola liczbowe ograniczono do liczb.
+
+Użytkownik wkleił klucz OpenRouter do rozmowy. Na jego jawne polecenie użyto go tymczasowo na VPS, ale oznaczono jako skompromitowany i wymagający rotacji. Wartość klucza nie trafiła do Git, dokumentacji ani wyników terminala.
+
+Benchmark zakończył się trzema wynikami `ready_for_review`. Nadarzyn został rozpoznany jako zakończony 31.07.2026, z kwotą 6000 PLN i poziomem 100%. Dwa snapshoty WFOŚiGW zostały oznaczone jako otwarte i pozostają do ręcznego porównania. Łączny zapisany koszt wyniósł 0,026836 USD; ponowne uruchomienie nie zwiększyło kosztu.
+
+Nic nie zostało zatwierdzone ani opublikowane. Publiczne API nadal zwraca pustą listę. API 0.4.0, HTTPS i pięć kontenerów są zdrowe. Snapshot Restic `8fc846f5` przeszedł kontrolę integralności, sumę SHA-256 i pełny import do tymczasowej bazy. Najbliższe działania to rotacja klucza, ręczny REVIEW i osobna decyzja o pierwszej publikacji.
