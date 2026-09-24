@@ -1,6 +1,7 @@
 # Sprint 04 — decyzje REVIEW przed pierwszą publikacją
 
-Stan: wykonane 2026-09-24  
+Stan: wykonane 2026-09-24
+
 Wynik: 2 zadania `approved`, 1 zadanie `rejected`, 2 programy opublikowane
 
 Właściciel jawnie zatwierdził rekomendację. Operacje `approve`, `reject` i późniejsze, osobne operacje `publish` zostały wykonane oraz zweryfikowane.
@@ -8,7 +9,8 @@ Właściciel jawnie zatwierdził rekomendację. Operacje `approve`, `reject` i p
 ## 1. Gmina Nadarzyn
 
 Review ID: `b14946a7-1d07-466b-88b3-c9dbd23516f6`  
-Decyzja: **approved** i **published**.  
+Decyzja: **approved** i **published**.
+
 Program ID: `00af1be1-e50d-49fb-a77c-8be877478173`
 
 Najważniejsze dane potwierdzone w oficjalnym regulaminie:
@@ -29,7 +31,8 @@ Oficjalny dokument: `https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1
 
 Review ID: `7605513b-f481-4860-adee-34f6d367d67b`  
 Powód: `new_program`  
-Decyzja: **approved** i **published**.  
+Decyzja: **approved** i **published**.
+
 Program ID: `4b672da8-5e6c-4b1d-90ef-ab8f208b318b`
 
 Dlaczego ten wariant:
