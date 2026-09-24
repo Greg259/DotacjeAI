@@ -10,7 +10,7 @@ from app.core.config import Settings
 from app.models.domain import ExtractionJob, LlmRun, ReviewTask, Source, SourceSnapshot
 from app.models.enums import ExtractionStatus, LlmRunStatus, ReviewStatus
 from app.schemas.extraction import ExtractionCandidate
-from app.services.deterministic_extraction import extract_deterministic
+from app.services.deterministic_extraction import RULES_ONLY_SOURCE_SLUGS, extract_deterministic
 from app.services.llm_budget import get_budget_state
 from app.services.openrouter import (
     InvalidStructuredResponseError,
@@ -86,18 +86,31 @@ async def process_extraction_job(
     *,
     client: httpx.AsyncClient | None = None,
 ) -> ExtractionJob:
-    if job.status == ExtractionStatus.READY_FOR_REVIEW:
-        return job
     snapshot = await session.get(SourceSnapshot, job.source_snapshot_id)
     review = await session.get(ReviewTask, job.review_task_id)
     if snapshot is None or review is None:
         job.status = ExtractionStatus.FAILED
         job.error_message = "snapshot_or_review_missing"
         return job
+    source = await session.get(Source, snapshot.source_id)
+    if source is None:
+        job.status = ExtractionStatus.FAILED
+        job.error_message = "source_missing"
+        return job
+
+    rules_only = source.slug in RULES_ONLY_SOURCE_SLUGS
+    if job.status == ExtractionStatus.READY_FOR_REVIEW and (
+        rules_only or job.last_llm_run_id is not None
+    ):
+        return job
+    if not rules_only and job.last_llm_run_id is None:
+        # Czyści wynik utworzony przez starszą, zbyt liberalną bramkę regułową.
+        # Dane deterministyczne pozostają zachowane jako wejście dla LLM.
+        job.candidate_data = None
 
     deterministic = ExtractionCandidate.model_validate(job.deterministic_data)
     missing = deterministic.missing_critical_evidence()
-    if not missing and not deterministic.warnings:
+    if rules_only and not missing and not deterministic.warnings:
         job.candidate_data = deterministic.model_dump(mode="json")
         job.evidence = [item.model_dump(mode="json") for item in deterministic.evidence]
         job.warnings = []

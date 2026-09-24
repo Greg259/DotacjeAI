@@ -12,10 +12,15 @@ from app.models.enums import ExtractionStatus, LlmRunStatus, ReviewReason, Revie
 from app.services.extraction import process_pending_extractions
 
 
-async def seed_pending_review(session) -> None:
+async def seed_pending_review(
+    session,
+    *,
+    slug: str = "zrodlo-testowe",
+    text: str = "Informacja bez terminu i statusu.",
+) -> None:
     source = Source(
         name="Źródło testowe",
-        slug="zrodlo-testowe",
+        slug=slug,
         url="https://example.org/source",
         source_type=SourceType.HTML,
     )
@@ -30,7 +35,7 @@ async def seed_pending_review(session) -> None:
         normalized_sha256="b" * 64,
         size_bytes=20,
         storage_path="test/source.html",
-        normalized_text="Informacja bez terminu i statusu.",
+        normalized_text=text,
         is_changed=True,
     )
     session.add(snapshot)
@@ -67,6 +72,46 @@ async def test_pending_extraction_is_idempotent_and_waits_for_key() -> None:
         assert first[0].error_message == "missing_api_key"
         assert second[0].id == first[0].id
         assert await session.scalar(select(func.count()).select_from(ExtractionJob)) == 1
+
+    await engine.dispose()
+
+
+async def test_complex_wfos_page_never_bypasses_llm_with_rules_only() -> None:
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+    factory = async_sessionmaker(engine, expire_on_commit=False)
+    async with engine.begin() as connection:
+        await connection.run_sync(Base.metadata.create_all)
+
+    text = (
+        "Nabór zakończony 21 stycznia 2019 r. Maksymalna kwota 1 650 zł. "
+        "Najwyższy poziom dofinansowania 100% kosztów kwalifikowanych."
+    )
+    async with factory() as session:
+        await seed_pending_review(
+            session,
+            slug="wfosigw-warszawa-czyste-powietrze",
+            text=text,
+        )
+        settings = Settings(
+            DATABASE_URL="sqlite+aiosqlite:///:memory:",
+            OPENROUTER_API_KEY="",
+        )
+        jobs = await process_pending_extractions(session, settings, today=date(2026, 9, 24))
+        await session.commit()
+
+        assert jobs[0].status == ExtractionStatus.AWAITING_API_KEY
+        assert jobs[0].candidate_data is None
+        assert jobs[0].error_message == "missing_api_key"
+
+        # Regresja produkcyjna: wynik oznaczony wcześniej jako gotowy wyłącznie
+        # przez reguły musi zostać cofnięty do kolejki oczekującej na LLM.
+        jobs[0].status = ExtractionStatus.READY_FOR_REVIEW
+        jobs[0].candidate_data = jobs[0].deterministic_data
+        await session.commit()
+        retried = await process_pending_extractions(session, settings, today=date(2026, 9, 24))
+        await session.commit()
+        assert retried[0].status == ExtractionStatus.AWAITING_API_KEY
+        assert retried[0].candidate_data is None
 
     await engine.dispose()
 
@@ -155,9 +200,7 @@ async def test_invalid_fast_model_response_uses_one_strong_model_repair() -> Non
         assert jobs[0].status == ExtractionStatus.READY_FOR_REVIEW
         statuses = list(await session.scalars(select(ExtractionJob.status)))
         assert statuses == [ExtractionStatus.READY_FOR_REVIEW]
-        runs = list(
-            (await session.scalars(select(LlmRun).order_by(LlmRun.created_at))).all()
-        )
+        runs = list((await session.scalars(select(LlmRun).order_by(LlmRun.created_at))).all())
         assert [run.status for run in runs] == [
             LlmRunStatus.REJECTED_BY_VALIDATION,
             LlmRunStatus.SUCCEEDED,

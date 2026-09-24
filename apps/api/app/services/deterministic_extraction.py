@@ -58,6 +58,11 @@ SOURCE_PROFILES = {
     },
 }
 
+# Tylko te źródła mają na tyle wąski i stabilny format, że kompletne reguły
+# mogą skierować wynik bezpośrednio do ręcznego przeglądu. Złożone strony
+# agregujące historyczne i bieżące treści zawsze wymagają warstwy LLM.
+RULES_ONLY_SOURCE_SLUGS = {"nadarzyn-wymiana-zrodla-ciepla-2026"}
+
 
 def _quote(text: str, start: int, end: int, radius: int = 100) -> str:
     value = text[max(0, start - radius) : min(len(text), end + radius)]
@@ -164,9 +169,18 @@ def _extract_links(text: str) -> list[str]:
     links = []
     for match in re.finditer(r"^LINK: .+ -> (https?://\S+)$", text, re.MULTILINE):
         url = match.group(1).rstrip(".,;)")
-        if urlparse(url).scheme in {"http", "https"}:
+        parsed = urlparse(url)
+        extension = parsed.path.lower().rsplit(".", 1)[-1] if "." in parsed.path else ""
+        if parsed.scheme in {"http", "https"} and extension in {
+            "pdf",
+            "doc",
+            "docx",
+            "xls",
+            "xlsx",
+            "zip",
+        }:
             links.append(url)
-    return list(dict.fromkeys(links))
+    return list(dict.fromkeys(links))[:20]
 
 
 def _declared_status(text: str) -> tuple[ProgramStatus | None, str | None]:
