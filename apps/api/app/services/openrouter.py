@@ -139,7 +139,13 @@ async def extract_with_openrouter(
             await client.aclose()
 
     if response.status_code != 200:
-        raise OpenRouterError(f"OpenRouter returned HTTP {response.status_code}")
+        try:
+            error_payload = response.json()
+            detail = (error_payload.get("error") or {}).get("message")
+        except (TypeError, ValueError):
+            detail = None
+        suffix = f": {str(detail)[:1000]}" if detail else ""
+        raise OpenRouterError(f"OpenRouter returned HTTP {response.status_code}{suffix}")
     try:
         payload = response.json()
     except ValueError as exc:

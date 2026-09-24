@@ -5,7 +5,7 @@ import httpx
 import pytest
 
 from app.core.config import Settings
-from app.services.openrouter import MissingApiKeyError, extract_with_openrouter
+from app.services.openrouter import MissingApiKeyError, OpenRouterError, extract_with_openrouter
 
 
 def candidate_payload() -> dict:
@@ -91,3 +91,24 @@ async def test_openrouter_stops_before_http_without_api_key() -> None:
             deterministic_data=candidate_payload(),
             source_text="test",
         )
+
+
+async def test_openrouter_exposes_provider_error_without_headers() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            400,
+            json={"error": {"message": "Schema is not supported"}},
+            request=request,
+        )
+
+    client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    with pytest.raises(OpenRouterError, match="Schema is not supported") as error:
+        await extract_with_openrouter(
+            Settings(OPENROUTER_API_KEY="secret-test-value"),
+            model="test/model",
+            deterministic_data=candidate_payload(),
+            source_text="test",
+            client=client,
+        )
+    await client.aclose()
+    assert "secret-test-value" not in str(error.value)
