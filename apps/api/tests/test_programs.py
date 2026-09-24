@@ -193,5 +193,7 @@ async def test_public_program_list_supports_mvp_filters() -> None:
     ]
     assert [item["version_number"] for item in detail_payload["versions"]] == [1]
     assert detail_payload["details"]["key_takeaways"][0]["title"] == "Nabór zakończony"
-    assert detail_payload["details"]["funding_options"][0]["max_amount"] == "6000.00"
+    assert Decimal(detail_payload["details"]["funding_options"][0]["max_amount"]) == Decimal(
+        "6000.00"
+    )
     assert unpublished.status_code == 404
