@@ -58,7 +58,7 @@ def _strict_json_schema(value: object) -> object:
         normalized = {
             key: _strict_json_schema(item)
             for key, item in value.items()
-            if key not in {"default", "format"}
+            if key not in {"default", "format", "pattern"}
         }
         properties = normalized.get("properties")
         if isinstance(properties, dict):

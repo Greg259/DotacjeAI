@@ -68,6 +68,7 @@ async def test_openrouter_parses_structured_response_and_usage() -> None:
         assert set(schema["required"]) == set(schema["properties"])
         assert all("default" not in value for value in schema["properties"].values())
         assert not schema_contains_key(schema, "format")
+        assert not schema_contains_key(schema, "pattern")
         return httpx.Response(
             200,
             json={
