@@ -49,6 +49,24 @@ async def update_program_content(
         )
     ) + 1
     extracted_data = dict(latest.extracted_data)
+    previous_details = ProgramDetails.model_validate(extracted_data.get("details", {}))
+    previous_resource_urls = {str(item.url) for item in previous_details.application_resources}
+    current_resource_urls = {str(item.url) for item in details.application_resources}
+    removed_resource_urls = previous_resource_urls - current_resource_urls
+    if removed_resource_urls:
+        obsolete_documents = list(
+            (
+                await session.scalars(
+                    select(ProgramDocument).where(
+                        ProgramDocument.program_id == program.id,
+                        ProgramDocument.url.in_(removed_resource_urls),
+                    )
+                )
+            ).all()
+        )
+        for document in obsolete_documents:
+            await session.delete(document)
+
     extracted_data["schema_version"] = "extraction-v2"
     extracted_data["details"] = details.model_dump(mode="json")
     now = datetime.now(UTC)
@@ -99,6 +117,7 @@ async def update_program_content(
                 "program_id": str(program.id),
                 "previous_version_id": str(latest.id),
                 "resource_count": len(details.application_resources),
+                "removed_resource_count": len(removed_resource_urls),
             },
         )
     )

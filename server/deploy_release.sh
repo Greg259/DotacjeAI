@@ -41,6 +41,7 @@ rsync -a --delete --exclude='.git/' "${RELEASE_TMP}/repo/" "${APP_ROOT}/"
 
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" config --quiet
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" up -d --build
+docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" restart caddy
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" run --rm --no-deps -T review python -m app.cli.seed_sources
 "${APP_ROOT}/server/install_user_cron.sh"
 

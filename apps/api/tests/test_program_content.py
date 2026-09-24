@@ -100,4 +100,20 @@ async def test_update_program_content_versions_details_and_syncs_resources() -> 
         assert document.document_type == DocumentType.APPLICATION_FORM
         assert await session.scalar(select(func.count()).select_from(AuditLog)) == 1
 
+        replacement = ProgramDetails(
+            application_resources=[
+                {
+                    "title": "Aktualna strona dokumentów",
+                    "url": "https://example.org/dokumenty",
+                    "resource_type": "official_page",
+                }
+            ]
+        )
+        await update_program_content(session, program.slug, replacement, actor="test")
+        await session.commit()
+        document_urls = set(
+            (await session.scalars(select(ProgramDocument.url))).all()
+        )
+        assert document_urls == {"https://example.org/dokumenty"}
+
     await engine.dispose()
