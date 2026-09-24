@@ -11,13 +11,17 @@ from app.models.domain import (
     Location,
     Program,
     ProgramBeneficiaryType,
+    ProgramDocument,
     ProgramInvestmentCategory,
     ProgramLocation,
     ProgramPropertyType,
+    ProgramVersion,
     Source,
+    SourceSnapshot,
 )
 from app.models.enums import (
     BeneficiaryType,
+    DocumentType,
     InvestmentCategory,
     LocationType,
     ProgramStatus,
@@ -70,6 +74,55 @@ async def test_public_program_list_supports_mvp_filters() -> None:
             ],
         )
         session.add(program)
+        await session.flush()
+        snapshot = SourceSnapshot(
+            source_id=source.id,
+            final_url=source.url,
+            http_status=200,
+            content_type="application/pdf",
+            sha256="a" * 64,
+            normalized_sha256="b" * 64,
+            size_bytes=1024,
+            storage_path="sources/nadarzyn.pdf",
+            normalized_text="Regulamin programu",
+            is_changed=True,
+        )
+        session.add(snapshot)
+        await session.flush()
+        session.add_all(
+            [
+                ProgramDocument(
+                    program_id=program.id,
+                    title="Regulamin naboru",
+                    url=source.url,
+                    document_type=DocumentType.REGULATIONS,
+                ),
+                ProgramVersion(
+                    program_id=program.id,
+                    source_snapshot_id=snapshot.id,
+                    version_number=1,
+                    extracted_data={"title": program.title},
+                    evidence={},
+                    change_summary="Pierwsza zatwierdzona wersja programu.",
+                    approved_at=datetime(2026, 9, 23, tzinfo=UTC),
+                ),
+                ProgramVersion(
+                    program_id=program.id,
+                    source_snapshot_id=snapshot.id,
+                    version_number=2,
+                    extracted_data={"title": program.title},
+                    evidence={},
+                    change_summary="Wersja robocza nie może być publiczna.",
+                ),
+                Program(
+                    slug="program-roboczy",
+                    title="Program roboczy",
+                    organizer="Test",
+                    status=ProgramStatus.OPEN,
+                    is_published=False,
+                ),
+            ]
+        )
         await session.commit()
 
     async def override_session():
@@ -90,6 +143,10 @@ async def test_public_program_list_supports_mvp_filters() -> None:
                 },
             )
             missing = await client.get("/api/programs", params={"location": "warszawa"})
+            detail = await client.get(
+                "/api/programs/wymiana-zrodla-ciepla-nadarzyn-2026"
+            )
+            unpublished = await client.get("/api/programs/program-roboczy")
     finally:
         app.dependency_overrides.clear()
         await engine.dispose()
@@ -102,3 +159,14 @@ async def test_public_program_list_supports_mvp_filters() -> None:
     assert payload["items"][0]["official_url"].endswith("nadarzyn.pdf")
     assert missing.status_code == 200
     assert missing.json()["total"] == 0
+    assert detail.status_code == 200
+    detail_payload = detail.json()
+    assert detail_payload["documents"] == [
+        {
+            "title": "Regulamin naboru",
+            "url": "https://example.invalid/nadarzyn.pdf",
+                "document_type": "regulations",
+        }
+    ]
+    assert [item["version_number"] for item in detail_payload["versions"]] == [1]
+    assert unpublished.status_code == 404

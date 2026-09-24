@@ -10,9 +10,11 @@ from app.models.domain import (
     Location,
     Program,
     ProgramBeneficiaryType,
+    ProgramDocument,
     ProgramInvestmentCategory,
     ProgramLocation,
     ProgramPropertyType,
+    ProgramVersion,
 )
 from app.models.enums import (
     BeneficiaryType,
@@ -20,7 +22,14 @@ from app.models.enums import (
     ProgramStatus,
     PropertyType,
 )
-from app.schemas.program import LocationItem, ProgramItem, ProgramListResponse
+from app.schemas.program import (
+    LocationItem,
+    ProgramDetail,
+    ProgramDocumentItem,
+    ProgramItem,
+    ProgramListResponse,
+    ProgramVersionItem,
+)
 
 router = APIRouter(prefix="/programs", tags=["programs"])
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
@@ -110,8 +119,8 @@ async def list_programs(
     return ProgramListResponse(items=items, total=total or 0, limit=limit, offset=offset)
 
 
-@router.get("/{slug}", response_model=ProgramItem)
-async def get_program(slug: str, session: SessionDep) -> ProgramItem:
+@router.get("/{slug}", response_model=ProgramDetail)
+async def get_program(slug: str, session: SessionDep) -> ProgramDetail:
     program = await session.scalar(
         select(Program)
         .where(Program.slug == slug, Program.is_published.is_(True))
@@ -119,4 +128,42 @@ async def get_program(slug: str, session: SessionDep) -> ProgramItem:
     )
     if program is None:
         raise HTTPException(status_code=404, detail="Program not found")
-    return _serialize(program)
+
+    documents = (
+        await session.scalars(
+            select(ProgramDocument)
+            .where(ProgramDocument.program_id == program.id)
+            .order_by(ProgramDocument.title.asc())
+        )
+    ).all()
+    versions = (
+        await session.scalars(
+            select(ProgramVersion)
+            .where(
+                ProgramVersion.program_id == program.id,
+                ProgramVersion.approved_at.is_not(None),
+            )
+            .order_by(ProgramVersion.version_number.desc())
+        )
+    ).all()
+
+    return ProgramDetail(
+        **_serialize(program).model_dump(),
+        documents=[
+            ProgramDocumentItem(
+                title=document.title,
+                url=document.url,
+                document_type=document.document_type,
+            )
+            for document in documents
+        ],
+        versions=[
+            ProgramVersionItem(
+                version_number=version.version_number,
+                change_summary=version.change_summary,
+                approved_at=version.approved_at,
+            )
+            for version in versions
+            if version.approved_at is not None
+        ],
+    )

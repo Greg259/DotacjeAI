@@ -146,3 +146,18 @@ Backup po wdrożeniu ma identyfikator `81688635`. Restic nie wykrył błędów, 
 - backup po wdrożeniu: `8fc846f5`; Restic, SHA-256 i pełny import do tymczasowej bazy zakończyły się poprawnie.
 
 Najbliższa obowiązkowa czynność bezpieczeństwa: unieważnić ujawniony klucz OpenRouter, utworzyć nowy i podmienić go bezpośrednio w `/opt/dotacje-ai/secrets/app.env`, bez przesyłania przez rozmowę.
+
+## Sprint 04 — portal publiczny rozpoczęty 2026-09-24
+
+- API 0.5.0 rozszerza kartę programu o oficjalne dokumenty i historię zatwierdzonych wersji,
+- endpoint szczegółów nie ujawnia wersji roboczych ani nieopublikowanych programów,
+- techniczny placeholder frontendu zastąpiono Next.js 16.3.6 z App Routerem i TypeScript,
+- wdrożono strony `/`, `/dotacje`, `/dotacje/[slug]`, `/region/[slug]`, `/gmina/[slug]` i `/kategoria/[slug]`,
+- filtry działają przez parametry URL i są renderowane po stronie serwera,
+- dodano pusty wynik, błąd API, 404, responsywny interfejs, healthcheck, robots i sitemap,
+- obraz produkcyjny wykorzystuje Next.js `standalone`, Node.js 22 i konto bez uprawnień root,
+- workflow CI obejmuje teraz API oraz typecheck i produkcyjny build frontendu,
+- lokalna walidacja: Ruff bez błędów, 23/23 testów API, typecheck i build Next.js zakończone sukcesem,
+- lokalny Docker Desktop nie był uruchomiony; właściwy build obrazu i test Compose zostaną wykonane na VPS,
+- niczego nie zatwierdzono ani nie opublikowano; wymagana jest osobna decyzja właściciela,
+- na życzenie właściciela rotacja ujawnionego klucza pozostaje ostatnim krokiem; do tego czasu nie wykonujemy nowych wywołań LLM.

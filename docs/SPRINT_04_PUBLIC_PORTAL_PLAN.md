@@ -4,6 +4,31 @@ Data planu: 2026-09-24
 Stan wejściowy: API 0.4.0, 3 ekstrakcje `ready_for_review`, 3 zadania REVIEW `pending`, 0 opublikowanych programów  
 Cel: zakończyć pierwszy pełny pion produktu — od ręcznie sprawdzonego wyniku do działającego publicznego portalu bez logowania
 
+## Status realizacji — 2026-09-24
+
+Sprint rozpoczęty. Zrealizowano pierwszą część techniczną:
+
+- publiczne szczegóły API zawierają dokumenty i wyłącznie zatwierdzoną historię wersji,
+- nieopublikowane programy nadal zwracają `404` i nie pojawiają się na liście,
+- placeholder Node zastąpiono aplikacją Next.js 16 z App Routerem,
+- przygotowano landing, listę z filtrami, kartę programu, strony regionu, gminy i kategorii,
+- dodano stany pusty/błąd/404, responsywny wygląd, `robots.txt` i `sitemap.xml`,
+- frontend działa jako minimalny obraz Docker `standalone` za Caddy,
+- GitHub Actions sprawdza typecheck i produkcyjny build frontendu,
+- lokalnie zaliczono 23 testy API, Ruff, typecheck i produkcyjny build Next.js.
+
+Nadal wymagane w tym sprincie:
+
+- zielone CI dla commita sprintu,
+- backup i wdrożenie API 0.5.0 oraz frontendu na VPS,
+- testy publicznych tras przez HTTPS,
+- ręczna decyzja właściciela dla trzech zadań REVIEW,
+- osobne `approve` i `publish` dopiero po tej decyzji,
+- backup i test odtworzenia po pierwszej publikacji,
+- rotacja ujawnionego klucza OpenRouter jako ostatnia czynność.
+
+Do czasu rotacji pozostają zablokowane wszystkie nowe wywołania LLM. Istniejący klucz nie jest kopiowany ani wyświetlany.
+
 ## 1. Rezultat sprintu
 
 Po zakończeniu sprintu użytkownik powinien móc wejść na `dotacjeai.eu`, znaleźć program według lokalizacji, kategorii i statusu, otworzyć jego kartę oraz przejść do oficjalnego źródła. Co najmniej jeden program musi być ręcznie zatwierdzony i opublikowany.

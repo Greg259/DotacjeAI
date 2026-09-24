@@ -227,3 +227,17 @@ Szczegółowy zakres wykonawczy znajduje się w `SPRINT_03_EXTRACTION_REVIEW_PLA
 Stan techniczny: 3/3 ekstrakcje są `ready_for_review`, 0 programów publicznych, koszt 0,026836 USD, backup `8fc846f5` zweryfikowany pełnym odtworzeniem.
 
 Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyzję właściciela rotację ujawnionego klucza OpenRouter przeniesiono na sam koniec Sprintu 04. Do tego czasu nowe wywołania LLM pozostają zamrożone.
+
+## Realizacja Sprintu 04 — następna kolejność
+
+1. [x] Rozszerzyć publiczne API o dokumenty i zatwierdzoną historię zmian.
+2. [x] Zablokować publiczny dostęp do szkiców testem regresji.
+3. [x] Zastąpić placeholder frontendem Next.js i przygotować wymagane trasy MVP-0.
+4. [x] Dodać frontend do GitHub Actions i lokalnie sprawdzić typecheck/build.
+5. [ ] Wysłać commit, potwierdzić zielone CI i wykonać backup przed wdrożeniem.
+6. [ ] Zbudować obrazy na VPS, wdrożyć dokładny commit i sprawdzić HTTPS oraz healthchecki.
+7. [ ] Otrzymać od właściciela decyzje REVIEW dla Nadarzyna i dwóch wyników WFOŚiGW.
+8. [ ] Wykonać jawne `approve`, a potem osobne `publish` tylko dla zatwierdzonych danych.
+9. [ ] Przejść test lista → filtr → karta → oficjalne źródło oraz sprawdzić mobile.
+10. [ ] Wykonać backup po publikacji i pełny test odtworzenia.
+11. [ ] Na samym końcu obrócić ujawniony klucz OpenRouter bez wpisywania nowego klucza do rozmowy lub Git.
