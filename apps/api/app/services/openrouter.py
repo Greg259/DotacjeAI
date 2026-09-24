@@ -56,7 +56,9 @@ class OpenRouterResult:
 def _strict_json_schema(value: object) -> object:
     if isinstance(value, dict):
         normalized = {
-            key: _strict_json_schema(item) for key, item in value.items() if key != "default"
+            key: _strict_json_schema(item)
+            for key, item in value.items()
+            if key not in {"default", "format"}
         }
         properties = normalized.get("properties")
         if isinstance(properties, dict):

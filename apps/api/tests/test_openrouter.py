@@ -47,6 +47,16 @@ def candidate_payload() -> dict:
     }
 
 
+def schema_contains_key(value: object, searched: str) -> bool:
+    if isinstance(value, dict):
+        return searched in value or any(
+            schema_contains_key(item, searched) for item in value.values()
+        )
+    if isinstance(value, list):
+        return any(schema_contains_key(item, searched) for item in value)
+    return False
+
+
 async def test_openrouter_parses_structured_response_and_usage() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         assert request.headers["authorization"] == "Bearer test-key"
@@ -57,6 +67,7 @@ async def test_openrouter_parses_structured_response_and_usage() -> None:
         schema = body["response_format"]["json_schema"]["schema"]
         assert set(schema["required"]) == set(schema["properties"])
         assert all("default" not in value for value in schema["properties"].values())
+        assert not schema_contains_key(schema, "format")
         return httpx.Response(
             200,
             json={
