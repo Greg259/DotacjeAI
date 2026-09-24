@@ -54,6 +54,9 @@ async def test_openrouter_parses_structured_response_and_usage() -> None:
         assert body["response_format"]["type"] == "json_schema"
         assert body["provider"]["require_parameters"] is True
         assert "temperature" not in body
+        schema = body["response_format"]["json_schema"]["schema"]
+        assert set(schema["required"]) == set(schema["properties"])
+        assert all("default" not in value for value in schema["properties"].values())
         return httpx.Response(
             200,
             json={
