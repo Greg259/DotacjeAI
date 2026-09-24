@@ -225,3 +225,5 @@ Szczegółowy zakres wykonawczy znajduje się w `SPRINT_03_EXTRACTION_REVIEW_PLA
 7. [ ] Rozpocząć Sprint 04: docelowy frontend publiczny i bezpieczne uwierzytelnienie administratora.
 
 Stan techniczny: 3/3 ekstrakcje są `ready_for_review`, 0 programów publicznych, koszt 0,026836 USD, backup `8fc846f5` zweryfikowany pełnym odtworzeniem.
+
+Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyzję właściciela rotację ujawnionego klucza OpenRouter przeniesiono na sam koniec Sprintu 04. Do tego czasu nowe wywołania LLM pozostają zamrożone.

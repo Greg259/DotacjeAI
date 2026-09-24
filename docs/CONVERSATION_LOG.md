@@ -456,3 +456,11 @@ Użytkownik wkleił klucz OpenRouter do rozmowy. Na jego jawne polecenie użyto 
 Benchmark zakończył się trzema wynikami `ready_for_review`. Nadarzyn został rozpoznany jako zakończony 31.07.2026, z kwotą 6000 PLN i poziomem 100%. Dwa snapshoty WFOŚiGW zostały oznaczone jako otwarte i pozostają do ręcznego porównania. Łączny zapisany koszt wyniósł 0,026836 USD; ponowne uruchomienie nie zwiększyło kosztu.
 
 Nic nie zostało zatwierdzone ani opublikowane. Publiczne API nadal zwraca pustą listę. API 0.4.0, HTTPS i pięć kontenerów są zdrowe. Snapshot Restic `8fc846f5` przeszedł kontrolę integralności, sumę SHA-256 i pełny import do tymczasowej bazy. Najbliższe działania to rotacja klucza, ręczny REVIEW i osobna decyzja o pierwszej publikacji.
+
+## 27. Plan Sprintu 04 — pierwsza publikacja i portal publiczny
+
+Użytkownik polecił przygotować kolejny sprint i zdecydował, że rotacja ujawnionego klucza OpenRouter nastąpi na samym końcu. Do czasu rotacji przyjęto zakaz nowych wywołań LLM; Sprint 04 wykorzysta wyłącznie trzy zapisane wyniki `ready_for_review`.
+
+Plan rozpoczyna się od ręcznej decyzji dla Nadarzyna i dwóch wyników WFOŚiGW, następnie obejmuje rozszerzenie publicznego API, zastąpienie technicznego frontendu aplikacją Next.js, listę dotacji, filtry, karty programów, strony lokalizacji i kategorii, SEO, dostępność, testy, wdrożenie oraz pierwszą osobną publikację. Panel administratora pozostaje prywatnym CLI przez SSH; publiczny panel bez uwierzytelnienia nie powstanie.
+
+Ostatnim etapem będzie unieważnienie starego klucza, bezpieczne wpisanie nowego bezpośrednio na VPS i kontrola, że stary klucz przestał działać. Szczegółowy zakres i kryteria odbioru zapisano w `SPRINT_04_PUBLIC_PORTAL_PLAN.md`.
