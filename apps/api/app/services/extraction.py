@@ -20,7 +20,7 @@ from app.services.openrouter import (
 )
 
 PROMPT_VERSION = "extraction-v1"
-LLM_REQUEST_VERSION = "6"
+LLM_REQUEST_VERSION = "7"
 
 
 def _job_key(snapshot: SourceSnapshot) -> str:

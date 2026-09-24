@@ -55,6 +55,18 @@ class OpenRouterResult:
 
 def _strict_json_schema(value: object) -> object:
     if isinstance(value, dict):
+        decimal_union = value.get("anyOf")
+        if isinstance(decimal_union, list) and any(
+            isinstance(item, dict) and "pattern" in item for item in decimal_union
+        ):
+            value = {
+                **value,
+                "anyOf": [
+                    item
+                    for item in decimal_union
+                    if not (isinstance(item, dict) and item.get("type") == "string")
+                ],
+            }
         normalized = {
             key: _strict_json_schema(item)
             for key, item in value.items()
