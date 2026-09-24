@@ -62,9 +62,10 @@ def _strict_json_schema(value: object) -> object:
             value = {
                 **value,
                 "anyOf": [
-                    item
+                    {"type": "number"}
+                    if isinstance(item, dict) and item.get("type") == "string" and "pattern" in item
+                    else item
                     for item in decimal_union
-                    if not (isinstance(item, dict) and item.get("type") == "string")
                 ],
             }
         normalized = {
