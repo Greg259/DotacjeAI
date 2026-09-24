@@ -71,6 +71,15 @@ class LlmRunStatus(StrEnum):
     BLOCKED_BY_BUDGET = "blocked_by_budget"
 
 
+class ExtractionStatus(StrEnum):
+    PENDING = "pending"
+    RULES_READY = "rules_ready"
+    AWAITING_API_KEY = "awaiting_api_key"
+    BLOCKED_BY_BUDGET = "blocked_by_budget"
+    READY_FOR_REVIEW = "ready_for_review"
+    FAILED = "failed"
+
+
 class DocumentType(StrEnum):
     REGULATIONS = "regulations"
     APPLICATION_FORM = "application_form"

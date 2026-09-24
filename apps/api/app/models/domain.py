@@ -25,6 +25,7 @@ from app.db.base import Base
 from app.models.enums import (
     BeneficiaryType,
     DocumentType,
+    ExtractionStatus,
     InvestmentCategory,
     LlmRunStatus,
     LocationType,
@@ -287,6 +288,9 @@ class LlmRun(UuidPrimaryKeyMixin, Base):
     source_snapshot_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("source_snapshots.id", ondelete="SET NULL")
     )
+    idempotency_key: Mapped[str | None] = mapped_column(String(64), unique=True)
+    request_sha256: Mapped[str | None] = mapped_column(String(64))
+    external_id: Mapped[str | None] = mapped_column(String(255))
     provider: Mapped[str] = mapped_column(String(80), nullable=False)
     model: Mapped[str] = mapped_column(String(200), nullable=False)
     prompt_version: Mapped[str] = mapped_column(String(80), nullable=False)
@@ -303,6 +307,34 @@ class LlmRun(UuidPrimaryKeyMixin, Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
+
+
+class ExtractionJob(UuidPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "extraction_jobs"
+    __table_args__ = (
+        UniqueConstraint("source_snapshot_id", "prompt_version"),
+        Index("ix_extraction_jobs_status_created", "status", "created_at"),
+    )
+
+    source_snapshot_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("source_snapshots.id", ondelete="CASCADE"), nullable=False
+    )
+    review_task_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("review_tasks.id", ondelete="CASCADE"), nullable=False, unique=True
+    )
+    last_llm_run_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("llm_runs.id", ondelete="SET NULL")
+    )
+    prompt_version: Mapped[str] = mapped_column(String(80), nullable=False)
+    idempotency_key: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    status: Mapped[ExtractionStatus] = mapped_column(
+        enum_column(ExtractionStatus, 30), nullable=False, default=ExtractionStatus.PENDING
+    )
+    deterministic_data: Mapped[dict[str, Any]] = mapped_column(json_type, nullable=False)
+    candidate_data: Mapped[dict[str, Any] | None] = mapped_column(json_type)
+    evidence: Mapped[list[Any] | None] = mapped_column(json_type)
+    warnings: Mapped[list[Any] | None] = mapped_column(json_type)
+    error_message: Mapped[str | None] = mapped_column(Text)
 
 
 class ReviewTask(UuidPrimaryKeyMixin, TimestampMixin, Base):

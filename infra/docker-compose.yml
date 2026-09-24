@@ -8,7 +8,7 @@ x-logging: &default-logging
 
 x-api-environment: &api-environment
   APP_ENV: production
-  APP_VERSION: "0.3.0"
+  APP_VERSION: "0.4.0"
   LOG_LEVEL: INFO
   SOURCE_STORAGE_ROOT: /data/source-snapshots
   CRAWLER_USER_AGENT: "DotacjeAI/0.3 (+https://dotacjeai.eu)"
@@ -34,6 +34,8 @@ x-api-environment: &api-environment
   LLM_WARNING_BUDGET_USD: ${LLM_WARNING_BUDGET_USD:-5}
   LLM_CRITICAL_BUDGET_USD: ${LLM_CRITICAL_BUDGET_USD:-8}
   LLM_MONTHLY_BUDGET_USD: ${LLM_MONTHLY_BUDGET_USD}
+  LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-60}
+  LLM_MAX_SOURCE_CHARACTERS: ${LLM_MAX_SOURCE_CHARACTERS:-60000}
 
 services:
   caddy:
@@ -129,6 +131,41 @@ services:
     logging: *default-logging
     networks:
       - edge
+      - backend
+
+  extractor:
+    image: dotacje-ai-api:local
+    profiles: ["jobs"]
+    command: ["python", "-m", "app.cli.extract_pending"]
+    user: "1000:1000"
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    mem_limit: 768m
+    cpus: 0.75
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    networks:
+      - edge
+      - backend
+
+  review:
+    image: dotacje-ai-api:local
+    profiles: ["jobs"]
+    command: ["python", "-m", "app.cli.review", "list"]
+    user: "1000:1000"
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    mem_limit: 512m
+    cpus: 0.50
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    networks:
       - backend
 
   migrate:
