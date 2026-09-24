@@ -10,6 +10,7 @@ from app.models.enums import (
     ProgramStatus,
     PropertyType,
 )
+from app.schemas.content import ProgramDetails
 
 
 class StrictSchema(BaseModel):
@@ -31,7 +32,7 @@ class ExtractionWarning(StrictSchema):
 
 
 class ExtractionCandidate(StrictSchema):
-    schema_version: Literal["extraction-v1"] = "extraction-v1"
+    schema_version: Literal["extraction-v1", "extraction-v2"] = "extraction-v2"
     slug: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$", max_length=200)
     title: str = Field(min_length=3, max_length=500)
     organizer: str = Field(min_length=2, max_length=255)
@@ -50,6 +51,7 @@ class ExtractionCandidate(StrictSchema):
     investment_categories: list[InvestmentCategory] = Field(default_factory=list)
     official_url: HttpUrl
     document_urls: list[HttpUrl] = Field(default_factory=list)
+    details: ProgramDetails = Field(default_factory=ProgramDetails)
     evidence: list[FieldEvidence] = Field(default_factory=list)
     warnings: list[ExtractionWarning] = Field(default_factory=list)
 

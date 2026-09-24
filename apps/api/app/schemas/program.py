@@ -11,6 +11,7 @@ from app.models.enums import (
     ProgramStatus,
     PropertyType,
 )
+from app.schemas.content import ProgramDetails
 
 
 class LocationItem(BaseModel):
@@ -63,3 +64,4 @@ class ProgramVersionItem(BaseModel):
 class ProgramDetail(ProgramItem):
     documents: list[ProgramDocumentItem]
     versions: list[ProgramVersionItem]
+    details: ProgramDetails

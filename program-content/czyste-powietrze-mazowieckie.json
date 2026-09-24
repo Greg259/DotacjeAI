@@ -1,0 +1,195 @@
+{
+  "key_takeaways": [
+    {
+      "title": "Program dla właścicieli istniejących domów",
+      "description": "Wsparcie jest przeznaczone dla osób fizycznych będących właścicielami lub współwłaścicielami istniejącego budynku jednorodzinnego albo wydzielonego lokalu mieszkalnego z osobną księgą wieczystą.",
+      "source_reference": "Czyste Powietrze — dla kogo",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dla-kogo"
+    },
+    {
+      "title": "Trzy poziomy dofinansowania",
+      "description": "Poziom podstawowy pokrywa do 40%, podwyższony do 70%, a najwyższy do 100% kosztów kwalifikowanych, z limitami kwotowymi dla poszczególnych elementów inwestycji.",
+      "source_reference": "Czyste Powietrze — poziomy dofinansowania",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/pytania-i-odpowiedzi/nowy-program-czyste-powietrze-obowiazujacy-od-31-marca-2025/8"
+    },
+    {
+      "title": "Audyt przed inwestycją, świadectwo po zakończeniu",
+      "description": "Przedsięwzięcie musi wynikać z audytu energetycznego i Dokumentu Podsumowującego Audyt Energetyczny. Po realizacji wymagane jest świadectwo charakterystyki energetycznej.",
+      "source_reference": "Czyste Powietrze — dokumenty programowe",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    }
+  ],
+  "eligible_applicants": [
+    {
+      "title": "Właściciel lub współwłaściciel",
+      "description": "Wnioskodawcą może być osoba fizyczna będąca właścicielem lub współwłaścicielem budynku jednorodzinnego albo wydzielonego lokalu mieszkalnego w takim budynku, posiadającego wyodrębnioną księgę wieczystą.",
+      "source_reference": "Czyste Powietrze — dla kogo",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dla-kogo"
+    },
+    {
+      "title": "Wymagany okres własności",
+      "description": "Co do zasady nieruchomość trzeba posiadać przez co najmniej 3 lata przed złożeniem wniosku. Program przewiduje wyjątki, m.in. dla nabycia w drodze spadku oraz wybranych przypadków doprecyzowanych od 20 lipca 2026 r.",
+      "source_reference": "Zmiany programu od 20 lipca 2026 r.",
+      "source_url": "https://czystepowietrze.gov.pl/wazne-komunikaty/zmiany-w-programie-czyste-powietrze-od-20-lipca-2026-latwiej-skorzystac-z-dotacji"
+    }
+  ],
+  "eligibility_conditions": [
+    {
+      "title": "Istniejący budynek, nie nowy dom",
+      "description": "Program nie finansuje budowy ani wyposażenia nowych budynków. Dotyczy poprawy efektywności energetycznej istniejących domów jednorodzinnych i wydzielonych lokali spełniających warunki programu.",
+      "source_reference": "Czyste Powietrze — dla kogo",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dla-kogo"
+    },
+    {
+      "title": "Kryterium dochodowe",
+      "description": "Poziom wsparcia zależy od dochodu wnioskodawcy lub dochodu na osobę w gospodarstwie domowym. Dla działalności gospodarczej obowiązują również limity rocznego przychodu.",
+      "source_reference": "Czyste Powietrze — poziomy dofinansowania",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/pytania-i-odpowiedzi/nowy-program-czyste-powietrze-obowiazujacy-od-31-marca-2025/8"
+    },
+    {
+      "title": "Zakres zgodny z audytem",
+      "description": "Zakres prac objętych dotacją musi odpowiadać wariantowi wskazanemu w audycie energetycznym i DPAE. Po zakończeniu inwestycji wymagane jest potwierdzenie osiągniętego standardu energetycznego.",
+      "source_reference": "Dokumenty obowiązujące w programie",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    },
+    {
+      "title": "Urządzenia zgodne z wymaganiami programu",
+      "description": "W kategoriach objętych obowiązkiem urządzenie lub materiał powinny znajdować się na liście ZUM i spełniać parametry programu.",
+      "source_reference": "Program priorytetowy i załącznik nr 2",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/02_zal_2_do_ppcp_popr.pdf"
+    }
+  ],
+  "funding_options": [
+    {
+      "name": "Poziom podstawowy",
+      "description": "Do 40% kosztów kwalifikowanych. Roczny dochód wnioskodawcy nie może przekroczyć 135 000 zł.",
+      "support_percent": 40,
+      "max_amount": null,
+      "currency": "PLN",
+      "source_reference": "Czyste Powietrze — poziomy dofinansowania",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/pytania-i-odpowiedzi/nowy-program-czyste-powietrze-obowiazujacy-od-31-marca-2025/8"
+    },
+    {
+      "name": "Poziom podwyższony",
+      "description": "Do 70% kosztów kwalifikowanych. Przeciętny miesięczny dochód wynosi maksymalnie 2250 zł na osobę w gospodarstwie wieloosobowym albo 3150 zł w gospodarstwie jednoosobowym. Dodatkowy limit dotyczy przychodu z działalności gospodarczej.",
+      "support_percent": 70,
+      "max_amount": null,
+      "currency": "PLN",
+      "source_reference": "Czyste Powietrze — poziomy dofinansowania",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/pytania-i-odpowiedzi/nowy-program-czyste-powietrze-obowiazujacy-od-31-marca-2025/8"
+    },
+    {
+      "name": "Poziom najwyższy",
+      "description": "Do 100% kosztów kwalifikowanych. Przeciętny miesięczny dochód wynosi maksymalnie 1300 zł na osobę w gospodarstwie wieloosobowym albo 1800 zł w jednoosobowym, ewentualnie wnioskodawca ma ustalone prawo do wskazanych zasiłków. Obowiązują dodatkowe warunki, w tym dotyczące zapotrzebowania budynku na energię i przychodu z działalności.",
+      "support_percent": 100,
+      "max_amount": null,
+      "currency": "PLN",
+      "source_reference": "Czyste Powietrze — poziomy dofinansowania",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/pytania-i-odpowiedzi/nowy-program-czyste-powietrze-obowiazujacy-od-31-marca-2025/8"
+    }
+  ],
+  "important_information": [
+    {
+      "title": "Kwota zależy od zakresu prac",
+      "description": "Program nie ma jednej maksymalnej kwoty dla każdego wniosku. Limity są określone oddzielnie dla urządzeń, materiałów, audytu i poszczególnych wariantów przedsięwzięcia w załączniku nr 2.",
+      "source_reference": "Załącznik nr 2 — koszty kwalifikowane",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/02_zal_2_do_ppcp_popr.pdf"
+    },
+    {
+      "title": "Operator przy najwyższym poziomie i prefinansowaniu",
+      "description": "Przy najwyższym poziomie dofinansowania oraz przy dotacji z prefinansowaniem wniosek składa się przy wsparciu operatora programu. Przy poziomie podwyższonym bez prefinansowania operator jest opcjonalny.",
+      "source_reference": "Jak złożyć wniosek o dofinansowanie",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/zloz-wniosek/zloz-wniosek-o-dofinansowanie"
+    },
+    {
+      "title": "Obowiązuje komplet aktualnych dokumentów",
+      "description": "Przed złożeniem wniosku należy sprawdzić wersję programu, regulamin naboru, instrukcję WOD i załączniki opublikowane w sekcji dokumentów obowiązujących.",
+      "source_reference": "Dokumenty obowiązujące",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    }
+  ],
+  "application_steps": [
+    {
+      "title": "1. Sprawdź uprawnienia i poziom wsparcia",
+      "description": "Potwierdź tytuł własności, okres posiadania nieruchomości, dochód oraz warunki właściwe dla podstawowego, podwyższonego lub najwyższego poziomu dofinansowania.",
+      "source_reference": "Czyste Powietrze — dla kogo",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dla-kogo"
+    },
+    {
+      "title": "2. Zamów audyt energetyczny i przygotuj DPAE",
+      "description": "Audyt określa zakres inwestycji, który następnie wpisujesz do wniosku. Dokument Podsumowujący Audyt Energetyczny jest wymaganym załącznikiem.",
+      "source_reference": "Dokumenty obowiązujące",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    },
+    {
+      "title": "3. Wypełnij wniosek WOD w GWD",
+      "description": "Formularz wniosku o dofinansowanie wypełnia się w Generatorze Wniosków o Dofinansowanie. Skorzystaj z aktualnej instrukcji WOD.",
+      "source_reference": "Instrukcja wypełniania WOD",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/a.1.2_instrukcja_wod_ppcp__s.wf_.pdf"
+    },
+    {
+      "title": "4. Podpisz i wyślij właściwą ścieżką",
+      "description": "Wniosek elektroniczny podpisz profilem zaufanym lub podpisem kwalifikowanym. Przy wersji papierowej złóż finalny wydruk, a nie dokument oznaczony jako „wydruk roboczy”. Jeśli wymagany jest operator, rozpocznij od kontaktu z operatorem.",
+      "source_reference": "Jak złożyć wniosek o dofinansowanie",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/zloz-wniosek/zloz-wniosek-o-dofinansowanie"
+    }
+  ],
+  "required_documents": [
+    {
+      "title": "Dokument Podsumowujący Audyt Energetyczny",
+      "description": "DPAE przygotowany na podstawie audytu energetycznego, określający wariant i zakres przedsięwzięcia.",
+      "source_reference": "Dokumenty obowiązujące",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    },
+    {
+      "title": "Dokumenty dochodowe — zależnie od poziomu",
+      "description": "Dla poziomu podwyższonego i najwyższego potrzebne jest odpowiednie zaświadczenie o dochodach lub dokument potwierdzający prawo do świadczenia. Szczegóły zależą od sytuacji wnioskodawcy.",
+      "source_reference": "Jak złożyć wniosek o dofinansowanie",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/zloz-wniosek/zloz-wniosek-o-dofinansowanie"
+    },
+    {
+      "title": "Zgody współwłaścicieli — jeżeli dotyczą",
+      "description": "Przy współwłasności należy przygotować zgody wymagane w aktualnym formularzu i instrukcji WOD.",
+      "source_reference": "Instrukcja wypełniania WOD",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/a.1.2_instrukcja_wod_ppcp__s.wf_.pdf"
+    },
+    {
+      "title": "Świadectwo charakterystyki energetycznej po inwestycji",
+      "description": "Dokument jest potrzebny przy rozliczeniu, aby potwierdzić efekt energetyczny po zakończeniu przedsięwzięcia.",
+      "source_reference": "Dokumenty obowiązujące",
+      "source_url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace"
+    }
+  ],
+  "application_resources": [
+    {
+      "title": "Generator Wniosków o Dofinansowanie (GWD)",
+      "url": "https://gwd.nfosigw.gov.pl/",
+      "resource_type": "application_portal",
+      "description": "Oficjalny portal, w którym przygotowuje się formularz WOD."
+    },
+    {
+      "title": "Instrukcja wypełniania wniosku WOD",
+      "url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/a.1.2_instrukcja_wod_ppcp__s.wf_.pdf",
+      "resource_type": "instructions",
+      "description": "Aktualna instrukcja pól i załączników formularza."
+    },
+    {
+      "title": "Jak złożyć wniosek o dofinansowanie",
+      "url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/zloz-wniosek/zloz-wniosek-o-dofinansowanie",
+      "resource_type": "instructions",
+      "description": "Oficjalna ścieżka elektroniczna, papierowa i przez operatora."
+    },
+    {
+      "title": "Dokumenty obowiązujące w programie",
+      "url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace",
+      "resource_type": "official_page",
+      "description": "Program priorytetowy, regulamin, załączniki, instrukcje i dokumenty rozliczeniowe."
+    },
+    {
+      "title": "Załącznik nr 2 — koszty kwalifikowane i limity",
+      "url": "https://czystepowietrze.gov.pl/wez-dofinansowanie/dokumenty-programowe/dokumenty-obowiazujace/02_zal_2_do_ppcp_popr.pdf",
+      "resource_type": "regulations",
+      "description": "Zakres rzeczowy, maksymalne kwoty i wymagania techniczne."
+    }
+  ]
+}

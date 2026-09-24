@@ -101,7 +101,30 @@ async def test_public_program_list_supports_mvp_filters() -> None:
                     program_id=program.id,
                     source_snapshot_id=snapshot.id,
                     version_number=1,
-                    extracted_data={"title": program.title},
+                    extracted_data={
+                        "title": program.title,
+                        "details": {
+                            "key_takeaways": [
+                                {
+                                    "title": "Nabór zakończony",
+                                    "description": "Termin minął 31 lipca 2026 r.",
+                                    "source_reference": "Regulamin, § 8",
+                                    "source_url": source.url,
+                                }
+                            ],
+                            "funding_options": [
+                                {
+                                    "name": "Zakup źródła ciepła",
+                                    "description": "Do 100% kosztów zakupu.",
+                                    "support_percent": 100,
+                                    "max_amount": 6000,
+                                    "currency": "PLN",
+                                    "source_reference": "Regulamin, § 6",
+                                    "source_url": source.url,
+                                }
+                            ],
+                        },
+                    },
                     evidence={},
                     change_summary="Pierwsza zatwierdzona wersja programu.",
                     approved_at=datetime(2026, 9, 23, tzinfo=UTC),
@@ -169,4 +192,6 @@ async def test_public_program_list_supports_mvp_filters() -> None:
         }
     ]
     assert [item["version_number"] for item in detail_payload["versions"]] == [1]
+    assert detail_payload["details"]["key_takeaways"][0]["title"] == "Nabór zakończony"
+    assert detail_payload["details"]["funding_options"][0]["max_amount"] == "6000.00"
     assert unpublished.status_code == 404

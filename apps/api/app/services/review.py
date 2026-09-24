@@ -20,11 +20,20 @@ from app.models.domain import (
     SourceSnapshot,
 )
 from app.models.enums import DocumentType, ExtractionStatus, ReviewStatus
+from app.schemas.content import ApplicationResource
 from app.schemas.extraction import ExtractionCandidate
 
 
 class ReviewOperationError(RuntimeError):
     pass
+
+
+def _document_type(resource: ApplicationResource) -> DocumentType:
+    return {
+        "application_form": DocumentType.APPLICATION_FORM,
+        "instructions": DocumentType.GUIDELINES,
+        "regulations": DocumentType.REGULATIONS,
+    }.get(resource.resource_type, DocumentType.OTHER)
 
 
 async def get_review_details(session: AsyncSession, review_id: uuid.UUID) -> dict:
@@ -193,6 +202,26 @@ async def approve_review(
                     document_type=DocumentType.OTHER,
                 )
             )
+    for resource in candidate.details.application_resources:
+        value = str(resource.url)
+        existing_document = await session.scalar(
+            select(ProgramDocument).where(
+                ProgramDocument.program_id == program.id,
+                ProgramDocument.url == value,
+            )
+        )
+        if existing_document is None:
+            session.add(
+                ProgramDocument(
+                    program_id=program.id,
+                    title=resource.title,
+                    url=value,
+                    document_type=_document_type(resource),
+                )
+            )
+        else:
+            existing_document.title = resource.title
+            existing_document.document_type = _document_type(resource)
     await session.flush()
 
     review.status = ReviewStatus.APPROVED

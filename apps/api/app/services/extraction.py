@@ -20,8 +20,8 @@ from app.services.openrouter import (
 )
 from app.services.status import infer_program_status
 
-PROMPT_VERSION = "extraction-v1"
-LLM_REQUEST_VERSION = "7"
+PROMPT_VERSION = "extraction-v2"
+LLM_REQUEST_VERSION = "8"
 
 
 def _job_key(snapshot: SourceSnapshot) -> str:

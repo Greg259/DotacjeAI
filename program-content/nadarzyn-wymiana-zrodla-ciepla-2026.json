@@ -1,0 +1,159 @@
+{
+  "key_takeaways": [
+    {
+      "title": "Nabór na 2026 rok jest zakończony",
+      "description": "Wnioski na 2026 rok można było składać do 31 lipca 2026 r. W kolejnych latach regulamin przewiduje nabór od 1 lutego do 31 lipca, o ile gmina przeznaczy środki w budżecie.",
+      "source_reference": "Regulamin, § 8",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "Najpierw umowa, później inwestycja",
+      "description": "Nie należy rozpoczynać przedsięwzięcia przed zawarciem umowy dotacji z Gminą Nadarzyn. Koszty poniesione wcześniej nie kwalifikują się do rozliczenia.",
+      "source_reference": "Regulamin, § 4 ust. 3 i § 9",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "Do 6000 zł na zakup urządzenia",
+      "description": "Dotacja pokrywa do 100% udokumentowanych kosztów zakupu nowego źródła ciepła, ale nie więcej niż 6000 zł. Montaż i prace dodatkowe nie są kosztem kwalifikowanym.",
+      "source_reference": "Regulamin, § 6",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    }
+  ],
+  "eligible_applicants": [
+    {
+      "title": "Podmioty posiadające prawo do nieruchomości",
+      "description": "Wnioskodawca musi posiadać tytuł prawny do dysponowania nieruchomością położoną na terenie Gminy Nadarzyn. Formularz przewiduje osobę fizyczną, przedsiębiorcę, osobę prawną, wspólnotę mieszkaniową oraz określone jednostki sektora finansów publicznych.",
+      "source_reference": "Regulamin, § 3; formularz wniosku, pkt 4–5",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    }
+  ],
+  "eligibility_conditions": [
+    {
+      "title": "Stare źródło na paliwo stałe",
+      "description": "Wymianie podlega nieefektywne źródło ciepła na paliwo stałe: bezklasowe albo klasy 3 lub 4, czyli źródło poniżej klasy 5 według PN-EN 303-5:2012.",
+      "source_reference": "Regulamin, § 2 pkt 5 i § 3 ust. 1",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "Nowe niskoemisyjne źródło",
+      "description": "Nowe źródło musi spełniać wymagania ekoprojektu. Formularz wskazuje m.in. pompę ciepła, kocioł na biomasę, ogrzewanie elektryczne lub inne urządzenie zgodne z regulaminem.",
+      "source_reference": "Regulamin, § 1 i § 2 pkt 5; formularz wniosku, pkt 6",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    },
+    {
+      "title": "Likwidacja niezgodnych źródeł",
+      "description": "Po realizacji inwestycji w nieruchomości nie mogą pozostać inne źródła ciepła niespełniające wymagań uchwały antysmogowej, z wyjątkami wskazanymi w regulaminie.",
+      "source_reference": "Regulamin, § 4 ust. 5",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    }
+  ],
+  "funding_options": [
+    {
+      "name": "Dotacja na zakup nowego źródła ciepła",
+      "description": "Do 100% udokumentowanych kosztów zakupu urządzenia, maksymalnie 6000 zł. Wypłata następuje po realizacji i zaakceptowaniu rozliczenia.",
+      "support_percent": 100,
+      "max_amount": 6000,
+      "currency": "PLN",
+      "source_reference": "Regulamin, § 6 i § 10",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    }
+  ],
+  "important_information": [
+    {
+      "title": "Dotacja nie obejmuje montażu",
+      "description": "Kosztami kwalifikowanymi są wyłącznie koszty zakupu nowego źródła ciepła. Projekt, demontaż, montaż i dodatkowe elementy instalacji nie są objęte dotacją.",
+      "source_reference": "Regulamin, § 6 ust. 3–4",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "Kolejność wpływu wniosków",
+      "description": "Wnioski są rozpatrywane według kolejności wpływu. Po wyczerpaniu środków poprawne wnioski trafiają na listę rezerwową.",
+      "source_reference": "Regulamin, § 8 ust. 4–6",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "Możliwe łączenie wsparcia bez podwójnego finansowania",
+      "description": "Przedsięwzięcie może korzystać z innych środków publicznych tylko w części kosztów, która nie została sfinansowana z tej dotacji.",
+      "source_reference": "Regulamin, § 6 ust. 5",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    }
+  ],
+  "application_steps": [
+    {
+      "title": "1. Sprawdź termin nowego naboru",
+      "description": "Nabór na 2026 rok już się zakończył. Przed przygotowaniem dokumentów sprawdź oficjalną stronę gminy i dostępność środków na kolejny rok.",
+      "source_reference": "Oficjalna strona Gminy Nadarzyn",
+      "source_url": "https://www.nadarzyn.pl/1097,czerwiec?tresc=19097"
+    },
+    {
+      "title": "2. Wypełnij formularz i załączniki",
+      "description": "Podaj dane wnioskodawcy, lokalizację, rachunek bankowy, tytuł prawny, opis starego i planowanego urządzenia oraz koszt zakupu. Dołącz dokumenty wymagane przez formularz.",
+      "source_reference": "Formularz wniosku",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    },
+    {
+      "title": "3. Złóż wniosek do Wójta Gminy Nadarzyn",
+      "description": "Skorzystaj z aktualnego formularza opublikowanego przez gminę. Po pozytywnej weryfikacji podpisz umowę dotacji przed rozpoczęciem zakupu i realizacji inwestycji.",
+      "source_reference": "Regulamin, § 8–9",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    },
+    {
+      "title": "4. Zrealizuj i rozlicz inwestycję",
+      "description": "Po zawarciu umowy kup urządzenie, zlikwiduj stare źródło i złóż dokumenty rozliczeniowe w terminie wynikającym z umowy.",
+      "source_reference": "Regulamin, § 9–10",
+      "source_url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf"
+    }
+  ],
+  "required_documents": [
+    {
+      "title": "Tytuł prawny i zgody współwłaścicieli",
+      "description": "Dokument potwierdzający tytuł prawny do nieruchomości oraz, gdy dotyczy, zgoda właściciela lub współwłaścicieli. Kopie dokumentów należy poświadczyć za zgodność z oryginałem.",
+      "source_reference": "Formularz wniosku, wykaz załączników",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    },
+    {
+      "title": "Zdjęcia starego źródła ciepła",
+      "description": "Fotografia urządzenia lub pomieszczenia oraz fotografia tabliczki znamionowej. Przy braku tabliczki: oświadczenie o rodzaju i przybliżonym roku produkcji albo protokół oględzin/kontroli.",
+      "source_reference": "Regulamin, § 3 ust. 2; formularz wniosku",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    },
+    {
+      "title": "Dokumenty pomocy de minimis — jeżeli dotyczą",
+      "description": "Przedsiębiorcy i podmioty prowadzące działalność w rolnictwie lub rybołówstwie dołączają odpowiednie zaświadczenia, oświadczenia i informacje wskazane w formularzu.",
+      "source_reference": "Formularz wniosku, wykaz załączników",
+      "source_url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf"
+    }
+  ],
+  "application_resources": [
+    {
+      "title": "Wniosek o udzielenie dotacji",
+      "url": "https://www.nadarzyn.pl/plik,23324,wniosek-o-udzielenie-dotacji-pdf.pdf",
+      "resource_type": "application_form",
+      "description": "Oficjalny formularz Gminy Nadarzyn dla programu wymiany źródła ciepła."
+    },
+    {
+      "title": "Oświadczenie o prawie do dysponowania nieruchomością",
+      "url": "https://www.nadarzyn.pl/plik,23326,oswiadczenie-o-posiadanym-prawie-do-dysponowania-nieruchomoscia-pdf.pdf",
+      "resource_type": "statement",
+      "description": "Załącznik potwierdzający prawo do nieruchomości."
+    },
+    {
+      "title": "Regulamin udzielania dotacji",
+      "url": "https://www.nadarzyn.pl/plik,23325,regulamin-zalacznik-nr-1-do-uchwaly-nr-xxv-564-2026-pdf.pdf",
+      "resource_type": "regulations",
+      "description": "Warunki, koszty kwalifikowane, nabór, umowa i rozliczenie."
+    },
+    {
+      "title": "Uchwała nr XXV.564.2026",
+      "url": "https://www.nadarzyn.pl/plik,23323,uchwala-nr-xxv-564-2026-pdf.pdf",
+      "resource_type": "regulations",
+      "description": "Podstawa prawna programu przyjęta 27 maja 2026 r."
+    },
+    {
+      "title": "Oficjalne ogłoszenie Gminy Nadarzyn",
+      "url": "https://www.nadarzyn.pl/1097,czerwiec?tresc=19097",
+      "resource_type": "official_page",
+      "description": "Aktualności, terminy oraz komplet plików opublikowanych przez gminę."
+    }
+  ]
+}

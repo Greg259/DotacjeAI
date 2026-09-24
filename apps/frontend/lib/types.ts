@@ -38,9 +38,52 @@ export interface ProgramVersion {
   approved_at: string;
 }
 
+export interface ProgramContentItem {
+  title: string;
+  description: string;
+  source_reference: string | null;
+  source_url: string | null;
+}
+
+export interface FundingOption {
+  name: string;
+  description: string;
+  support_percent: string | null;
+  max_amount: string | null;
+  currency: "PLN";
+  source_reference: string | null;
+  source_url: string | null;
+}
+
+export interface ApplicationResource {
+  title: string;
+  url: string;
+  resource_type:
+    | "application_form"
+    | "statement"
+    | "instructions"
+    | "regulations"
+    | "application_portal"
+    | "official_page"
+    | "other";
+  description: string | null;
+}
+
+export interface ProgramDetails {
+  key_takeaways: ProgramContentItem[];
+  eligible_applicants: ProgramContentItem[];
+  eligibility_conditions: ProgramContentItem[];
+  funding_options: FundingOption[];
+  important_information: ProgramContentItem[];
+  application_steps: ProgramContentItem[];
+  required_documents: ProgramContentItem[];
+  application_resources: ApplicationResource[];
+}
+
 export interface ProgramDetail extends ProgramItem {
   documents: ProgramDocument[];
   versions: ProgramVersion[];
+  details: ProgramDetails;
 }
 
 export interface ProgramListResponse {

@@ -22,6 +22,7 @@ from app.models.enums import (
     ProgramStatus,
     PropertyType,
 )
+from app.schemas.content import ProgramDetails
 from app.schemas.program import (
     LocationItem,
     ProgramDetail,
@@ -166,4 +167,7 @@ async def get_program(slug: str, session: SessionDep) -> ProgramDetail:
             for version in versions
             if version.approved_at is not None
         ],
+        details=ProgramDetails.model_validate(
+            versions[0].extracted_data.get("details", {}) if versions else {}
+        ),
     )
