@@ -130,8 +130,13 @@ async def sync_program_documents(
             except (httpx.HTTPError, OSError, ValueError) as exc:
                 document.last_checked_at = checked_at
                 document.last_http_status = None
-                document.is_available = False
-                document.last_error_message = str(exc)[:1000]
+                previous_version = await session.scalar(
+                    select(DocumentVersion.id)
+                    .where(DocumentVersion.document_id == document.id)
+                    .limit(1)
+                )
+                document.is_available = previous_version is not None
+                document.last_error_message = (str(exc) or type(exc).__name__)[:1000]
                 results.append(
                     DocumentSyncResult(str(document.id), document.url, "failed", None, None)
                 )

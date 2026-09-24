@@ -57,6 +57,18 @@ async def test_document_sync_versions_content_and_marks_broken_link(tmp_path: Pa
         assert version is not None
         assert (tmp_path / version.storage_path).is_file()
 
+        def transient_handler(request: httpx.Request) -> httpx.Response:
+            raise httpx.ReadError("reset", request=request)
+
+        client = httpx.AsyncClient(transport=httpx.MockTransport(transient_handler))
+        transient = await sync_program_documents(session, settings, client=client)
+        await client.aclose()
+        await session.commit()
+        await session.refresh(document)
+        assert transient[0].outcome == "failed"
+        assert document.is_available is True
+        assert document.last_error_message == "reset"
+
         def missing_handler(request: httpx.Request) -> httpx.Response:
             return httpx.Response(404, request=request)
 
