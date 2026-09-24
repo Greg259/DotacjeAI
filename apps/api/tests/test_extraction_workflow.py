@@ -8,8 +8,16 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from app.core.config import Settings
 from app.db.base import Base
 from app.models.domain import ExtractionJob, LlmRun, ReviewTask, Source, SourceSnapshot
-from app.models.enums import ExtractionStatus, LlmRunStatus, ReviewReason, ReviewStatus, SourceType
-from app.services.extraction import process_pending_extractions
+from app.models.enums import (
+    ExtractionStatus,
+    LlmRunStatus,
+    ProgramStatus,
+    ReviewReason,
+    ReviewStatus,
+    SourceType,
+)
+from app.schemas.extraction import ExtractionCandidate
+from app.services.extraction import _finalize_candidate, process_pending_extractions
 
 
 async def seed_pending_review(
@@ -74,6 +82,71 @@ async def test_pending_extraction_is_idempotent_and_waits_for_key() -> None:
         assert await session.scalar(select(func.count()).select_from(ExtractionJob)) == 1
 
     await engine.dispose()
+
+
+def test_finalize_candidate_anchors_url_and_infers_closed_status() -> None:
+    source = Source(
+        name="Gmina Nadarzyn",
+        slug="nadarzyn-wymiana-zrodla-ciepla-2026",
+        url="https://example.org/regulamin.pdf",
+        source_type=SourceType.PDF,
+    )
+    base_data = {
+        "slug": source.slug,
+        "title": "Dofinansowanie do wymiany źródła ciepła",
+        "organizer": "Gmina Nadarzyn",
+        "status": "unknown",
+        "application_end": "2026-07-31",
+        "max_amount": 6000,
+        "support_percent": 100,
+        "official_url": source.url,
+        "evidence": [
+            {
+                "field": "application_end",
+                "quote": "Wnioski będą przyjmowane do 31 lipca 2026 r.",
+                "locator": "§ 6 ust. 1",
+                "method": "llm",
+                "confidence": 0.99,
+            }
+        ],
+        "warnings": [
+            {
+                "code": "status_unknown",
+                "message": "Status wymaga wyliczenia.",
+                "fields": ["status"],
+            }
+        ],
+    }
+    candidate = ExtractionCandidate.model_validate(base_data)
+    deterministic = ExtractionCandidate.model_validate(
+        {
+            **base_data,
+            "evidence": [
+                {
+                    "field": "official_url",
+                    "quote": source.url,
+                    "locator": "rekord źródła",
+                    "method": "rule",
+                    "confidence": 1,
+                }
+            ],
+        }
+    )
+
+    finalized = _finalize_candidate(
+        candidate,
+        deterministic,
+        source,
+        today=date(2026, 9, 24),
+    )
+
+    assert finalized.status == ProgramStatus.CLOSED
+    assert {item.field for item in finalized.evidence} >= {
+        "application_end",
+        "official_url",
+        "status",
+    }
+    assert all(warning.code != "status_unknown" for warning in finalized.warnings)
 
 
 async def test_complex_wfos_page_never_bypasses_llm_with_rules_only() -> None:

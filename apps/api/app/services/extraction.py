@@ -18,6 +18,7 @@ from app.services.openrouter import (
     OpenRouterError,
     extract_with_openrouter,
 )
+from app.services.status import infer_program_status
 
 PROMPT_VERSION = "extraction-v1"
 LLM_REQUEST_VERSION = "7"
@@ -31,6 +32,62 @@ def _job_key(snapshot: SourceSnapshot) -> str:
 def _llm_key(job: ExtractionJob, model: str, attempt: int) -> str:
     value = f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:{model}:{attempt}"
     return hashlib.sha256(value.encode()).hexdigest()
+
+
+def _finalize_candidate(
+    candidate: ExtractionCandidate,
+    deterministic: ExtractionCandidate,
+    source: Source,
+    *,
+    today: date,
+) -> ExtractionCandidate:
+    payload = candidate.model_dump(mode="json")
+    evidence = list(payload["evidence"])
+    evidence_fields = {item["field"] for item in evidence}
+
+    payload["official_url"] = source.url
+    if "official_url" not in evidence_fields:
+        source_evidence = next(
+            (item for item in deterministic.evidence if item.field == "official_url"),
+            None,
+        )
+        if source_evidence is not None:
+            evidence.append(source_evidence.model_dump(mode="json"))
+            evidence_fields.add("official_url")
+
+    inferred_status = infer_program_status(
+        today=today,
+        application_start=candidate.application_start,
+        application_end=candidate.application_end,
+        declared_status=candidate.status,
+    )
+    if inferred_status != candidate.status:
+        status_basis = next(
+            (
+                item
+                for item in candidate.evidence
+                if item.field in {"application_end", "application_start"}
+            ),
+            None,
+        )
+        if status_basis is not None:
+            payload["status"] = inferred_status.value
+            if "status" not in evidence_fields:
+                evidence.append(
+                    {
+                        "field": "status",
+                        "quote": status_basis.quote,
+                        "locator": status_basis.locator,
+                        "method": "rule",
+                        "confidence": status_basis.confidence,
+                    }
+                )
+            payload["warnings"] = [
+                warning for warning in payload["warnings"] if warning["code"] != "status_unknown"
+            ]
+
+    payload["evidence"] = evidence
+    return ExtractionCandidate.model_validate(payload)
 
 
 async def _snapshot_from_review(session: AsyncSession, review: ReviewTask) -> SourceSnapshot | None:
@@ -86,6 +143,7 @@ async def process_extraction_job(
     job: ExtractionJob,
     settings: Settings,
     *,
+    today: date,
     client: httpx.AsyncClient | None = None,
 ) -> ExtractionJob:
     snapshot = await session.get(SourceSnapshot, job.source_snapshot_id)
@@ -207,6 +265,7 @@ async def process_extraction_job(
         job.error_message = "no_valid_llm_result"
         return job
 
+    candidate = _finalize_candidate(candidate, deterministic, source, today=today)
     missing_evidence = candidate.missing_critical_evidence()
     if missing_evidence:
         job.status = ExtractionStatus.FAILED
@@ -244,6 +303,6 @@ async def process_pending_extractions(
         job = await ensure_extraction_job(session, review, today=today)
         if job is None:
             continue
-        await process_extraction_job(session, job, settings, client=client)
+        await process_extraction_job(session, job, settings, today=today, client=client)
         jobs.append(job)
     return jobs
