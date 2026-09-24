@@ -55,7 +55,8 @@ def _page(title: str, body: str) -> HTMLResponse:
         "@media(max-width:800px){.grid{grid-template-columns:1fr}table{font-size:12px}}"
         "</style></head><body><header><strong>DotacjeAI — panel administratora</strong> · "
         "<a style='color:white' href='/admin'>pulpit</a></header>"
-        f"<main><h1>{html.escape(title)}</h1>{body}</main></body></html>"
+        f"<main><h1>{html.escape(title)}</h1>{body}</main></body></html>",
+        headers={"Cache-Control": "no-store"},
     )
 
 
