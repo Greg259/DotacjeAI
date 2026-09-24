@@ -19,15 +19,26 @@ Sprint rozpoczęty. Zrealizowano pierwszą część techniczną:
 
 Nadal wymagane w tym sprincie:
 
-- zielone CI dla commita sprintu,
-- backup i wdrożenie API 0.5.0 oraz frontendu na VPS,
-- testy publicznych tras przez HTTPS,
+- ~~zielone CI dla commita sprintu,~~ wykonane dla `99f22c7`,
+- ~~backup i wdrożenie API 0.5.0 oraz frontendu na VPS,~~ wykonane; backup `570de219`,
+- ~~testy publicznych tras przez HTTPS,~~ wszystkie wymagane trasy zwracają `200`,
 - ręczna decyzja właściciela dla trzech zadań REVIEW,
 - osobne `approve` i `publish` dopiero po tej decyzji,
 - backup i test odtworzenia po pierwszej publikacji,
 - rotacja ujawnionego klucza OpenRouter jako ostatnia czynność.
 
 Do czasu rotacji pozostają zablokowane wszystkie nowe wywołania LLM. Istniejący klucz nie jest kopiowany ani wyświetlany.
+
+Stan produkcyjny po wdrożeniu:
+
+- commit aplikacji: `99f22c7608e8fc27d49941adea5c65a39d4b17d4`,
+- GitHub Actions run 22: `success`,
+- API: `0.5.0`, migracja `c4e7b9a210f3 (head)`,
+- kontenery `caddy`, `frontend`, `api`, `postgres` i `redis`: `healthy`,
+- `/`, `/dotacje`, strony regionu/gminy/kategorii, `robots.txt`, `sitemap.xml`, `/api/health` i `/api/programs`: HTTP 200,
+- publiczna lista pozostaje celowo pusta do czasu jawnej decyzji REVIEW.
+
+Rekomendacje dla trzech zadań opisuje `SPRINT_04_REVIEW_DECISION.md`.
 
 ## 1. Rezultat sprintu
 

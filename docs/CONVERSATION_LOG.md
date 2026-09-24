@@ -464,3 +464,13 @@ Użytkownik polecił przygotować kolejny sprint i zdecydował, że rotacja ujaw
 Plan rozpoczyna się od ręcznej decyzji dla Nadarzyna i dwóch wyników WFOŚiGW, następnie obejmuje rozszerzenie publicznego API, zastąpienie technicznego frontendu aplikacją Next.js, listę dotacji, filtry, karty programów, strony lokalizacji i kategorii, SEO, dostępność, testy, wdrożenie oraz pierwszą osobną publikację. Panel administratora pozostaje prywatnym CLI przez SSH; publiczny panel bez uwierzytelnienia nie powstanie.
 
 Ostatnim etapem będzie unieważnienie starego klucza, bezpieczne wpisanie nowego bezpośrednio na VPS i kontrola, że stary klucz przestał działać. Szczegółowy zakres i kryteria odbioru zapisano w `SPRINT_04_PUBLIC_PORTAL_PLAN.md`.
+
+## 24 września 2026 — rozpoczęcie Sprintu 04 i portal publiczny
+
+Na polecenie użytkownika rozpoczęto Sprint 04 bez natychmiastowej rotacji ujawnionego klucza OpenRouter. Nie wykonano żadnego nowego wywołania LLM i nie kopiowano wartości klucza.
+
+Rozszerzono publiczne API o dokumenty i zatwierdzoną historię wersji. Dodano test potwierdzający, że nieopublikowane programy nie są widoczne. Placeholder Node zastąpiono frontendem Next.js 16.3.6 z App Routerem, TypeScript, filtrowaną listą, kartą programu, stronami Mazowsza, Nadarzyna i kategorii, stanami pustym/błędu/404 oraz podstawowym SEO. Workflow GitHub Actions rozbudowano o typecheck i produkcyjny build frontendu.
+
+Lokalnie przeszły Ruff, 23 testy API, typecheck i build. GitHub Actions run 22 zakończył się sukcesem. Przed wdrożeniem wykonano szyfrowany backup Restic `570de219`. Na VPS wdrożono commit `99f22c7`; API raportuje wersję `0.5.0`, pięć kontenerów jest zdrowych, a wszystkie publiczne trasy MVP zwracają HTTP 200. Lista pozostaje pusta, ponieważ nie wykonano automatycznego approve ani publish.
+
+Przejrzano trzy zadania REVIEW. Rekomendacja: zatwierdzić Nadarzyn, zatwierdzić pełniejszy wynik bazowy Czystego Powietrza i odrzucić jego słabszy duplikat. Identyfikatory, uzasadnienia i bezpieczna kolejność operacji zostały zapisane w `SPRINT_04_REVIEW_DECISION.md`. Dalsza publikacja czeka na jawną decyzję właściciela.

@@ -161,3 +161,5 @@ Najbliższa obowiązkowa czynność bezpieczeństwa: unieważnić ujawniony kluc
 - lokalny Docker Desktop nie był uruchomiony; właściwy build obrazu i test Compose zostaną wykonane na VPS,
 - niczego nie zatwierdzono ani nie opublikowano; wymagana jest osobna decyzja właściciela,
 - na życzenie właściciela rotacja ujawnionego klucza pozostaje ostatnim krokiem; do tego czasu nie wykonujemy nowych wywołań LLM.
+
+Wdrożenie produkcyjne Sprintu 04 wykonano z commita `99f22c7` po zielonym GitHub Actions run 22. Backup przed wdrożeniem ma identyfikator `570de219`. Wszystkie wymagane trasy HTTPS zwracają 200, API raportuje `0.5.0`, pięć usług jest zdrowych, migracja pozostaje na `c4e7b9a210f3 (head)`, a logi po wdrożeniu nie zawierają błędów. Lista publiczna jest pusta do chwili ręcznego zatwierdzenia i osobnej publikacji programu.

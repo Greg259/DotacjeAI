@@ -234,10 +234,12 @@ Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyz
 2. [x] Zablokować publiczny dostęp do szkiców testem regresji.
 3. [x] Zastąpić placeholder frontendem Next.js i przygotować wymagane trasy MVP-0.
 4. [x] Dodać frontend do GitHub Actions i lokalnie sprawdzić typecheck/build.
-5. [ ] Wysłać commit, potwierdzić zielone CI i wykonać backup przed wdrożeniem.
-6. [ ] Zbudować obrazy na VPS, wdrożyć dokładny commit i sprawdzić HTTPS oraz healthchecki.
+5. [x] Wysłać commit, potwierdzić zielone CI i wykonać backup przed wdrożeniem.
+6. [x] Zbudować obrazy na VPS, wdrożyć dokładny commit i sprawdzić HTTPS oraz healthchecki.
 7. [ ] Otrzymać od właściciela decyzje REVIEW dla Nadarzyna i dwóch wyników WFOŚiGW.
 8. [ ] Wykonać jawne `approve`, a potem osobne `publish` tylko dla zatwierdzonych danych.
 9. [ ] Przejść test lista → filtr → karta → oficjalne źródło oraz sprawdzić mobile.
 10. [ ] Wykonać backup po publikacji i pełny test odtworzenia.
 11. [ ] Na samym końcu obrócić ujawniony klucz OpenRouter bez wpisywania nowego klucza do rozmowy lub Git.
+
+Stan wdrożenia: commit `99f22c7`, CI run 22 `success`, backup przed wdrożeniem `570de219`, API `0.5.0`, pięć zdrowych kontenerów i HTTP 200 dla wszystkich tras MVP. Następna czynność wymaga jawnej decyzji opisanej w `SPRINT_04_REVIEW_DECISION.md`.
