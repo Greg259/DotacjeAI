@@ -478,3 +478,13 @@ Przejrzano trzy zadania REVIEW. Rekomendacja: zatwierdzić Nadarzyn, zatwierdzi�
 Użytkownik zatwierdził rekomendację. Wykonano `approve` dla Nadarzyna i pełniejszego wyniku Czystego Powietrza oraz `reject` dla duplikatu. Kontrola przed publikacją potwierdziła po jednej wersji każdego programu, jeden dokument Nadarzyna, trzy dokumenty Czystego Powietrza oraz komplet wpisów audit log. Publiczne API nadal zwracało wtedy `404` dla obu kart.
 
 Następnie wykonano dwie osobne operacje `publish`. Lista publiczna zawiera dwa programy, filtry Nadarzyna i Czystego Powietrza działają, a landing, lista, strony lokalizacji i obie karty zwracają HTTP 200. Po publikacji wykonano backup `bdb9f3f2`; kontrola Restic, suma SHA-256 i pełne odtworzenie do tymczasowej bazy zakończyły się sukcesem. Klucz OpenRouter nie został użyty ani zmieniony i nadal czeka na końcową rotację.
+
+## 28. Rozszerzenie kart o warunki i formularze
+
+Użytkownik poprosił, aby portal pobierał więcej danych i przedstawiał warunki przyznania dotacji, beneficjentów, kwoty, ważne informacje oraz komplet oficjalnych formularzy potrzebnych do złożenia wniosku. Analiza wykazała, że istniejący model przechowywał głównie opis, pojedynczą kwotę i ogólne linki, mimo że crawler zachowywał bogatszą treść źródłową.
+
+Wprowadzono `extraction-v2` z sekcją `details`, wskazaniami źródeł i typami zasobów aplikacyjnych. Prompt OpenRouter ma teraz wyodrębniać praktyczne wnioski bez zgadywania i bez tworzenia nieistniejących linków. Wynik AI nadal nie może opublikować się automatycznie. Publiczny frontend otrzymał osobne sekcje dla beneficjentów, warunków, wariantów finansowania, ograniczeń, kroków, wymaganych dokumentów oraz formularzy.
+
+Na podstawie oficjalnych dokumentów uzupełniono obie karty. Nadarzyn zawiera wniosek, oświadczenie, regulamin, uchwałę i stronę gminy. Czyste Powietrze zawiera GWD, instrukcję WOD, instrukcję złożenia wniosku, aktualne dokumenty i załącznik z limitami kosztów. Oba programy otrzymały zatwierdzoną wersję 2.
+
+Commit `12833a7` przeszedł GitHub Actions run 27. Lokalnie przeszły Ruff, 24 testy API i typecheck; build produkcyjny frontendu przeszedł w CI i na VPS. Po wdrożeniu pięć kontenerów jest zdrowych, API i obie karty odpowiadają przez HTTPS, a logi nie zawierają błędów. Wbudowana kontrola graficzna przeglądarki nie była dostępna, dlatego zweryfikowano build, API i wyrenderowany HTML. Backup `0049f91e` przeszedł kontrolę Restic, sum i pełne odtworzenie PostgreSQL. Nie wykonano nowego wywołania OpenRouter ani nie zmieniono klucza.

@@ -245,3 +245,16 @@ Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyz
 Stan wdrożenia: commit `99f22c7`, CI run 22 `success`, backup przed wdrożeniem `570de219`, API `0.5.0`, pięć zdrowych kontenerów i HTTP 200 dla wszystkich tras MVP. Następna czynność wymaga jawnej decyzji opisanej w `SPRINT_04_REVIEW_DECISION.md`.
 
 Stan po decyzji REVIEW: dwa programy publiczne, dwa zadania zatwierdzone, jeden duplikat odrzucony, filtry i karty działają. Zweryfikowany backup po publikacji: `bdb9f3f2`. Pozostały kontrola wizualna oraz końcowa rotacja ujawnionego klucza.
+
+## Stan po rozszerzeniu kart — 2026-09-24
+
+1. [x] Rozszerzyć model ekstrakcji o warunki, beneficjentów, warianty finansowania, ograniczenia, kroki, załączniki i formularze.
+2. [x] Pokazać te informacje na publicznej karcie programu wraz ze wskazaniem źródła.
+3. [x] Dodać tylko oficjalne formularze i portale dla Nadarzyna oraz Czystego Powietrza.
+4. [x] Zachować ręczny REVIEW i wersjonowanie; zablokować automatyczną publikację wyniku AI.
+5. [x] Wdrożyć commit `12833a7`, sprawdzić API, HTML, kontenery i logi.
+6. [x] Wykonać oraz w pełni zweryfikować backup `0049f91e`.
+7. [ ] Wykonać ręczną kontrolę wizualną na telefonie i komputerze; kontrola automatyczna przeglądarki nie była dostępna w tej sesji.
+8. [ ] Dodać trzeci program i sprawdzić pełny automatyczny przepływ `crawler → extraction-v2 → REVIEW → publish`.
+9. [ ] Dodać walidator linków dokumentów oraz oznaczanie formularza jako nieaktualnego po zmianie źródła.
+10. [ ] Na końcu prac obrócić ujawniony klucz OpenRouter bez wpisywania nowej wartości do rozmowy lub Git.
