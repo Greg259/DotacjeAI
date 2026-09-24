@@ -9,3 +9,4 @@ pytest-cache-files-*/
 *.db
 .next/
 node_modules/
+*.tsbuildinfo
