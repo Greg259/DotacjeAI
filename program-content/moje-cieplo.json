@@ -1,0 +1,213 @@
+{
+  "key_takeaways": [
+    {
+      "title": "Nabór trwa do 26 lutego 2027 r.",
+      "description": "Wnioski są przyjmowane w trybie ciągłym do 26 lutego 2027 r. albo do wcześniejszego wyczerpania puli środków.",
+      "source_reference": "Oficjalna strona programu, Terminy i forma składania wniosków",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Program dotyczy nowych domów jednorodzinnych",
+      "description": "Wsparcie jest przeznaczone dla osoby fizycznej będącej właścicielem lub współwłaścicielem nowego budynku mieszkalnego jednorodzinnego.",
+      "source_reference": "Oficjalna strona programu, Beneficjenci",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Maksymalnie 21 000 zł",
+      "description": "Dotacja wynosi do 30% kosztów kwalifikowanych albo do 45% dla posiadaczy Karty Dużej Rodziny. Limit dla pompy gruntowej to 21 000 zł, a dla pompy powietrznej 7 000 zł.",
+      "source_reference": "Oficjalna strona programu, Forma dofinansowania",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "eligible_applicants": [
+    {
+      "title": "Właściciel lub współwłaściciel nowego domu",
+      "description": "Wnioskodawcą musi być osoba fizyczna wskazana w pozwoleniu lub zgłoszeniu budowy albo osoba, która nabyła budynek, np. przez zakup, darowiznę lub dziedziczenie.",
+      "source_reference": "Oficjalna strona programu, Beneficjenci, pkt 1–2",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Definicja nowego budynku",
+      "description": "Za nowy uznaje się budynek bez zgłoszonego zakończenia budowy lub pozwolenia na użytkowanie albo taki, dla którego odpowiednie zawiadomienie lub wniosek złożono nie wcześniej niż 1 stycznia 2021 r.",
+      "source_reference": "Oficjalna strona programu, Beneficjenci, pkt 1",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "eligibility_conditions": [
+    {
+      "title": "Podwyższony standard energetyczny",
+      "description": "Charakterystyka lub świadectwo energetyczne musi wykazać roczne zapotrzebowanie na nieodnawialną energię pierwotną EP nie większe niż 55 kWh/(m² × rok), z pompą ciepła uwzględnioną jako źródłem ogrzewania.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, przypis 1",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Brak źródła na paliwo stałe",
+      "description": "W domu nie może znajdować się źródło ciepła na paliwo stałe, także w okresie trwałości inwestycji.",
+      "source_reference": "Oficjalna strona programu, Rodzaje przedsięwzięć",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Wymagania efektywności pompy",
+      "description": "Pompy gruntowe i powietrze–woda muszą mieć co najmniej klasę A++ dla temperatury zasilania 55°C, a centralna pompa powietrze–powietrze co najmniej A+ dla klimatu umiarkowanego.",
+      "source_reference": "Oficjalna strona programu, Rodzaje przedsięwzięć",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Inwestycja zakończona przed złożeniem wniosku",
+      "description": "Wniosek rozlicza zrealizowany zakup i montaż pompy. Trzeba posiadać faktury, dowody zapłaty i protokół odbioru na formularzu NFOŚiGW.",
+      "source_reference": "Program priorytetowy, kryteria dostępu; oficjalna lista załączników",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "funding_options": [
+    {
+      "name": "Gruntowa pompa ciepła",
+      "description": "Zakup i montaż pompy grunt/woda lub woda/woda wraz z kwalifikowanym osprzętem.",
+      "support_percent": 45,
+      "max_amount": 21000,
+      "currency": "PLN",
+      "source_reference": "Oficjalna strona programu, tabela dofinansowania; 45% dotyczy Karty Dużej Rodziny, standardowo do 30%",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "name": "Pompa powietrze–powietrze",
+      "description": "Centralny system obsługujący cały budynek, w którym pompa jest jedynym źródłem ogrzewania.",
+      "support_percent": 45,
+      "max_amount": 7000,
+      "currency": "PLN",
+      "source_reference": "Oficjalna strona programu, tabela dofinansowania; 45% dotyczy Karty Dużej Rodziny, standardowo do 30%",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "name": "Pompa powietrze–woda",
+      "description": "Zakup i montaż pompy wraz z kwalifikowanym osprzętem, zbiornikiem buforowym lub akumulacyjnym oraz zbiornikiem CWU.",
+      "support_percent": 45,
+      "max_amount": 7000,
+      "currency": "PLN",
+      "source_reference": "Oficjalna strona programu, tabela dofinansowania; 45% dotyczy Karty Dużej Rodziny, standardowo do 30%",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "important_information": [
+    {
+      "title": "Brak podwójnego finansowania",
+      "description": "Inwestycja nie może być finansowana z innych krajowych ani zagranicznych środków publicznych. Wyjątkiem może być ulga termomodernizacyjna, przy czym odliczenie pomniejsza się o otrzymaną dotację.",
+      "source_reference": "Program priorytetowy, warunki dofinansowania i postanowienia dodatkowe",
+      "source_url": "https://mojecieplo.gov.pl/wp-content/uploads/2024/10/Program-Priorytetowy-Moje-Cieplo-tekst-jednolity.pdf"
+    },
+    {
+      "title": "Wyczerpanie budżetu może zakończyć nabór wcześniej",
+      "description": "Data 26 lutego 2027 r. jest terminem granicznym; nabór może zakończyć się wcześniej po wyczerpaniu dedykowanej puli środków.",
+      "source_reference": "Oficjalna strona programu, Terminy i forma składania wniosków",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Wniosek wyłącznie elektroniczny",
+      "description": "Formularz składa się w Generatorze Wniosków o Dofinansowanie. Papierowy formularz nie jest przewidziany jako kanał złożenia wniosku.",
+      "source_reference": "Regulamin naboru, § 2",
+      "source_url": "https://mojecieplo.gov.pl/wp-content/uploads/2022/09/Regulamin_naboru_wnioskow_PP_Moje_Cieplo.pdf"
+    }
+  ],
+  "application_steps": [
+    {
+      "title": "1. Sprawdź budynek i planowaną pompę",
+      "description": "Potwierdź status nowego domu, limit EP, brak źródła na paliwo stałe oraz wymaganą klasę energetyczną wybranej pompy.",
+      "source_reference": "Oficjalna strona programu, Beneficjenci i Rodzaje przedsięwzięć",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "2. Zrealizuj inwestycję i zbierz dowody",
+      "description": "Zamontuj i uruchom pompę, opłać dokumenty księgowe oraz podpisz aktualny protokół odbioru. Zachowaj kartę produktu i etykietę energetyczną.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "3. Załóż konto lub zaloguj się w GWD",
+      "description": "W Generatorze Wniosków o Dofinansowanie wybierz program Moje Ciepło i wypełnij aktualny formularz dostępny dla naboru.",
+      "source_reference": "Regulamin naboru, § 2",
+      "source_url": "https://gwd.nfosigw.gov.pl/"
+    },
+    {
+      "title": "4. Dołącz dokumenty i podpisz wniosek",
+      "description": "Dodaj wymagane załączniki i wyślij wniosek elektronicznie przez GWD z wymaganym podpisem. Wniosek może również złożyć pełnomocnik na aktualnym wzorze pełnomocnictwa.",
+      "source_reference": "Regulamin naboru, § 2; oficjalna lista załączników",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "required_documents": [
+    {
+      "title": "Dokument budowy lub nabycia domu",
+      "description": "Pozwolenie na budowę lub zgłoszenie budowy; jeżeli wnioskodawcy nie wskazano w tym dokumencie, zanonimizowany akt notarialny.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 1",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Dokument zakończenia budowy — jeśli dotyczy",
+      "description": "Zawiadomienie o zakończeniu budowy lub decyzja o pozwoleniu na użytkowanie.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 2",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Charakterystyka lub świadectwo energetyczne",
+      "description": "Dokument musi uwzględniać pompę ciepła jako źródło ogrzewania i potwierdzać wymagany wskaźnik EP.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 3 i przypis 1",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Protokół, faktury i zapłata",
+      "description": "Aktualny protokół odbioru, faktura z rodzajem, typem i parametrami pompy oraz możliwe do powiązania potwierdzenie płatności.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 4–7",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Dokumenty urządzenia",
+      "description": "Karta produktu i etykieta energetyczna zakupionej i zamontowanej pompy ciepła.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 8",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    },
+    {
+      "title": "Załączniki zależne od sytuacji",
+      "description": "W zależności od przypadku: zgody współwłaścicieli, Karta Dużej Rodziny, pełnomocnictwo, oświadczenie dotyczące nabywcy na fakturze i dokumentacja geologiczna.",
+      "source_reference": "Oficjalna strona programu, Załączniki do wniosku, pkt 9–13",
+      "source_url": "https://mojecieplo.gov.pl/o-programie/"
+    }
+  ],
+  "application_resources": [
+    {
+      "title": "Generator Wniosków o Dofinansowanie",
+      "url": "https://gwd.nfosigw.gov.pl/",
+      "resource_type": "application_portal",
+      "description": "Oficjalny portal, w którym po zalogowaniu dostępny jest aktualny formularz i przez który wysyła się wniosek."
+    },
+    {
+      "title": "Dokumenty i wzory programu Moje Ciepło",
+      "url": "https://mojecieplo.gov.pl/o-programie/",
+      "resource_type": "official_page",
+      "description": "Aktualny komplet dokumentów, oświadczeń, pełnomocnictw i instrukcji publikowany przez operatora programu."
+    },
+    {
+      "title": "Program priorytetowy Moje Ciepło — tekst jednolity",
+      "url": "https://mojecieplo.gov.pl/wp-content/uploads/2024/10/Program-Priorytetowy-Moje-Cieplo-tekst-jednolity.pdf",
+      "resource_type": "regulations",
+      "description": "Warunki wsparcia, kryteria, koszty kwalifikowane i obowiązki beneficjenta."
+    },
+    {
+      "title": "Regulamin naboru wniosków",
+      "url": "https://mojecieplo.gov.pl/wp-content/uploads/2022/09/Regulamin_naboru_wnioskow_PP_Moje_Cieplo.pdf",
+      "resource_type": "regulations",
+      "description": "Sposób składania, oceny i uzupełniania wniosku w GWD."
+    },
+    {
+      "title": "Protokół odbioru",
+      "url": "https://mojecieplo.gov.pl/wp-content/uploads/2024/10/Protokol-odbioru.pdf",
+      "resource_type": "application_form",
+      "description": "Oficjalny załącznik wymagany do rozliczenia zakupu, montażu i uruchomienia pompy ciepła."
+    },
+    {
+      "title": "FAQ programu",
+      "url": "https://mojecieplo.gov.pl/faq/",
+      "resource_type": "instructions",
+      "description": "Oficjalne odpowiedzi NFOŚiGW dotyczące kwalifikowalności, dokumentów i rozliczenia."
+    }
+  ]
+}

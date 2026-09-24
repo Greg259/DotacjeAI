@@ -1,4 +1,6 @@
-from typing import Annotated
+from datetime import date
+from decimal import Decimal
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func, select
@@ -78,6 +80,13 @@ async def list_programs(
     category: InvestmentCategory | None = None,
     property_type: PropertyType | None = None,
     beneficiary_type: BeneficiaryType | None = None,
+    application_end_from: date | None = None,
+    application_end_to: date | None = None,
+    min_amount: Annotated[Decimal | None, Query(ge=0)] = None,
+    max_amount: Annotated[Decimal | None, Query(ge=0)] = None,
+    min_support_percent: Annotated[Decimal | None, Query(ge=0, le=100)] = None,
+    verified_since: date | None = None,
+    sort: Literal["ending_soon", "newest", "amount_desc", "title"] = "ending_soon",
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
     offset: Annotated[int, Query(ge=0)] = 0,
 ) -> ProgramListResponse:
@@ -85,10 +94,26 @@ async def list_programs(
     if status:
         filters.append(Program.status == status)
     if location:
+        locations = list((await session.scalars(select(Location))).all())
+        target = next((item for item in locations if item.slug == location.lower()), None)
+        related_ids = set()
+        if target is not None:
+            related_ids.add(target.id)
+            parent_id = target.parent_id
+            while parent_id is not None:
+                related_ids.add(parent_id)
+                parent = next((item for item in locations if item.id == parent_id), None)
+                parent_id = parent.parent_id if parent is not None else None
+            pending = [target.id]
+            while pending:
+                current = pending.pop()
+                children = [item.id for item in locations if item.parent_id == current]
+                related_ids.update(children)
+                pending.extend(children)
         filters.append(
-            Program.locations.any(
-                ProgramLocation.location.has(Location.slug == location.lower())
-            )
+            Program.locations.any(ProgramLocation.location_id.in_(related_ids))
+            if related_ids
+            else Program.id.is_(None)
         )
     if category:
         filters.append(
@@ -106,13 +131,32 @@ async def list_programs(
                 ProgramBeneficiaryType.beneficiary_type == beneficiary_type
             )
         )
+    if application_end_from:
+        filters.append(Program.application_end >= application_end_from)
+    if application_end_to:
+        filters.append(Program.application_end <= application_end_to)
+    if min_amount is not None:
+        filters.append(Program.max_amount >= min_amount)
+    if max_amount is not None:
+        filters.append(Program.max_amount <= max_amount)
+    if min_support_percent is not None:
+        filters.append(Program.support_percent >= min_support_percent)
+    if verified_since:
+        filters.append(Program.last_verified_at >= verified_since)
+
+    ordering = {
+        "ending_soon": (Program.application_end.asc().nullslast(), Program.title.asc()),
+        "newest": (Program.last_verified_at.desc().nullslast(), Program.title.asc()),
+        "amount_desc": (Program.max_amount.desc().nullslast(), Program.title.asc()),
+        "title": (Program.title.asc(),),
+    }[sort]
 
     total = await session.scalar(select(func.count(Program.id)).where(*filters))
     result = await session.scalars(
         select(Program)
         .where(*filters)
         .options(*_options())
-        .order_by(Program.application_end.asc().nullslast(), Program.title.asc())
+        .order_by(*ordering)
         .limit(limit)
         .offset(offset)
     )
@@ -155,6 +199,8 @@ async def get_program(slug: str, session: SessionDep) -> ProgramDetail:
                 title=document.title,
                 url=document.url,
                 document_type=document.document_type,
+                is_available=document.is_available,
+                last_checked_at=document.last_checked_at,
             )
             for document in documents
         ],

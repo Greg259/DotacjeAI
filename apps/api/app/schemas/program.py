@@ -53,6 +53,8 @@ class ProgramDocumentItem(BaseModel):
     title: str
     url: str
     document_type: DocumentType
+    is_available: bool
+    last_checked_at: datetime | None
 
 
 class ProgramVersionItem(BaseModel):

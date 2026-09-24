@@ -31,7 +31,7 @@ SOURCES = (
     {
         "name": "Moje Ciepło",
         "slug": "moje-cieplo",
-        "url": "https://mojecieplo.gov.pl/",
+        "url": "https://mojecieplo.gov.pl/o-programie/",
         "source_type": SourceType.HTML,
     },
     {

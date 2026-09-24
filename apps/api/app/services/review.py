@@ -19,7 +19,13 @@ from app.models.domain import (
     ReviewTask,
     SourceSnapshot,
 )
-from app.models.enums import DocumentType, ExtractionStatus, ReviewStatus
+from app.models.enums import (
+    DocumentType,
+    ExtractionStatus,
+    ProgramStatus,
+    ReviewReason,
+    ReviewStatus,
+)
 from app.schemas.content import ApplicationResource
 from app.schemas.extraction import ExtractionCandidate
 
@@ -87,6 +93,60 @@ async def approve_review(
         return program
     if review.status != ReviewStatus.PENDING:
         raise ReviewOperationError("review_not_pending")
+
+    if review.reason == ReviewReason.STATUS_CHANGED and review.payload.get("kind") == "date_status":
+        if review.program_id is None:
+            raise ReviewOperationError("status_review_program_missing")
+        program = await session.get(Program, review.program_id)
+        if program is None:
+            raise ReviewOperationError("program_not_found")
+        proposed = ProgramStatus(review.payload["proposed_status"])
+        latest = await session.scalar(
+            select(ProgramVersion)
+            .where(
+                ProgramVersion.program_id == program.id,
+                ProgramVersion.approved_at.is_not(None),
+            )
+            .order_by(ProgramVersion.version_number.desc())
+        )
+        if latest is None:
+            raise ReviewOperationError("approved_version_not_found")
+        version_number = (
+            await session.scalar(
+                select(func.coalesce(func.max(ProgramVersion.version_number), 0)).where(
+                    ProgramVersion.program_id == program.id
+                )
+            )
+        ) + 1
+        extracted_data = dict(latest.extracted_data)
+        extracted_data["status"] = proposed.value
+        now = datetime.now(UTC)
+        version = ProgramVersion(
+            program_id=program.id,
+            source_snapshot_id=latest.source_snapshot_id,
+            version_number=version_number,
+            extracted_data=extracted_data,
+            evidence={"status_change": review.payload},
+            change_summary=f"Zmiana statusu na {proposed.value} na podstawie terminu",
+            approved_at=now,
+        )
+        session.add(version)
+        program.status = proposed
+        review.status = ReviewStatus.APPROVED
+        review.program_version_id = version.id
+        review.resolved_at = now
+        review.resolution_note = "Zatwierdzono zmianę statusu wynikającą z daty"
+        session.add(
+            AuditLog(
+                actor=actor,
+                action="program.status_approve",
+                entity_type="program_version",
+                entity_id=version.id,
+                details={"review_id": str(review.id), "status": proposed.value},
+            )
+        )
+        await session.flush()
+        return program
 
     job = await session.scalar(
         select(ExtractionJob).where(ExtractionJob.review_task_id == review.id)

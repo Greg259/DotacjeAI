@@ -163,6 +163,11 @@ async def test_public_program_list_supports_mvp_filters() -> None:
                     "location": "nadarzyn",
                     "category": "heat_source_replacement",
                     "status": "closed",
+                    "beneficiary_type": "natural_person",
+                    "application_end_to": "2026-08-01",
+                    "min_amount": "5000",
+                    "min_support_percent": "70",
+                    "sort": "amount_desc",
                 },
             )
             missing = await client.get("/api/programs", params={"location": "warszawa"})
@@ -188,7 +193,9 @@ async def test_public_program_list_supports_mvp_filters() -> None:
         {
             "title": "Regulamin naboru",
             "url": "https://example.invalid/nadarzyn.pdf",
-                "document_type": "regulations",
+            "document_type": "regulations",
+            "is_available": True,
+            "last_checked_at": None,
         }
     ]
     assert [item["version_number"] for item in detail_payload["versions"]] == [1]

@@ -15,7 +15,9 @@ crontab -l 2>/dev/null \
 printf '%s\n' \
   "30 2 * * * ${APP_ROOT}/server/backup_dotacje_ai.sh >> ${BACKUP_ROOT}/logs/backup.log 2>&1 # dotacje-ai-backup" \
   "*/5 * * * * ${APP_ROOT}/server/monitor_health.sh >> ${BACKUP_ROOT}/logs/monitor.log 2>&1 # dotacje-ai-monitor" \
-  "15 */6 * * * ${APP_ROOT}/server/run_crawler.sh >> ${BACKUP_ROOT}/logs/crawler.log 2>&1 # dotacje-ai-crawler" \
+  "15 */6 * * * ${APP_ROOT}/server/run_pipeline.sh >> ${BACKUP_ROOT}/logs/pipeline.log 2>&1 # dotacje-ai-pipeline" \
+  "10 4 * * * ${APP_ROOT}/server/run_document_sync.sh >> ${BACKUP_ROOT}/logs/documents.log 2>&1 # dotacje-ai-documents" \
+  "25 * * * * ${APP_ROOT}/server/run_status_refresh.sh >> ${BACKUP_ROOT}/logs/status.log 2>&1 # dotacje-ai-status" \
   >>"${CRON_TMP}"
 
 crontab "${CRON_TMP}"

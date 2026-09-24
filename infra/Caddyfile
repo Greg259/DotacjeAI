@@ -13,6 +13,10 @@ dotacjeai.eu {
         -Server
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Frame-Options "DENY"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
     }
 
     handle /health {
@@ -20,6 +24,13 @@ dotacjeai.eu {
     }
 
     handle /api/* {
+        reverse_proxy api:8000
+    }
+
+    handle /admin* {
+        basic_auth {
+            {$ADMIN_USERNAME} {$ADMIN_PASSWORD_HASH}
+        }
         reverse_proxy api:8000
     }
 

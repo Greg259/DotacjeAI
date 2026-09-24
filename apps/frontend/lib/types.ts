@@ -30,6 +30,8 @@ export interface ProgramDocument {
   title: string;
   url: string;
   document_type: string;
+  is_available: boolean;
+  last_checked_at: string | null;
 }
 
 export interface ProgramVersion {

@@ -57,7 +57,7 @@ function ContentList({ items }: { items: ProgramContentItem[] }) {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const program = await getProgram(slug);
-  return program ? { title: program.title, description: program.summary } : { title: "Nie znaleziono programu" };
+  return program ? { title: program.title, description: program.summary, alternates: { canonical: `/dotacje/${slug}` } } : { title: "Nie znaleziono programu" };
 }
 
 export default async function ProgramPage({ params }: { params: Params }) {
@@ -161,10 +161,11 @@ export default async function ProgramPage({ params }: { params: Params }) {
           {details.application_resources.length ? (
             <div className="resource-list">
               {details.application_resources.map((resource) => (
-                <a className="resource-card" href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>
+                <a className={`resource-card ${program.documents.find((item) => item.url === resource.url)?.is_available === false ? "resource-unavailable" : ""}`} href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>
                   <span className="resource-type">{resourceLabels[resource.resource_type] ?? "Dokument"}</span>
                   <strong>{resource.title} ↗</strong>
                   {resource.description && <span>{resource.description}</span>}
+                  {program.documents.find((item) => item.url === resource.url)?.is_available === false && <span className="resource-warning">Link wymaga ponownej weryfikacji</span>}
                 </a>
               ))}
             </div>
@@ -175,7 +176,7 @@ export default async function ProgramPage({ params }: { params: Params }) {
           <h2>Wszystkie źródła</h2>
           {program.documents.length ? (
             <ul className="source-list">
-              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a></li>)}
+              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a>{!doc.is_available && <span className="resource-warning"> — link wymaga weryfikacji</span>}</li>)}
             </ul>
           ) : <p>Oficjalny dokument jest przygotowywany.</p>}
           {program.official_url && <a className="button small" href={program.official_url} target="_blank" rel="noreferrer">Otwórz oficjalną stronę</a>}

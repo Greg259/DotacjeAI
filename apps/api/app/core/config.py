@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(case_sensitive=True, extra="ignore")
 
     app_env: str = Field(default="development", validation_alias="APP_ENV")
-    app_version: str = Field(default="0.4.0", validation_alias="APP_VERSION")
+    app_version: str = Field(default="0.6.0", validation_alias="APP_VERSION")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
 
     source_storage_root: Path = Field(

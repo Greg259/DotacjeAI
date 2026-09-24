@@ -14,6 +14,7 @@ from app.services.crawler import CrawlError, crawl_source
 PRIORITY_SOURCES = (
     "wfosigw-warszawa-czyste-powietrze",
     "nadarzyn-wymiana-zrodla-ciepla-2026",
+    "moje-cieplo",
 )
 
 

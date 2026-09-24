@@ -260,6 +260,12 @@ class ProgramDocument(UuidPrimaryKeyMixin, TimestampMixin, Base):
     document_type: Mapped[DocumentType] = mapped_column(
         enum_column(DocumentType, 30), nullable=False
     )
+    last_checked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_http_status: Mapped[int | None] = mapped_column(Integer)
+    last_error_message: Mapped[str | None] = mapped_column(Text)
+    is_available: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default="true"
+    )
 
 
 class DocumentVersion(UuidPrimaryKeyMixin, Base):

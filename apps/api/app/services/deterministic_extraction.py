@@ -56,6 +56,18 @@ SOURCE_PROFILES = {
             InvestmentCategory.THERMAL_MODERNIZATION,
         ],
     },
+    "moje-cieplo": {
+        "slug": "moje-cieplo",
+        "title": "Moje Ciepło",
+        "organizer": "Narodowy Fundusz Ochrony Środowiska i Gospodarki Wodnej",
+        "location_slugs": ["polska"],
+        "beneficiary_types": [BeneficiaryType.NATURAL_PERSON, BeneficiaryType.OWNER],
+        "property_types": [PropertyType.SINGLE_FAMILY_HOUSE, PropertyType.NEW_HOUSE],
+        "investment_categories": [
+            InvestmentCategory.HEAT_PUMP,
+            InvestmentCategory.DOMESTIC_HOT_WATER,
+        ],
+    },
 }
 
 # Tylko te źródła mają na tyle wąski i stabilny format, że kompletne reguły
