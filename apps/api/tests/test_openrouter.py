@@ -53,6 +53,7 @@ async def test_openrouter_parses_structured_response_and_usage() -> None:
         body = json.loads(request.content)
         assert body["response_format"]["type"] == "json_schema"
         assert body["provider"]["require_parameters"] is True
+        assert "temperature" not in body
         return httpx.Response(
             200,
             json={

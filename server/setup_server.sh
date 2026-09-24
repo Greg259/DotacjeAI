@@ -62,9 +62,9 @@ REDIS_PASSWORD=${redis_password}
 LLM_PROVIDER=openrouter
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 OPENROUTER_API_KEY=
-LLM_MODEL_FAST=openai/gpt-5.6-luna
-LLM_MODEL_STRONG=openai/gpt-5.6-luna-pro
-LLM_MODEL_VALIDATOR=google/gemini-3.8-flash
+LLM_MODEL_FAST=openai/gpt-6-luna
+LLM_MODEL_STRONG=openai/gpt-6-luna-pro
+LLM_MODEL_VALIDATOR=openai/gpt-6-luna
 LLM_DAILY_BUDGET_USD=5
 LLM_MONTHLY_BUDGET_USD=100
 EOF

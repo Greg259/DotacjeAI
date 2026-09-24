@@ -31,9 +31,7 @@ class Settings(BaseSettings):
         validation_alias="CRAWLER_MAX_RESPONSE_BYTES",
     )
     crawler_extra_ca_path: Path | None = Field(
-        default=Path(__file__).resolve().parents[2]
-        / "certs"
-        / "homepl-ov-tls-g2-r35-ca.pem",
+        default=Path(__file__).resolve().parents[2] / "certs" / "homepl-ov-tls-g2-r35-ca.pem",
         validation_alias="CRAWLER_EXTRA_CA_PATH",
     )
 
@@ -53,14 +51,12 @@ class Settings(BaseSettings):
     openrouter_api_key: SecretStr = Field(
         default=SecretStr(""), validation_alias="OPENROUTER_API_KEY"
     )
-    llm_model_fast: str = Field(
-        default="google/gemini-2.5-flash-lite", validation_alias="LLM_MODEL_FAST"
-    )
+    llm_model_fast: str = Field(default="openai/gpt-6-luna", validation_alias="LLM_MODEL_FAST")
     llm_model_strong: str = Field(
-        default="google/gemini-2.5-flash", validation_alias="LLM_MODEL_STRONG"
+        default="openai/gpt-6-luna-pro", validation_alias="LLM_MODEL_STRONG"
     )
     llm_model_validator: str = Field(
-        default="google/gemini-2.5-flash-lite", validation_alias="LLM_MODEL_VALIDATOR"
+        default="openai/gpt-6-luna", validation_alias="LLM_MODEL_VALIDATOR"
     )
     llm_daily_budget_usd: Decimal = Field(
         default=Decimal("1"), ge=0, validation_alias="LLM_DAILY_BUDGET_USD"
@@ -74,9 +70,7 @@ class Settings(BaseSettings):
     llm_critical_budget_usd: Decimal = Field(
         default=Decimal("8"), validation_alias="LLM_CRITICAL_BUDGET_USD"
     )
-    llm_timeout_seconds: float = Field(
-        default=60.0, gt=0, validation_alias="LLM_TIMEOUT_SECONDS"
-    )
+    llm_timeout_seconds: float = Field(default=60.0, gt=0, validation_alias="LLM_TIMEOUT_SECONDS")
     llm_max_source_characters: int = Field(
         default=60000, ge=1000, validation_alias="LLM_MAX_SOURCE_CHARACTERS"
     )

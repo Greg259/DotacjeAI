@@ -20,6 +20,7 @@ from app.services.openrouter import (
 )
 
 PROMPT_VERSION = "extraction-v1"
+LLM_REQUEST_VERSION = "2"
 
 
 def _job_key(snapshot: SourceSnapshot) -> str:
@@ -28,7 +29,8 @@ def _job_key(snapshot: SourceSnapshot) -> str:
 
 
 def _llm_key(job: ExtractionJob, model: str, attempt: int) -> str:
-    return hashlib.sha256(f"{job.idempotency_key}:{model}:{attempt}".encode()).hexdigest()
+    value = f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:{model}:{attempt}"
+    return hashlib.sha256(value.encode()).hexdigest()
 
 
 async def _snapshot_from_review(session: AsyncSession, review: ReviewTask) -> SourceSnapshot | None:

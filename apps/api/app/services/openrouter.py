@@ -90,7 +90,6 @@ def build_request(
         },
         "provider": {"require_parameters": True},
         "usage": {"include": True},
-        "temperature": 0,
         "stream": False,
     }
 
