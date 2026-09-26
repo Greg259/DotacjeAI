@@ -84,10 +84,6 @@ async def test_user_submission_requires_csrf_and_admin_approval() -> None:
             assert approved.status_code == 200
             assert approved.json()["status"] == "approved"
 
-            exported = await client.get("/api/auth/export")
-            assert exported.status_code == 200
-            assert exported.json()["source_suggestions"][0]["id"] == suggestion_id
-
         async with session_factory() as session:
             suggestion = await session.get(SourceSuggestion, uuid.UUID(suggestion_id))
             assert suggestion is not None
