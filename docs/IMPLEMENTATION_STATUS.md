@@ -221,3 +221,17 @@ Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTEN
 - pomiar końcowy: `clientWidth=390`, `scrollWidth=390`, zero elementów poza viewportem;
 - produkcja działa na commicie `39a4daa`, CI zakończył się sukcesem, backup przed wdrożeniem: `3e52402c`;
 - szczegóły: `SPRINT_05_VISUAL_ACCESSIBILITY_AUDIT.md`.
+
+## Sprint 07 — jakość i rozwój katalogu (2026-09-26)
+
+- produkcja zawiera 12 oficjalnych źródeł i 11 ręcznie zatwierdzonych programów;
+- monitorowane gminy powiatu pruszkowskiego obejmują Nadarzyn, Pruszków, Brwinów, Michałowice i Raszyn; Piastów znajduje się w słowniku lokalizacji;
+- crawler klasyfikuje istotne zmiany regulaminu, terminu, kwoty, formularzy i statusu naboru;
+- dokumenty mają jawny cykl życia i tworzą osobny REVIEW po zmianie hasha;
+- panel administratora pokazuje ocenę kompletności według 14 kryteriów;
+- benchmark 20 przypadków wskazał `openai/gpt-6-luna` jako najlepszy model: 93,33%, 0 błędów formatu, koszt 0,0013096 USD;
+- poprawiono fallback do mocniejszego modelu przy brakującym dowodzie krytycznego pola;
+- commit `b492912`, GitHub Actions run `36236185356` zakończył się sukcesem;
+- backup po publikacji i synchronizacji dokumentów: `64959196`.
+
+Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.

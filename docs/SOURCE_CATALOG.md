@@ -1,6 +1,6 @@
 # DotacjeAI — katalog źródeł MVP-0
 
-Stan weryfikacji: 2026-09-23.
+Stan weryfikacji: 2026-09-26.
 
 Statusy są danymi zmiennymi. Crawler ma je ponownie ustalać z oficjalnych źródeł; poniższa tabela stanowi punkt początkowy i zestaw testowy.
 
@@ -13,6 +13,11 @@ Statusy są danymi zmiennymi. Crawler ma je ponownie ustalać z oficjalnych źr�
 | P1 | Przydomowe magazyny energii | https://przydomowemagazyny.gov.pl/ | wymaga śledzenia części i kolejnych naborów | PV, magazyn energii i magazyn ciepła |
 | P1 | Moja Elektrownia Wiatrowa | https://mojaelektrowniawiatrowa.gov.pl/ | zakończona 20.02.2026 | test wcześniejszego zamknięcia po wyczerpaniu budżetu |
 | P1 | Ciepłe Mieszkanie | https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie | nabory zależne od gmin | mieszkania, najemcy i wspólnoty mieszkaniowe |
+| P1 | Miasto Pruszków — wymiana pieca 2026 | https://bip.um.pruszkow.pl/artykul/486/6496 | otwarta do 30.09.2026 | lokalny nabór, kilka wariantów kwot |
+| P1 | Miasto Pruszków — Ciepłe Mieszkanie | https://www.pruszkow.pl/srodowisko/dofinansowanie/program-cieple-mieszkanie-mozliwosc-wymiany-pieca-weglowego-w-budynku-wielorodzinnym/ | wymaga lokalnego potwierdzenia | test starszych materiałów i nieaktualnych linków |
+| P1 | Gmina Brwinów — wymiana pieca 2026 | https://www.brwinow.pl/aktualnosci/1600-gminne-dotacje-na-zmiane-systemu-ogrzewania-3.html | brak jednoznacznej daty końca | 90%, maksymalnie 8000 zł |
+| P1 | Gmina Michałowice — Lokalny Program Piecowy | https://www.michalowice.pl/czystepowietrze1/dla-rolnikow/24-lokalny-program-piecowy-na-terenie-gminy-michal | otwarta do 15.10.2026 | 100%, maksymalnie 7000 zł, komplet formularzy |
+| P1 | Gmina Raszyn — ograniczanie niskiej emisji | https://raszyn.pl/aktualnosci/program-ograniczania-niskiej-emisji-nabor-wnioskow-o-przyznanie-dotacji-celowej-do-1 | zakończona 31.05.2026 | formularze PDF/DOCX, regulamin i warianty do 8000 zł |
 
 ## Potwierdzone reguły testowe
 

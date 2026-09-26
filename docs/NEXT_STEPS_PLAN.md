@@ -2,6 +2,17 @@
 
 Aktualizacja: 2026-09-26.
 
+## Stan po Sprincie 07
+
+- [x] Rozszerzono katalog do 12 oficjalnych źródeł i 11 programów publicznych.
+- [x] Dodano gminy powiatu pruszkowskiego: Pruszków, Brwinów, Michałowice, Piastów i Raszyn obok Nadarzyna.
+- [x] Dodano klasyfikację zmian regulaminu, terminu, kwoty, formularza i zamknięcia naboru.
+- [x] Dodano stany dokumentów i REVIEW nowych wersji.
+- [x] Przygotowano 20-przypadkowy zestaw jakości AI i porównano cztery modele.
+- [x] Dodano ocenę kompletności programu w panelu administratora.
+
+Następny rekomendowany etap: Sprint 06 w zakresie infrastruktury przed betą (backup poza VPS, alarm zewnętrzny i końcowa rotacja klucza), a następnie Sprint 08 — konta oraz profile użytkowników.
+
 ## Stan po odbiorze MVP-0
 
 MVP-0 zostało zakończone i wdrożone. Aktualny protokół oraz granica zakresu znajdują się w `MVP0_COMPLETION.md`. Poniższe historyczne etapy pozostają jako zapis realizacji; aktualna kolejność dalszych prac to:

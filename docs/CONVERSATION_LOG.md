@@ -520,3 +520,9 @@ GitHub Actions zakończył się sukcesem dla commita `8b5c4e7`. Backup przed wdr
 Użytkownik polecił wykonać również punkt 4. Przegląd produkcji w Edge na desktopie i emulowanym telefonie wykrył uszkodzone polskie znaki w tytułach, organizatorach i opisach trzech nowych programów. Przyczyną było kodowanie wcześniejszego strumienia JSON z PowerShell do SSH. Rozbudowane treści zaimportowane z plików na Linuksie pozostały poprawne.
 
 Dodano audytowalne narzędzie korekty głównych pól programu, które tworzy nową zatwierdzoną wersję i wpis audit log. Trzy programy poprawiono bezpośrednio z plików UTF-8 na VPS. Dodano również skip-link, widoczny fokus klawiatury, poprawne mobilne `calc()` i zawijanie długiej treści. Końcowy pomiar viewportu 390 px wykazał `scrollWidth=390` i zero elementów poza ekranem. Test odbiorowy potwierdził poprawne polskie znaki, 6 programów, 0 REVIEW, 0 niedostępnych dokumentów i pięć zdrowych kontenerów.
+
+## 32. Sprint 07 — jakość i rozwój katalogu
+
+Użytkownik zlecił wykonanie Sprintu 07: rozszerzenie katalogu, kolejne gminy Mazowsza, klasyfikację zmian, kontrolę nieaktualnych dokumentów, zestaw jakości AI, porównanie modeli OpenRouter i ocenę kompletności. Dodano pięć źródeł lokalnych, opublikowano pięć ręcznie sprawdzonych kart i zwiększono katalog do 12 źródeł oraz 11 programów. Wdrożono klasyfikację zmian i cztery stany dokumentów, osobny REVIEW dokumentów oraz wynik kompletności według 14 kryteriów.
+
+Benchmark 20 przypadków i 45 pól porównał cztery modele. Najlepszy wynik uzyskał `openai/gpt-6-luna`: 93,33% przy koszcie 0,0013096 USD i bez błędów formatu. Produkcyjny przypadek Brwinowa ujawnił brak fallbacku po odpowiedzi bez dowodu statusu; mechanizm poprawiono i zabezpieczono testem regresji. Wszystkie nowe źródła zakończyły ekstrakcję jako `ready_for_review`, a następnie zostały ręcznie zatwierdzone i opublikowane. Backup po publikacji: `64959196`.
