@@ -23,6 +23,12 @@ PRIORITY_SOURCES = (
     "brwinow-wymiana-pieca-2026",
     "michalowice-lokalny-program-piecowy-2026",
     "raszyn-ograniczanie-niskiej-emisji-2026",
+    "parp-katalog-naborow",
+    "fundusze-europejskie-wyszukiwarka",
+    "ncbr-katalog-konkursow",
+    "parp-sciezka-smart",
+    "parp-start-up-booster-poland",
+    "parp-promocja-marki-innowacyjnych-msp",
 )
 
 

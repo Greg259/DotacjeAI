@@ -212,6 +212,9 @@ async def approve_review(
     program.max_amount = candidate.max_amount
     program.support_percent = candidate.support_percent
     program.currency = candidate.currency
+    program.eligibility_rules = [
+        item.model_dump(mode="json") for item in candidate.eligibility_rules
+    ]
     program.last_verified_at = snapshot.fetched_at
 
     await session.execute(delete(ProgramLocation).where(ProgramLocation.program_id == program.id))
@@ -361,9 +364,7 @@ async def reject_review(
     if review.status != ReviewStatus.PENDING:
         raise ReviewOperationError("review_not_pending")
     if review.reason == ReviewReason.DOCUMENT_CHANGED and review.payload.get("document_id"):
-        document = await session.get(
-            ProgramDocument, uuid.UUID(str(review.payload["document_id"]))
-        )
+        document = await session.get(ProgramDocument, uuid.UUID(str(review.payload["document_id"])))
         if document is not None:
             document.state = DocumentState.CURRENT
             document.state_reason = None

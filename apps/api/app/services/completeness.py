@@ -18,9 +18,7 @@ class CompletenessResult:
     missing: list[str]
 
 
-async def program_completeness(
-    session: AsyncSession, program: Program
-) -> CompletenessResult:
+async def program_completeness(session: AsyncSession, program: Program) -> CompletenessResult:
     latest = await session.scalar(
         select(ProgramVersion)
         .where(

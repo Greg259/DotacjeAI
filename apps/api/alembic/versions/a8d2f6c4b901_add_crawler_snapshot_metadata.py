@@ -34,8 +34,7 @@ def upgrade() -> None:
         sa.Column("diff_path", sa.Text(), nullable=True),
     )
     op.execute(
-        "UPDATE source_snapshots SET normalized_sha256 = sha256 "
-        "WHERE normalized_sha256 IS NULL"
+        "UPDATE source_snapshots SET normalized_sha256 = sha256 WHERE normalized_sha256 IS NULL"
     )
     op.execute("UPDATE source_snapshots SET size_bytes = 0 WHERE size_bytes IS NULL")
     op.alter_column("source_snapshots", "normalized_sha256", nullable=False)

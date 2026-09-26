@@ -82,6 +82,42 @@ SOURCES = (
         "url": "https://raszyn.pl/aktualnosci/program-ograniczania-niskiej-emisji-nabor-wnioskow-o-przyznanie-dotacji-celowej-do-1",
         "source_type": SourceType.HTML,
     },
+    {
+        "name": "PARP — katalog naborów dla przedsiębiorstw",
+        "slug": "parp-katalog-naborow",
+        "url": "https://www.parp.gov.pl/component/grants/grants",
+        "source_type": SourceType.INDEX,
+    },
+    {
+        "name": "Fundusze Europejskie — wyszukiwarka dotacji",
+        "slug": "fundusze-europejskie-wyszukiwarka",
+        "url": "https://funduszeeuropejskie.gov.pl/wyszukiwarka/",
+        "source_type": SourceType.INDEX,
+    },
+    {
+        "name": "NCBR — oficjalne archiwum aktualnych konkursów",
+        "slug": "ncbr-katalog-konkursow",
+        "url": "https://archiwum.ncbr.gov.pl/aktualne-konkursy/",
+        "source_type": SourceType.INDEX,
+    },
+    {
+        "name": "PARP — Ścieżka SMART",
+        "slug": "parp-sciezka-smart",
+        "url": "https://www.parp.gov.pl/component/grants/grants/sciezka-smart",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "PARP — Start-up Booster Poland",
+        "slug": "parp-start-up-booster-poland",
+        "url": "https://www.parp.gov.pl/component/grants/grants/start-up-boost-poland",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "PARP — Promocja marki innowacyjnych MŚP",
+        "slug": "parp-promocja-marki-innowacyjnych-msp",
+        "url": "https://www.parp.gov.pl/component/grants/grants/promocja-marki-innowacyjnych-msp",
+        "source_type": SourceType.HTML,
+    },
 )
 
 

@@ -21,9 +21,7 @@ async def run() -> int:
     try:
         candidate = ExtractionCandidate.model_validate(json.load(sys.stdin))
         async with SessionFactory() as session:
-            version = await update_program_core(
-                session, args.slug, candidate, actor="deploy"
-            )
+            version = await update_program_core(session, args.slug, candidate, actor="deploy")
             await session.commit()
         print(
             json.dumps(

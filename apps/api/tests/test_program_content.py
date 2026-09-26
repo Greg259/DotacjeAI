@@ -85,9 +85,7 @@ async def test_update_program_content_versions_details_and_syncs_resources() -> 
                 ],
             }
         )
-        version = await update_program_content(
-            session, program.slug, details, actor="test"
-        )
+        version = await update_program_content(session, program.slug, details, actor="test")
         await session.commit()
 
         document = await session.scalar(select(ProgramDocument))
@@ -198,9 +196,7 @@ async def test_update_program_core_preserves_details_and_creates_audit_version()
                 ],
             }
         )
-        version = await update_program_core(
-            session, program.slug, candidate, actor="test"
-        )
+        version = await update_program_core(session, program.slug, candidate, actor="test")
         await session.commit()
 
         assert program.title == "Poprawny polski tytuł"

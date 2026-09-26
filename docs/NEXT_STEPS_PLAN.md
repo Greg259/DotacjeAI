@@ -26,6 +26,18 @@ Szczegóły: `SPRINT_09_ACCOUNTS_PROFILES.md`.
 
 Szczegóły: `SPRINT_10_DETERMINISTIC_MATCHING.md`.
 
+## Sprint 10B — reguły szczegółowe i programy firmowe
+
+- [x] Dodano wersjonowane reguły kwalifikacji z oficjalnym dowodem.
+- [x] Dodano kryteria dochodowe, budżet i wkład własny dla profili prywatnych.
+- [x] Dodano pomoc de minimis, startup, VC i konsorcjum dla profili firmowych.
+- [x] Dodano deterministyczne operatory liczbowe, listowe i logiczne.
+- [x] Dodano wykrywanie programów z indeksów PARP, NCBR i Funduszy Europejskich.
+- [x] Dodano diagnostykę dopasowania profilu w panelu administratora.
+- [ ] Po wdrożeniu wykonać REVIEW pierwszych wyników PARP i opublikować wyłącznie zweryfikowane programy.
+
+Szczegóły: `SPRINT_10B_ADVANCED_MATCHING_BUSINESS_DISCOVERY.md`.
+
 ## Stan po Sprincie 07
 
 - [x] Rozszerzono katalog do 12 oficjalnych źródeł i 11 programów publicznych.

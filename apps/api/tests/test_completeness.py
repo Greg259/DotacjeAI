@@ -85,9 +85,7 @@ async def test_completeness_reports_score_and_missing_sections() -> None:
                 version_number=1,
                 extracted_data={
                     "details": {
-                        "key_takeaways": [
-                            {"title": "Ważne", "description": "Opis informacji"}
-                        ]
+                        "key_takeaways": [{"title": "Ważne", "description": "Opis informacji"}]
                     }
                 },
                 evidence={},

@@ -69,9 +69,7 @@ def _serialize(program: Program) -> ProgramItem:
         locations=[LocationItem.model_validate(item.location) for item in program.locations],
         property_types=[item.property_type for item in program.property_types],
         beneficiary_types=[item.beneficiary_type for item in program.beneficiary_types],
-        investment_categories=[
-            item.investment_category for item in program.investment_categories
-        ],
+        investment_categories=[item.investment_category for item in program.investment_categories],
         business_sizes=[item.business_size for item in program.business_sizes],
     )
 

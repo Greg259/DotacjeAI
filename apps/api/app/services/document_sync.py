@@ -119,10 +119,7 @@ async def sync_program_documents(
                 )
                 extension = _extension(document.url, response.headers.get("content-type"))
                 relative = (
-                    Path("documents")
-                    / str(program.id)
-                    / str(document.id)
-                    / f"{digest}{extension}"
+                    Path("documents") / str(program.id) / str(document.id) / f"{digest}{extension}"
                 )
                 _write_atomic(settings.source_storage_root / relative, raw)
                 version = DocumentVersion(

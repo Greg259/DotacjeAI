@@ -259,3 +259,13 @@ Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
 - API oraz frontend izolują wynik według właściciela profilu;
 - obecny katalog nie zawiera jeszcze produkcyjnych programów NCBR/PARP;
 - szczegóły: `SPRINT_10_DETERMINISTIC_MATCHING.md`.
+
+## Sprint 10B — zaawansowane reguły i wykrywanie programów firmowych (2026-09-26)
+
+- profile obejmują dochód gospodarstwa, budżet, wkład własny, pomoc de minimis, startup, VC i konsorcjum;
+- zatwierdzony program może zawierać reguły liczbowe, listowe i logiczne wraz z oficjalnym URL, lokalizatorem i cytatem;
+- silnik rozróżnia spełnienie, niespełnienie i brak danych, a warunki informacyjne nie blokują wyniku;
+- OpenRouter ekstrahuje kandydatów reguł, ale nie podejmuje decyzji i nie publikuje programu;
+- oficjalne indeksy PARP, Funduszy Europejskich i NCBR są monitorowane pod kątem nowych programów dla firm, startupów, VC i B+R;
+- panel administratora pokazuje wykryte linki oraz pełną diagnostykę dopasowań profili;
+- szczegóły: `SPRINT_10B_ADVANCED_MATCHING_BUSINESS_DISCOVERY.md`.

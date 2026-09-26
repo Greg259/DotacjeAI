@@ -1,5 +1,9 @@
 # DotacjeAI - zapis rozmowy i decyzji projektowych
 
+## 2026-09-26 — rozpoczęcie Sprintu 10B
+
+Właściciel zlecił rozbudowę matchingu o szczegółowe kryteria dla osób fizycznych i przedsiębiorstw, w tym startupów, inwestorów VC, konsorcjów, PKD, obrotu, wkładu własnego i pomocy de minimis. Przyjęto zasadę, że AI ekstrahuje wyłącznie udokumentowane reguły, natomiast kwalifikację oblicza deterministyczny silnik. Dodano także wykrywanie kandydatów na programy z oficjalnych indeksów PARP, NCBR i Funduszy Europejskich, bez automatycznej publikacji.
+
 Data rozpoczęcia: 2026-09-22
 Użytkownik: właściciel projektu
 Asystent: Codex

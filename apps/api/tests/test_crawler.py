@@ -109,15 +109,16 @@ async def test_crawler_versions_changed_content_and_creates_review(
 
         snapshots = list(
             (
-                await session.scalars(
-                    select(SourceSnapshot).order_by(SourceSnapshot.fetched_at)
-                )
+                await session.scalars(select(SourceSnapshot).order_by(SourceSnapshot.fetched_at))
             ).all()
         )
         assert len(snapshots) == 3
-        assert snapshots[0].sha256 == hashlib.sha256(
-            b"<html><body><h1>Nabor</h1><p>Status: otwarty</p></body></html>"
-        ).hexdigest()
+        assert (
+            snapshots[0].sha256
+            == hashlib.sha256(
+                b"<html><body><h1>Nabor</h1><p>Status: otwarty</p></body></html>"
+            ).hexdigest()
+        )
         assert snapshots[1].storage_path == snapshots[0].storage_path
         assert snapshots[2].diff_path is not None
         assert f"/snapshots/{snapshots[2].diff_path}" in writes

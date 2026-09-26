@@ -12,6 +12,10 @@ class MatchRuleResult(BaseModel):
     label: str
     status: MatchRuleStatus
     explanation: str
+    source_url: str | None = None
+    source_reference: str | None = None
+    evidence_quote: str | None = None
+    blocking: bool = True
 
 
 class ProgramMatchResult(BaseModel):

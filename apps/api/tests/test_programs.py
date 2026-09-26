@@ -61,9 +61,7 @@ async def test_public_program_list_supports_mvp_filters() -> None:
             is_published=True,
             primary_source=source,
             locations=[ProgramLocation(location=location)],
-            property_types=[
-                ProgramPropertyType(property_type=PropertyType.SINGLE_FAMILY_HOUSE)
-            ],
+            property_types=[ProgramPropertyType(property_type=PropertyType.SINGLE_FAMILY_HOUSE)],
             beneficiary_types=[
                 ProgramBeneficiaryType(beneficiary_type=BeneficiaryType.NATURAL_PERSON)
             ],
@@ -154,9 +152,7 @@ async def test_public_program_list_supports_mvp_filters() -> None:
 
     app.dependency_overrides[get_session] = override_session
     try:
-        async with AsyncClient(
-            transport=ASGITransport(app=app), base_url="http://test"
-        ) as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.get(
                 "/api/programs",
                 params={
@@ -171,9 +167,7 @@ async def test_public_program_list_supports_mvp_filters() -> None:
                 },
             )
             missing = await client.get("/api/programs", params={"location": "warszawa"})
-            detail = await client.get(
-                "/api/programs/wymiana-zrodla-ciepla-nadarzyn-2026"
-            )
+            detail = await client.get("/api/programs/wymiana-zrodla-ciepla-nadarzyn-2026")
             unpublished = await client.get("/api/programs/program-roboczy")
             admin = await client.get("/admin", params={"status": "pending"})
     finally:
@@ -194,11 +188,11 @@ async def test_public_program_list_supports_mvp_filters() -> None:
         {
             "title": "Regulamin naboru",
             "url": "https://example.invalid/nadarzyn.pdf",
-                "document_type": "regulations",
-                "is_available": True,
-                "state": "current",
-                "state_reason": None,
-                "last_checked_at": None,
+            "document_type": "regulations",
+            "is_available": True,
+            "state": "current",
+            "state_reason": None,
+            "last_checked_at": None,
         }
     ]
     assert [item["version_number"] for item in detail_payload["versions"]] == [1]

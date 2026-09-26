@@ -37,9 +37,7 @@ DUMMY_PASSWORD_HASH = hash_password("not-a-real-user-password")
 
 def _client_ip(request: Request) -> str | None:
     forwarded = request.headers.get("x-forwarded-for", "")
-    return forwarded.split(",", 1)[0].strip() or (
-        request.client.host if request.client else None
-    )
+    return forwarded.split(",", 1)[0].strip() or (request.client.host if request.client else None)
 
 
 def _set_auth_cookies(response: Response, session_token: str, csrf_token: str) -> None:
@@ -185,12 +183,20 @@ async def export_account(identity: IdentityDep, session: SessionDep):
                 "current_heat_source": profile.current_heat_source,
                 "year_built": profile.year_built,
                 "heated_area_m2": profile.heated_area_m2,
+                "annual_household_income_pln": profile.annual_household_income_pln,
+                "household_members": profile.household_members,
                 "business_name": profile.business_name,
                 "business_size": profile.business_size,
                 "legal_form": profile.legal_form,
                 "established_year": profile.established_year,
                 "employee_count": profile.employee_count,
                 "annual_turnover_pln": profile.annual_turnover_pln,
+                "project_budget_pln": profile.project_budget_pln,
+                "own_contribution_pln": profile.own_contribution_pln,
+                "de_minimis_aid_eur": profile.de_minimis_aid_eur,
+                "is_startup": profile.is_startup,
+                "has_vc_investor": profile.has_vc_investor,
+                "consortium_planned": profile.consortium_planned,
                 "industry_codes": profile.industry_codes,
                 "investment_categories": [
                     item.investment_category for item in profile.investment_categories
@@ -213,9 +219,7 @@ async def delete_account(
 ):
     if not verify_password(payload.password, identity.user.password_hash):
         raise HTTPException(status_code=401, detail="Nieprawidłowe hasło.")
-    profile_ids = select(PropertyProfile.id).where(
-        PropertyProfile.user_id == identity.user.id
-    )
+    profile_ids = select(PropertyProfile.id).where(PropertyProfile.user_id == identity.user.id)
     await session.execute(
         delete(ProfileInvestmentCategory).where(
             ProfileInvestmentCategory.profile_id.in_(profile_ids)

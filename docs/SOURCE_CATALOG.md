@@ -1,5 +1,16 @@
 # DotacjeAI — katalog źródeł MVP-0
 
+## Źródła dla przedsiębiorstw — Sprint 10B
+
+- PARP — katalog naborów: `https://www.parp.gov.pl/component/grants/grants`;
+- Fundusze Europejskie — wyszukiwarka: `https://funduszeeuropejskie.gov.pl/wyszukiwarka/`;
+- NCBR — oficjalne archiwum konkursów: `https://archiwum.ncbr.gov.pl/aktualne-konkursy/`;
+- PARP — Ścieżka SMART;
+- PARP — Start-up Booster Poland;
+- PARP — Promocja marki innowacyjnych MŚP.
+
+Źródła indeksowe służą do wykrywania kandydatów i nie są publikowane jako pojedyncze programy. Szczegółowe strony wymagają ekstrakcji, REVIEW i osobnej publikacji.
+
 Stan weryfikacji: 2026-09-26.
 
 Statusy są danymi zmiennymi. Crawler ma je ponownie ustalać z oficjalnych źródeł; poniższa tabela stanowi punkt początkowy i zestaw testowy.

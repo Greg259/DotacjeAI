@@ -7,6 +7,8 @@ from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
 from app.models.enums import (
     BeneficiaryType,
     BusinessSize,
+    EligibilityOperator,
+    EligibilityProfileField,
     InvestmentCategory,
     ProgramStatus,
     PropertyType,
@@ -32,6 +34,24 @@ class ExtractionWarning(StrictSchema):
     fields: list[str] = Field(default_factory=list)
 
 
+class EligibilityRuleCandidate(StrictSchema):
+    code: str = Field(pattern=r"^[a-z0-9]+(?:_[a-z0-9]+)*$", max_length=100)
+    label: str = Field(min_length=3, max_length=250)
+    profile_field: EligibilityProfileField
+    operator: EligibilityOperator
+    expected: list[str] = Field(default_factory=list, max_length=50)
+    unit: str | None = Field(default=None, max_length=40)
+    blocking: bool = True
+    source_url: HttpUrl
+    source_reference: str = Field(min_length=1, max_length=500)
+    evidence_quote: str = Field(min_length=1, max_length=1000)
+
+    @field_validator("expected")
+    @classmethod
+    def normalize_expected(cls, value: list[str]) -> list[str]:
+        return list(dict.fromkeys(item.strip() for item in value if item.strip()))
+
+
 class ExtractionCandidate(StrictSchema):
     schema_version: Literal["extraction-v1", "extraction-v2"] = "extraction-v2"
     slug: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$", max_length=200)
@@ -51,6 +71,7 @@ class ExtractionCandidate(StrictSchema):
     property_types: list[PropertyType] = Field(default_factory=list)
     investment_categories: list[InvestmentCategory] = Field(default_factory=list)
     business_sizes: list[BusinessSize] = Field(default_factory=list)
+    eligibility_rules: list[EligibilityRuleCandidate] = Field(default_factory=list)
     official_url: HttpUrl
     document_urls: list[HttpUrl] = Field(default_factory=list)
     details: ProgramDetails = Field(default_factory=ProgramDetails)

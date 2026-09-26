@@ -109,9 +109,7 @@ def normalize_html(raw: bytes, base_url: str) -> str:
     sections = ["\n".join(lines)]
     if links:
         sections.append("\n".join(links))
-    return strip_volatile_content(
-        "\n\n".join(section for section in sections if section).strip()
-    )
+    return strip_volatile_content("\n\n".join(section for section in sections if section).strip())
 
 
 def normalize_pdf(raw: bytes) -> str:
@@ -121,9 +119,7 @@ def normalize_pdf(raw: bytes) -> str:
         for page in reader.pages:
             text = page.extract_text() or ""
             normalized = "\n".join(
-                line
-                for value in text.splitlines()
-                if (line := re.sub(r"\s+", " ", value).strip())
+                line for value in text.splitlines() if (line := re.sub(r"\s+", " ", value).strip())
             )
             if normalized:
                 pages.append(normalized)
@@ -259,8 +255,7 @@ async def crawl_source(
     declared_size = response.headers.get("content-length")
     try:
         response_too_large = (
-            declared_size is not None
-            and int(declared_size) > settings.crawler_max_response_bytes
+            declared_size is not None and int(declared_size) > settings.crawler_max_response_bytes
         )
     except ValueError:
         response_too_large = False
@@ -329,7 +324,7 @@ async def crawl_source(
 
     review_created = False
     change = classify_source_change(previous_normalized_text, normalized_text) if previous else None
-    if changed:
+    if changed and source.source_type != SourceType.INDEX:
         reason = ReviewReason.NEW_PROGRAM if previous is None else ReviewReason.SOURCE_CHANGED
         session.add(
             ReviewTask(

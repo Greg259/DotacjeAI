@@ -21,7 +21,9 @@ from app.models.domain import (
     ExtractionJob,
     LlmRun,
     Program,
+    ProgramDiscovery,
     ProgramDocument,
+    PropertyProfile,
     ReviewTask,
     Source,
     SourceSnapshot,
@@ -30,6 +32,7 @@ from app.models.enums import ExtractionStatus, ReviewReason, ReviewStatus
 from app.services.completeness import program_completeness
 from app.services.crawler import CrawlError, build_diff, crawl_source
 from app.services.extraction import retry_extraction_job
+from app.services.matching import match_profile
 from app.services.review import (
     ReviewOperationError,
     approve_review,
@@ -92,8 +95,7 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         reviews = [
             item
             for item in reviews
-            if program_filter
-            in str(item.payload.get("source_slug", "")).casefold()
+            if program_filter in str(item.payload.get("source_slug", "")).casefold()
         ]
     if created_from:
         try:
@@ -118,6 +120,26 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
     published_count = await session.scalar(
         select(func.count()).select_from(Program).where(Program.is_published.is_(True))
     )
+    discoveries = list(
+        (
+            await session.scalars(
+                select(ProgramDiscovery)
+                .where(ProgramDiscovery.status == "new")
+                .order_by(ProgramDiscovery.last_seen_at.desc())
+                .limit(100)
+            )
+        ).all()
+    )
+    profiles = list(
+        (
+            await session.scalars(
+                select(PropertyProfile)
+                .options(selectinload(PropertyProfile.user))
+                .order_by(PropertyProfile.updated_at.desc())
+                .limit(100)
+            )
+        ).all()
+    )
     published_programs = list(
         (
             await session.scalars(
@@ -133,8 +155,7 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         ).all()
     )
     completeness = [
-        (program, await program_completeness(session, program))
-        for program in published_programs
+        (program, await program_completeness(session, program)) for program in published_programs
     ]
     metrics = (
         "<div class='grid'>"
@@ -142,6 +163,7 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         f"<div class='metric'><strong>{pending_count}</strong><br>zadań REVIEW</div>"
         f"<div class='metric'><strong>{len(unavailable)}</strong><br>niedostępnych dokumentów</div>"
         f"<div class='metric'><strong>{monthly_cost or 0} USD</strong><br>koszt LLM w miesiącu</div>"
+        f"<div class='metric'><strong>{len(discoveries)}</strong><br>nowych kandydatów na program</div>"
         "</div>"
     )
     source_rows = "".join(
@@ -154,22 +176,26 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         for source in sources
     )
     review_ids = [item.id for item in all_reviews]
-    jobs = list(
-        (
-            await session.scalars(
-                select(ExtractionJob).where(ExtractionJob.review_task_id.in_(review_ids))
-            )
-        ).all()
-    ) if review_ids else []
+    jobs = (
+        list(
+            (
+                await session.scalars(
+                    select(ExtractionJob).where(ExtractionJob.review_task_id.in_(review_ids))
+                )
+            ).all()
+        )
+        if review_ids
+        else []
+    )
     jobs_by_review = {item.review_task_id: item for item in jobs}
     llm_ids = [item.last_llm_run_id for item in jobs if item.last_llm_run_id]
-    llm_runs = list(
-        (await session.scalars(select(LlmRun).where(LlmRun.id.in_(llm_ids)))).all()
-    ) if llm_ids else []
-    costs = {item.id: item.cost_usd for item in llm_runs}
-    source_counts = Counter(
-        str(item.payload.get("source_slug", "brak źródła")) for item in reviews
+    llm_runs = (
+        list((await session.scalars(select(LlmRun).where(LlmRun.id.in_(llm_ids)))).all())
+        if llm_ids
+        else []
     )
+    costs = {item.id: item.cost_usd for item in llm_runs}
+    source_counts = Counter(str(item.payload.get("source_slug", "brak źródła")) for item in reviews)
     review_rows = "".join(
         "<tr>"
         f"<td><a href='/admin/reviews/{review.id}'>{review.id}</a></td>"
@@ -180,15 +206,16 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         "</tr>"
         for review in reviews
     )
-    grouped_rows = "".join(
-        f"<li><strong>{html.escape(slug)}</strong>: {count}</li>"
-        for slug, count in source_counts.most_common()
-    ) or "<li>Brak wyników dla filtrów.</li>"
+    grouped_rows = (
+        "".join(
+            f"<li><strong>{html.escape(slug)}</strong>: {count}</li>"
+            for slug, count in source_counts.most_common()
+        )
+        or "<li>Brak wyników dla filtrów.</li>"
+    )
     audit_items = list(
         (
-            await session.scalars(
-                select(AuditLog).order_by(AuditLog.created_at.desc()).limit(50)
-            )
+            await session.scalars(select(AuditLog).order_by(AuditLog.created_at.desc()).limit(50))
         ).all()
     )
     audit_rows = "".join(
@@ -199,10 +226,13 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         "</tr>"
         for item in audit_items
     )
-    unavailable_rows = "".join(
-        f"<li class='bad'>{html.escape(item.title)} — {html.escape(item.url)} — {html.escape(item.last_error_message or 'brak odpowiedzi')}</li>"
-        for item in unavailable
-    ) or "<li class='ok'>Wszystkie sprawdzone dokumenty są dostępne.</li>"
+    unavailable_rows = (
+        "".join(
+            f"<li class='bad'>{html.escape(item.title)} — {html.escape(item.url)} — {html.escape(item.last_error_message or 'brak odpowiedzi')}</li>"
+            for item in unavailable
+        )
+        or "<li class='ok'>Wszystkie sprawdzone dokumenty są dostępne.</li>"
+    )
     completeness_rows = "".join(
         "<tr>"
         f"<td>{html.escape(program.title)}</td>"
@@ -211,6 +241,29 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         "</tr>"
         for program, result in completeness
     )
+    discovery_rows = (
+        "".join(
+            "<tr>"
+            f"<td>{html.escape(item.title)}</td>"
+            f"<td>{html.escape(', '.join(item.audience_tags))}</td>"
+            f"<td><a href='{html.escape(item.url)}' target='_blank' rel='noreferrer'>oficjalna strona</a></td>"
+            f"<td>{html.escape(str(item.last_seen_at))}</td>"
+            "</tr>"
+            for item in discoveries
+        )
+        or "<tr><td colspan='4'>Brak nowych kandydatów.</td></tr>"
+    )
+    profile_rows = (
+        "".join(
+            "<tr>"
+            f"<td>{html.escape(item.user.username)}</td><td>{html.escape(item.name)}</td>"
+            f"<td>{item.profile_kind.value}</td>"
+            f"<td><a href='/admin/profiles/{item.id}/matches'>pokaż uzasadnienie dopasowań</a></td>"
+            "</tr>"
+            for item in profiles
+        )
+        or "<tr><td colspan='4'>Brak profili.</td></tr>"
+    )
     return _page(
         "Pulpit",
         metrics
@@ -218,17 +271,26 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         + source_rows
         + "</table><h2>Kolejka REVIEW</h2>"
         + "<form method='get' class='panel actions'><label>Status <select name='status'><option value=''>wszystkie</option>"
-        + "".join(f"<option value='{value}' {'selected' if status_filter == value else ''}>{value}</option>" for value in ('pending','approved','rejected'))
+        + "".join(
+            f"<option value='{value}' {'selected' if status_filter == value else ''}>{value}</option>"
+            for value in ("pending", "approved", "rejected")
+        )
         + "</select></label><label>Źródło <input name='program' value='"
         + html.escape(request.query_params.get("program", ""))
         + "'></label><label>Od <input type='date' name='created_from' value='"
         + html.escape(created_from)
         + "'></label><button type='submit'>Filtruj</button><a href='/admin'>Wyczyść</a></form>"
-        + "<h3>Grupowanie wyników</h3><ul>" + grouped_rows + "</ul>"
+        + "<h3>Grupowanie wyników</h3><ul>"
+        + grouped_rows
+        + "</ul>"
         + "<table><tr><th>ID</th><th>Źródło</th><th>Powód</th><th>Status</th><th>Koszt</th><th>Utworzono</th></tr>"
         + review_rows
         + "</table><h2>Kompletność programów</h2><table><tr><th>Program</th><th>Wynik</th><th>Braki</th></tr>"
         + completeness_rows
+        + "</table><h2>Wykryte oficjalne programy dla firm</h2><table><tr><th>Tytuł</th><th>Tagi</th><th>Źródło</th><th>Wykryto</th></tr>"
+        + discovery_rows
+        + "</table><h2>Diagnostyka dopasowań użytkowników</h2><table><tr><th>Użytkownik</th><th>Profil</th><th>Typ</th><th>Diagnostyka</th></tr>"
+        + profile_rows
         + "</table><h2>Kontrola dokumentów</h2><ul>"
         + unavailable_rows
         + "</ul><h2>Historia operacji</h2><table><tr><th>Data</th><th>Operator</th><th>Akcja</th><th>Typ</th><th>ID</th></tr>"
@@ -237,15 +299,65 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
     )
 
 
+@router.get("/profiles/{profile_id}/matches", response_class=HTMLResponse)
+async def profile_matches_page(profile_id: uuid.UUID, session: SessionDep) -> HTMLResponse:
+    profile = await session.scalar(
+        select(PropertyProfile)
+        .where(PropertyProfile.id == profile_id)
+        .options(
+            selectinload(PropertyProfile.user),
+            selectinload(PropertyProfile.location),
+            selectinload(PropertyProfile.investment_categories),
+        )
+    )
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    matches = await match_profile(session, profile)
+    rows = "".join(
+        "<tr>"
+        f"<td>{item.rank}</td><td>{html.escape(item.title)}</td><td>{item.outcome.value}</td><td>{item.score}%</td>"
+        "<td><ul>"
+        + "".join(
+            f"<li><strong>{html.escape(rule.label)}</strong>: {rule.status.value} — {html.escape(rule.explanation)}"
+            + (
+                f" — <a href='{html.escape(rule.source_url)}' target='_blank' rel='noreferrer'>źródło</a>"
+                if rule.source_url
+                else ""
+            )
+            + "</li>"
+            for rule in item.rules
+        )
+        + "</ul></td></tr>"
+        for item in matches.results
+    )
+    return _page(
+        f"Dopasowania: {profile.name}",
+        f"<p>Użytkownik: <strong>{html.escape(profile.user.username)}</strong>; typ: {profile.profile_kind.value}</p>"
+        "<table><tr><th>#</th><th>Program</th><th>Wynik</th><th>Punkty</th><th>Reguły i dowody</th></tr>"
+        + rows
+        + "</table>",
+    )
+
+
 @router.get("/reviews/{review_id}", response_class=HTMLResponse)
 async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse:
     review = await session.get(ReviewTask, review_id)
     if review is None:
         raise HTTPException(status_code=404, detail="Review not found")
-    job = await session.scalar(select(ExtractionJob).where(ExtractionJob.review_task_id == review.id))
+    job = await session.scalar(
+        select(ExtractionJob).where(ExtractionJob.review_task_id == review.id)
+    )
     snapshot = await session.get(SourceSnapshot, job.source_snapshot_id) if job else None
-    previous = await session.get(SourceSnapshot, snapshot.previous_snapshot_id) if snapshot and snapshot.previous_snapshot_id else None
-    diff = build_diff(previous.normalized_text or "", snapshot.normalized_text or "") if previous and snapshot else "Brak poprzedniego snapshotu."
+    previous = (
+        await session.get(SourceSnapshot, snapshot.previous_snapshot_id)
+        if snapshot and snapshot.previous_snapshot_id
+        else None
+    )
+    diff = (
+        build_diff(previous.normalized_text or "", snapshot.normalized_text or "")
+        if previous and snapshot
+        else "Brak poprzedniego snapshotu."
+    )
     candidate = json.dumps(job.candidate_data if job else None, ensure_ascii=False, indent=2)
     program = await session.get(Program, review.program_id) if review.program_id else None
     latest_snapshot = None
@@ -292,7 +404,11 @@ async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse
     body = (
         f"<p>Status: <strong>{review.status.value}</strong> · powód: {review.reason.value}</p>{stale_warning}{actions}"
         f"<h2>Dane kandydata</h2><textarea id='candidate'>{html.escape(candidate)}</textarea>"
-        + ("<button onclick='saveCandidate()'>Zapisz poprawiony JSON</button>" if review.status == ReviewStatus.PENDING and job else "")
+        + (
+            "<button onclick='saveCandidate()'>Zapisz poprawiony JSON</button>"
+            if review.status == ReviewStatus.PENDING and job
+            else ""
+        )
         + f"<h2>Ostrzeżenia</h2><pre>{html.escape(json.dumps(job.warnings if job else [], ensure_ascii=False, indent=2))}</pre>"
         f"<h2>Diff źródła</h2><pre>{html.escape(diff[:100000])}</pre>"
         f"<h2>Treść snapshotu</h2><pre>{html.escape((snapshot.normalized_text if snapshot else '')[:100000])}</pre>"
@@ -328,7 +444,9 @@ async def reject(review_id: uuid.UUID, request: Request, session: SessionDep):
     _validate_origin(request)
     payload = await request.json()
     try:
-        await reject_review(session, review_id, actor="admin-web", note=str(payload.get("note", "")))
+        await reject_review(
+            session, review_id, actor="admin-web", note=str(payload.get("note", ""))
+        )
         await session.commit()
     except ReviewOperationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc

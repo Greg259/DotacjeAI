@@ -99,7 +99,14 @@ def build_request(
         "kroki złożenia wniosku, wymagane dokumenty oraz wyłącznie oficjalne formularze "
         "i portale znalezione w źródle. Każdy fakt w details musi zawierać source_reference "
         "i, gdy jest dostępny, source_url. Nie twórz linków ani wymagań, których nie ma "
-        "w materiale. Ustaw schema_version na extraction-v2."
+        "w materiale. W eligibility_rules zapisuj wyłącznie warunki, które można "
+        "jednoznacznie porównać z polem profilu. Dla firm uwzględnij wielkość, formę "
+        "prawną, wiek firmy, zatrudnienie, obrót, PKD, budżet projektu, wkład własny, "
+        "pomoc de minimis, status startupu, inwestora VC i konsorcjum. Dla osób fizycznych "
+        "uwzględnij dochód, liczbę osób, własność, rok budowy i źródło ciepła. Każda "
+        "reguła musi mieć oficjalny URL, lokalizator i krótki cytat. Jeżeli warunku nie "
+        "da się odwzorować bez zgadywania, opisz go w details zamiast tworzyć regułę. "
+        "Ustaw schema_version na extraction-v2."
     )
     user_message = json.dumps(
         {

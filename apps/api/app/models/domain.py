@@ -166,6 +166,9 @@ class Program(UuidPrimaryKeyMixin, TimestampMixin, Base):
     is_published: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False, server_default="false"
     )
+    eligibility_rules: Mapped[list[dict[str, Any]]] = mapped_column(
+        json_type, nullable=False, default=list
+    )
 
     primary_source: Mapped[Source | None] = relationship()
     locations: Mapped[list["ProgramLocation"]] = relationship(
@@ -331,9 +334,7 @@ class LlmRun(UuidPrimaryKeyMixin, Base):
     provider: Mapped[str] = mapped_column(String(80), nullable=False)
     model: Mapped[str] = mapped_column(String(200), nullable=False)
     prompt_version: Mapped[str] = mapped_column(String(80), nullable=False)
-    status: Mapped[LlmRunStatus] = mapped_column(
-        enum_column(LlmRunStatus, 30), nullable=False
-    )
+    status: Mapped[LlmRunStatus] = mapped_column(enum_column(LlmRunStatus, 30), nullable=False)
     input_tokens: Mapped[int | None] = mapped_column(Integer)
     output_tokens: Mapped[int | None] = mapped_column(Integer)
     cost_usd: Mapped[Decimal | None] = mapped_column(Numeric(12, 6))
@@ -372,9 +373,7 @@ class ExtractionJob(UuidPrimaryKeyMixin, TimestampMixin, Base):
     evidence: Mapped[list[Any] | None] = mapped_column(json_type)
     warnings: Mapped[list[Any] | None] = mapped_column(json_type)
     error_message: Mapped[str | None] = mapped_column(Text)
-    retry_count: Mapped[int] = mapped_column(
-        Integer, nullable=False, default=0, server_default="0"
-    )
+    retry_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0, server_default="0")
 
 
 class ReviewTask(UuidPrimaryKeyMixin, TimestampMixin, Base):
@@ -483,28 +482,26 @@ class PropertyProfile(UuidPrimaryKeyMixin, TimestampMixin, Base):
     beneficiary_type: Mapped[BeneficiaryType] = mapped_column(
         enum_column(BeneficiaryType, 40), nullable=False
     )
-    property_type: Mapped[PropertyType | None] = mapped_column(
-        enum_column(PropertyType, 40)
-    )
-    building_state: Mapped[BuildingState | None] = mapped_column(
-        enum_column(BuildingState, 20)
-    )
-    current_heat_source: Mapped[HeatSource | None] = mapped_column(
-        enum_column(HeatSource, 30)
-    )
+    property_type: Mapped[PropertyType | None] = mapped_column(enum_column(PropertyType, 40))
+    building_state: Mapped[BuildingState | None] = mapped_column(enum_column(BuildingState, 20))
+    current_heat_source: Mapped[HeatSource | None] = mapped_column(enum_column(HeatSource, 30))
     year_built: Mapped[int | None] = mapped_column(Integer)
     heated_area_m2: Mapped[Decimal | None] = mapped_column(Numeric(8, 2))
+    annual_household_income_pln: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
+    household_members: Mapped[int | None] = mapped_column(Integer)
     business_name: Mapped[str | None] = mapped_column(String(255))
     business_size: Mapped[BusinessSize | None] = mapped_column(enum_column(BusinessSize, 20))
-    legal_form: Mapped[BusinessLegalForm | None] = mapped_column(
-        enum_column(BusinessLegalForm, 40)
-    )
+    legal_form: Mapped[BusinessLegalForm | None] = mapped_column(enum_column(BusinessLegalForm, 40))
     established_year: Mapped[int | None] = mapped_column(Integer)
     employee_count: Mapped[int | None] = mapped_column(Integer)
     annual_turnover_pln: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
-    industry_codes: Mapped[list[str]] = mapped_column(
-        json_type, nullable=False, default=list
-    )
+    project_budget_pln: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
+    own_contribution_pln: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
+    de_minimis_aid_eur: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
+    is_startup: Mapped[bool | None] = mapped_column(Boolean)
+    has_vc_investor: Mapped[bool | None] = mapped_column(Boolean)
+    consortium_planned: Mapped[bool | None] = mapped_column(Boolean)
+    industry_codes: Mapped[list[str]] = mapped_column(json_type, nullable=False, default=list)
 
     user: Mapped[User] = relationship(back_populates="profiles")
     location: Mapped[Location | None] = relationship()
@@ -524,3 +521,24 @@ class ProfileInvestmentCategory(Base):
     )
 
     profile: Mapped[PropertyProfile] = relationship(back_populates="investment_categories")
+
+
+class ProgramDiscovery(UuidPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "program_discoveries"
+    __table_args__ = (UniqueConstraint("url"),)
+
+    index_source_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("sources.id", ondelete="CASCADE"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(500), nullable=False)
+    url: Mapped[str] = mapped_column(Text, nullable=False)
+    audience_tags: Mapped[list[str]] = mapped_column(json_type, nullable=False, default=list)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="new")
+    first_seen_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    last_seen_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    index_source: Mapped[Source] = relationship()

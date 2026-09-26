@@ -158,3 +158,45 @@ class MatchOutcome(StrEnum):
     ELIGIBLE = "eligible"
     POSSIBLE = "possible"
     NOT_ELIGIBLE = "not_eligible"
+
+
+class EligibilityOperator(StrEnum):
+    EQUALS = "equals"
+    NOT_EQUALS = "not_equals"
+    IN = "in"
+    NOT_IN = "not_in"
+    GTE = "gte"
+    LTE = "lte"
+    BETWEEN = "between"
+    CONTAINS_ANY = "contains_any"
+    CONTAINS_NONE = "contains_none"
+    IS_TRUE = "is_true"
+    IS_FALSE = "is_false"
+
+
+class EligibilityProfileField(StrEnum):
+    BENEFICIARY_TYPE = "beneficiary_type"
+    PROPERTY_TYPE = "property_type"
+    BUILDING_STATE = "building_state"
+    CURRENT_HEAT_SOURCE = "current_heat_source"
+    YEAR_BUILT = "year_built"
+    ANNUAL_HOUSEHOLD_INCOME_PLN = "annual_household_income_pln"
+    MONTHLY_INCOME_PER_PERSON_PLN = "monthly_income_per_person_pln"
+    BUSINESS_SIZE = "business_size"
+    LEGAL_FORM = "legal_form"
+    BUSINESS_AGE_YEARS = "business_age_years"
+    EMPLOYEE_COUNT = "employee_count"
+    ANNUAL_TURNOVER_PLN = "annual_turnover_pln"
+    INDUSTRY_CODES = "industry_codes"
+    PROJECT_BUDGET_PLN = "project_budget_pln"
+    OWN_CONTRIBUTION_PERCENT = "own_contribution_percent"
+    DE_MINIMIS_AID_EUR = "de_minimis_aid_eur"
+    IS_STARTUP = "is_startup"
+    HAS_VC_INVESTOR = "has_vc_investor"
+    CONSORTIUM_PLANNED = "consortium_planned"
+
+
+class DiscoveryStatus(StrEnum):
+    NEW = "new"
+    TRACKED = "tracked"
+    IGNORED = "ignored"

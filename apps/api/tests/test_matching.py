@@ -93,6 +93,10 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
             business_name="Przykład sp. z o.o.",
             business_size=BusinessSize.SMALL,
             legal_form=BusinessLegalForm.COMPANY,
+            annual_turnover_pln="1450000",
+            project_budget_pln="1000000",
+            own_contribution_pln="300000",
+            has_vc_investor=True,
             industry_codes=["62.01.Z"],
             investment_categories=[
                 ProfileInvestmentCategory(
@@ -138,6 +142,44 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
                     investment_category=InvestmentCategory.RESEARCH_AND_DEVELOPMENT
                 )
             ],
+            eligibility_rules=[
+                {
+                    "code": "turnover_limit",
+                    "label": "Maksymalny roczny obrót",
+                    "profile_field": "annual_turnover_pln",
+                    "operator": "lte",
+                    "expected": ["2000000"],
+                    "unit": "PLN",
+                    "blocking": True,
+                    "source_url": "https://example.gov.pl/regulamin",
+                    "source_reference": "§ 4 ust. 2",
+                    "evidence_quote": "Roczny obrót nie przekracza 2 mln PLN.",
+                },
+                {
+                    "code": "own_contribution",
+                    "label": "Minimalny wkład własny",
+                    "profile_field": "own_contribution_percent",
+                    "operator": "gte",
+                    "expected": ["20"],
+                    "unit": "%",
+                    "blocking": True,
+                    "source_url": "https://example.gov.pl/regulamin",
+                    "source_reference": "§ 7",
+                    "evidence_quote": "Wkład własny wynosi co najmniej 20%.",
+                },
+                {
+                    "code": "vc_investor",
+                    "label": "Inwestor VC",
+                    "profile_field": "has_vc_investor",
+                    "operator": "is_true",
+                    "expected": [],
+                    "unit": None,
+                    "blocking": False,
+                    "source_url": "https://example.gov.pl/regulamin",
+                    "source_reference": "§ 9",
+                    "evidence_quote": "Udział inwestora VC jest dodatkowo punktowany.",
+                },
+            ],
         )
         session.add_all([home, company, home_program, business_program])
         await session.commit()
@@ -160,8 +202,13 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
         home_matches = await match_profile(
             session, by_kind[ProfileKind.PROPERTY], today=date(2026, 9, 26)
         )
-        company_matches = await match_profile(
-            session, by_kind[ProfileKind.BUSINESS], today=date(2026, 9, 26)
+        company_profile = by_kind[ProfileKind.BUSINESS]
+        company_matches = await match_profile(session, company_profile, today=date(2026, 9, 26))
+        company_profile.annual_turnover_pln = "3000000"
+        over_limit_matches = await match_profile(session, company_profile, today=date(2026, 9, 26))
+        company_profile.annual_turnover_pln = None
+        missing_data_matches = await match_profile(
+            session, company_profile, today=date(2026, 9, 26)
         )
 
     assert home_matches.results[0].slug == "pompa-dla-domu"
@@ -170,6 +217,16 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
     assert company_matches.results[0].slug == "badania-dla-msp"
     assert company_matches.results[0].outcome == MatchOutcome.ELIGIBLE
     assert company_matches.results[0].score == 100
+    assert len(company_matches.results[0].rules) == 8
+    detailed = company_matches.results[0].rules[-1]
+    assert detailed.source_url == "https://example.gov.pl/regulamin"
+    assert detailed.evidence_quote
+    over_limit = next(item for item in over_limit_matches.results if item.slug == "badania-dla-msp")
+    assert over_limit.outcome == MatchOutcome.NOT_ELIGIBLE
+    missing_data = next(
+        item for item in missing_data_matches.results if item.slug == "badania-dla-msp"
+    )
+    assert missing_data.outcome == MatchOutcome.POSSIBLE
     rejected = next(item for item in company_matches.results if item.slug == "pompa-dla-domu")
     assert rejected.outcome == MatchOutcome.NOT_ELIGIBLE
     assert any(rule.status == MatchRuleStatus.NOT_FULFILLED for rule in rejected.rules)

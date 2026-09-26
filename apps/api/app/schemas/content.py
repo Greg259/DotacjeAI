@@ -21,9 +21,7 @@ class FundingOption(StrictContentSchema):
     support_percent: Decimal | None = Field(
         default=None, ge=0, le=100, max_digits=5, decimal_places=2
     )
-    max_amount: Decimal | None = Field(
-        default=None, ge=0, max_digits=14, decimal_places=2
-    )
+    max_amount: Decimal | None = Field(default=None, ge=0, max_digits=14, decimal_places=2)
     currency: Literal["PLN"] = "PLN"
     source_reference: str | None = Field(default=None, max_length=500)
     source_url: HttpUrl | None = None

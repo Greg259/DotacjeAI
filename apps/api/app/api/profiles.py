@@ -52,12 +52,20 @@ def _serialize(profile: PropertyProfile) -> PropertyProfileResponse:
         current_heat_source=profile.current_heat_source,
         year_built=profile.year_built,
         heated_area_m2=profile.heated_area_m2,
+        annual_household_income_pln=profile.annual_household_income_pln,
+        household_members=profile.household_members,
         business_name=profile.business_name,
         business_size=profile.business_size,
         legal_form=profile.legal_form,
         established_year=profile.established_year,
         employee_count=profile.employee_count,
         annual_turnover_pln=profile.annual_turnover_pln,
+        project_budget_pln=profile.project_budget_pln,
+        own_contribution_pln=profile.own_contribution_pln,
+        de_minimis_aid_eur=profile.de_minimis_aid_eur,
+        is_startup=profile.is_startup,
+        has_vc_investor=profile.has_vc_investor,
+        consortium_planned=profile.consortium_planned,
         industry_codes=profile.industry_codes,
         investment_categories=[item.investment_category for item in profile.investment_categories],
         created_at=profile.created_at,
@@ -186,6 +194,14 @@ async def create_profile(payload: ProfilePayload, identity: CsrfIdentityDep, ses
         heated_area_m2=(
             payload.heated_area_m2 if payload.profile_kind == ProfileKind.PROPERTY else None
         ),
+        annual_household_income_pln=(
+            payload.annual_household_income_pln
+            if payload.profile_kind == ProfileKind.PROPERTY
+            else None
+        ),
+        household_members=(
+            payload.household_members if payload.profile_kind == ProfileKind.PROPERTY else None
+        ),
         business_name=payload.business_name
         if payload.profile_kind == ProfileKind.BUSINESS
         else None,
@@ -201,6 +217,18 @@ async def create_profile(payload: ProfilePayload, identity: CsrfIdentityDep, ses
         ),
         annual_turnover_pln=(
             payload.annual_turnover_pln if payload.profile_kind == ProfileKind.BUSINESS else None
+        ),
+        project_budget_pln=payload.project_budget_pln,
+        own_contribution_pln=payload.own_contribution_pln,
+        de_minimis_aid_eur=(
+            payload.de_minimis_aid_eur if payload.profile_kind == ProfileKind.BUSINESS else None
+        ),
+        is_startup=payload.is_startup if payload.profile_kind == ProfileKind.BUSINESS else None,
+        has_vc_investor=(
+            payload.has_vc_investor if payload.profile_kind == ProfileKind.BUSINESS else None
+        ),
+        consortium_planned=(
+            payload.consortium_planned if payload.profile_kind == ProfileKind.BUSINESS else None
         ),
         industry_codes=payload.industry_codes
         if payload.profile_kind == ProfileKind.BUSINESS
@@ -235,12 +263,22 @@ async def update_profile(
     profile.current_heat_source = payload.current_heat_source if is_property else None
     profile.year_built = payload.year_built if is_property else None
     profile.heated_area_m2 = payload.heated_area_m2 if is_property else None
+    profile.annual_household_income_pln = (
+        payload.annual_household_income_pln if is_property else None
+    )
+    profile.household_members = payload.household_members if is_property else None
     profile.business_name = payload.business_name if not is_property else None
     profile.business_size = payload.business_size if not is_property else None
     profile.legal_form = payload.legal_form if not is_property else None
     profile.established_year = payload.established_year if not is_property else None
     profile.employee_count = payload.employee_count if not is_property else None
     profile.annual_turnover_pln = payload.annual_turnover_pln if not is_property else None
+    profile.project_budget_pln = payload.project_budget_pln
+    profile.own_contribution_pln = payload.own_contribution_pln
+    profile.de_minimis_aid_eur = payload.de_minimis_aid_eur if not is_property else None
+    profile.is_startup = payload.is_startup if not is_property else None
+    profile.has_vc_investor = payload.has_vc_investor if not is_property else None
+    profile.consortium_planned = payload.consortium_planned if not is_property else None
     profile.industry_codes = payload.industry_codes if not is_property else []
     profile.investment_categories = [
         ProfileInvestmentCategory(investment_category=item)

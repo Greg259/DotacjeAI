@@ -80,12 +80,20 @@ class ProfilePayload(BaseModel):
     current_heat_source: HeatSource | None = None
     year_built: int | None = Field(default=None, ge=1800, le=2100)
     heated_area_m2: Decimal | None = Field(default=None, gt=0, le=100000)
+    annual_household_income_pln: Decimal | None = Field(default=None, ge=0, le=10**15)
+    household_members: int | None = Field(default=None, ge=1, le=100)
     business_name: str | None = Field(default=None, max_length=255)
     business_size: BusinessSize | None = None
     legal_form: BusinessLegalForm | None = None
     established_year: int | None = Field(default=None, ge=1800, le=2100)
     employee_count: int | None = Field(default=None, ge=0, le=10_000_000)
     annual_turnover_pln: Decimal | None = Field(default=None, ge=0, le=10**15)
+    project_budget_pln: Decimal | None = Field(default=None, ge=0, le=10**15)
+    own_contribution_pln: Decimal | None = Field(default=None, ge=0, le=10**15)
+    de_minimis_aid_eur: Decimal | None = Field(default=None, ge=0, le=10**12)
+    is_startup: bool | None = None
+    has_vc_investor: bool | None = None
+    consortium_planned: bool | None = None
     industry_codes: list[str] = Field(default_factory=list, max_length=20)
     investment_categories: list[InvestmentCategory] = Field(min_length=1, max_length=16)
 
@@ -121,6 +129,12 @@ class ProfilePayload(BaseModel):
 
     @model_validator(mode="after")
     def validate_profile_kind(self):
+        if (
+            self.project_budget_pln is not None
+            and self.own_contribution_pln is not None
+            and self.own_contribution_pln > self.project_budget_pln
+        ):
+            raise ValueError("Wkład własny nie może przekraczać budżetu projektu.")
         if self.profile_kind == ProfileKind.PROPERTY:
             if not self.property_type or not self.building_state or not self.current_heat_source:
                 raise ValueError("Profil nieruchomości wymaga typu, stanu i źródła ciepła.")
@@ -155,12 +169,20 @@ class PropertyProfileResponse(BaseModel):
     current_heat_source: HeatSource | None
     year_built: int | None
     heated_area_m2: Decimal | None
+    annual_household_income_pln: Decimal | None
+    household_members: int | None
     business_name: str | None
     business_size: BusinessSize | None
     legal_form: BusinessLegalForm | None
     established_year: int | None
     employee_count: int | None
     annual_turnover_pln: Decimal | None
+    project_budget_pln: Decimal | None
+    own_contribution_pln: Decimal | None
+    de_minimis_aid_eur: Decimal | None
+    is_startup: bool | None
+    has_vc_investor: bool | None
+    consortium_planned: bool | None
     industry_codes: list[str]
     investment_categories: list[InvestmentCategory]
     created_at: datetime

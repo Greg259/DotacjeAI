@@ -20,8 +20,8 @@ from app.services.openrouter import (
 )
 from app.services.status import infer_program_status
 
-PROMPT_VERSION = "extraction-v2"
-LLM_REQUEST_VERSION = "8"
+PROMPT_VERSION = "extraction-v2-eligibility-1"
+LLM_REQUEST_VERSION = "9"
 
 
 def _job_key(snapshot: SourceSnapshot) -> str:
@@ -30,10 +30,7 @@ def _job_key(snapshot: SourceSnapshot) -> str:
 
 
 def _llm_key(job: ExtractionJob, model: str, attempt: int) -> str:
-    value = (
-        f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:"
-        f"retry-{job.retry_count}:{model}:{attempt}"
-    )
+    value = f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:retry-{job.retry_count}:{model}:{attempt}"
     return hashlib.sha256(value.encode()).hexdigest()
 
 
@@ -227,9 +224,7 @@ async def process_extraction_job(
                 source_text=snapshot.normalized_text or "",
                 client=client,
             )
-            candidate = _finalize_candidate(
-                result.candidate, deterministic, source, today=today
-            )
+            candidate = _finalize_candidate(result.candidate, deterministic, source, today=today)
             missing_evidence = candidate.missing_critical_evidence()
             if missing_evidence:
                 run.status = LlmRunStatus.REJECTED_BY_VALIDATION
@@ -249,9 +244,7 @@ async def process_extraction_job(
                 if attempt < len(models[:2]):
                     continue
                 job.status = ExtractionStatus.FAILED
-                job.error_message = "missing_critical_evidence:" + ",".join(
-                    missing_evidence
-                )
+                job.error_message = "missing_critical_evidence:" + ",".join(missing_evidence)
                 return job
             run.status = LlmRunStatus.SUCCEEDED
             run.request_sha256 = result.request_sha256

@@ -24,9 +24,7 @@ class ProgramContentError(RuntimeError):
     pass
 
 
-async def _latest_approved_version(
-    session: AsyncSession, program_id
-) -> ProgramVersion | None:
+async def _latest_approved_version(session: AsyncSession, program_id) -> ProgramVersion | None:
     return await session.scalar(
         select(ProgramVersion)
         .where(
@@ -77,6 +75,9 @@ async def update_program_core(
     program.max_amount = candidate.max_amount
     program.support_percent = candidate.support_percent
     program.currency = candidate.currency
+    program.eligibility_rules = [
+        item.model_dump(mode="json") for item in candidate.eligibility_rules
+    ]
 
     await session.execute(delete(ProgramLocation).where(ProgramLocation.program_id == program.id))
     await session.execute(
@@ -86,9 +87,7 @@ async def update_program_core(
         delete(ProgramBeneficiaryType).where(ProgramBeneficiaryType.program_id == program.id)
     )
     await session.execute(
-        delete(ProgramInvestmentCategory).where(
-            ProgramInvestmentCategory.program_id == program.id
-        )
+        delete(ProgramInvestmentCategory).where(ProgramInvestmentCategory.program_id == program.id)
     )
     await session.execute(
         delete(ProgramBusinessSize).where(ProgramBusinessSize.program_id == program.id)
@@ -129,9 +128,7 @@ async def update_program_core(
         )
     ) + 1
     extracted_data = dict(latest.extracted_data)
-    extracted_data.update(
-        candidate.model_dump(mode="json", exclude={"details", "evidence"})
-    )
+    extracted_data.update(candidate.model_dump(mode="json", exclude={"details", "evidence"}))
     now = datetime.now(UTC)
     version = ProgramVersion(
         program_id=program.id,
@@ -226,9 +223,7 @@ async def update_program_content(
             "content_review": "manual_review_of_official_sources",
             "previous_version_id": str(latest.id),
         },
-        change_summary=(
-            "Rozszerzenie karty o warunki, kwoty, dokumenty i sposób złożenia wniosku"
-        ),
+        change_summary=("Rozszerzenie karty o warunki, kwoty, dokumenty i sposób złożenia wniosku"),
         approved_at=now,
     )
     session.add(version)

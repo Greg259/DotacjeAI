@@ -15,8 +15,12 @@ type Profile = {
   name: string; profile_kind: "property" | "business"; location: { id: string } | null;
   beneficiary_type: string; property_type: string | null; building_state: string | null;
   current_heat_source: string | null; year_built: number | null; heated_area_m2: string | null;
+  annual_household_income_pln: string | null; household_members: number | null;
   business_name: string | null; business_size: string | null; legal_form: string | null;
   established_year: number | null; employee_count: number | null; annual_turnover_pln: string | null;
+  project_budget_pln: string | null; own_contribution_pln: string | null;
+  de_minimis_aid_eur: string | null; is_startup: boolean | null;
+  has_vc_investor: boolean | null; consortium_planned: boolean | null;
   industry_codes: string[]; investment_categories: string[];
 };
 
@@ -65,16 +69,23 @@ export function ProfileForm({ profileId }: { profileId?: string }) {
     event.preventDefault(); setBusy(true); setError("");
     const form = new FormData(event.currentTarget);
     const value = (name: string) => form.get(name) || null;
+    const optionalBoolean = (name: string) => value(name) === null ? null : value(name) === "true";
     const payload = {
       name: form.get("name"), profile_kind: kind, location_id: value("location_id"),
       beneficiary_type: form.get("beneficiary_type"), property_type: value("property_type"),
       building_state: value("building_state"), current_heat_source: value("current_heat_source"),
       year_built: value("year_built") ? Number(value("year_built")) : null,
       heated_area_m2: value("heated_area_m2"), business_name: value("business_name"),
+      annual_household_income_pln: value("annual_household_income_pln"),
+      household_members: value("household_members") ? Number(value("household_members")) : null,
       business_size: value("business_size"), legal_form: value("legal_form"),
       established_year: value("established_year") ? Number(value("established_year")) : null,
       employee_count: value("employee_count") ? Number(value("employee_count")) : null,
       annual_turnover_pln: value("annual_turnover_pln"),
+      project_budget_pln: value("project_budget_pln"), own_contribution_pln: value("own_contribution_pln"),
+      de_minimis_aid_eur: value("de_minimis_aid_eur"), is_startup: optionalBoolean("is_startup"),
+      has_vc_investor: optionalBoolean("has_vc_investor"),
+      consortium_planned: optionalBoolean("consortium_planned"),
       industry_codes: String(form.get("industry_codes") ?? "").split(","),
       investment_categories: form.getAll("investment_categories"),
     };
@@ -102,6 +113,8 @@ export function ProfileForm({ profileId }: { profileId?: string }) {
       <label>Obecne źródło ciepła<select name="current_heat_source" defaultValue={profile?.current_heat_source ?? "other"}>{options.heat_sources.map((item) => <option key={item} value={item}>{labels[item] ?? item}</option>)}</select></label>
       <label>Rok budowy<input name="year_built" type="number" min="1800" max="2100" defaultValue={profile?.year_built ?? ""} /></label>
       <label>Powierzchnia ogrzewana (m²)<input name="heated_area_m2" type="number" min="1" max="100000" step="0.01" defaultValue={profile?.heated_area_m2 ?? ""} /></label>
+      <label>Roczny dochód gospodarstwa w PLN<input name="annual_household_income_pln" type="number" min="0" step="0.01" defaultValue={profile?.annual_household_income_pln ?? ""} /></label>
+      <label>Liczba osób w gospodarstwie<input name="household_members" type="number" min="1" max="100" defaultValue={profile?.household_members ?? ""} /></label>
     </> : <>
       <label>Nazwa przedsiębiorstwa lub organizacji<input name="business_name" defaultValue={profile?.business_name ?? ""} required /></label>
       <label>Wielkość<select name="business_size" defaultValue={profile?.business_size ?? "micro"}>{options.business_sizes.map((item) => <option key={item} value={item}>{labels[item] ?? item}</option>)}</select></label>
@@ -110,7 +123,13 @@ export function ProfileForm({ profileId }: { profileId?: string }) {
       <label>Liczba pracowników<input name="employee_count" type="number" min="0" defaultValue={profile?.employee_count ?? ""} /></label>
       <label>Roczny obrót w PLN<input name="annual_turnover_pln" type="number" min="0" step="0.01" defaultValue={profile?.annual_turnover_pln ?? ""} /></label>
       <label>Kody PKD lub branżowe, oddzielone przecinkami<input name="industry_codes" defaultValue={profile?.industry_codes.join(", ") ?? ""} placeholder="np. 62.01.Z, 72.19.Z" /></label>
+      <label>Otrzymana pomoc de minimis (EUR)<input name="de_minimis_aid_eur" type="number" min="0" step="0.01" defaultValue={profile?.de_minimis_aid_eur ?? ""} /></label>
+      <label>Czy firma jest startupem?<select name="is_startup" defaultValue={profile?.is_startup == null ? "" : String(profile.is_startup)}><option value="">Nie wiem / nie podano</option><option value="true">Tak</option><option value="false">Nie</option></select></label>
+      <label>Czy firma ma inwestora VC?<select name="has_vc_investor" defaultValue={profile?.has_vc_investor == null ? "" : String(profile.has_vc_investor)}><option value="">Nie wiem / nie podano</option><option value="true">Tak</option><option value="false">Nie</option></select></label>
+      <label>Czy projekt będzie realizowany w konsorcjum?<select name="consortium_planned" defaultValue={profile?.consortium_planned == null ? "" : String(profile.consortium_planned)}><option value="">Nie wiem / nie podano</option><option value="true">Tak</option><option value="false">Nie</option></select></label>
     </>}
+    <label>Planowany budżet projektu w PLN<input name="project_budget_pln" type="number" min="0" step="0.01" defaultValue={profile?.project_budget_pln ?? ""} /></label>
+    <label>Dostępny wkład własny w PLN<input name="own_contribution_pln" type="number" min="0" step="0.01" defaultValue={profile?.own_contribution_pln ?? ""} /></label>
     <fieldset><legend>Planowane inwestycje</legend><div className="check-grid">{categories.map((item) => <label className="check-row" key={item}><input name="investment_categories" type="checkbox" value={item} defaultChecked={selected.has(item)} />{labels[item] ?? item}</label>)}</div></fieldset>
     {error && <p className="form-error" role="alert">{error}</p>}
     <div className="actions"><button className="button" disabled={busy} type="submit">{busy ? "Zapisywanie…" : "Zapisz profil"}</button><button className="secondary-button" type="button" onClick={() => router.push("/konto")}>Anuluj</button></div>

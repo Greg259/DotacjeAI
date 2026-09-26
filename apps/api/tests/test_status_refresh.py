@@ -70,9 +70,9 @@ async def test_expired_program_creates_review_and_requires_approval() -> None:
         assert program.status == ProgramStatus.CLOSED
         assert (
             await session.scalar(
-                select(func.count()).select_from(ProgramVersion).where(
-                    ProgramVersion.program_id == program.id
-                )
+                select(func.count())
+                .select_from(ProgramVersion)
+                .where(ProgramVersion.program_id == program.id)
             )
             == 2
         )

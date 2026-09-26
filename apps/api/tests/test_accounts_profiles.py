@@ -37,9 +37,7 @@ async def test_account_profile_export_and_deletion_flow() -> None:
 
     app.dependency_overrides[get_session] = override_session
     try:
-        async with AsyncClient(
-            transport=ASGITransport(app=app), base_url="https://test"
-        ) as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="https://test") as client:
             registration = await client.post(
                 "/api/auth/register",
                 json={

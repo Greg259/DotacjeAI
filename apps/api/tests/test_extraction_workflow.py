@@ -332,15 +332,19 @@ async def test_missing_critical_evidence_uses_strong_model_repair() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         nonlocal calls
         calls += 1
-        evidence = [] if calls == 1 else [
-            {
-                "field": "status",
-                "quote": "Nabór trwa",
-                "locator": "strona 1",
-                "method": "llm",
-                "confidence": 0.9,
-            }
-        ]
+        evidence = (
+            []
+            if calls == 1
+            else [
+                {
+                    "field": "status",
+                    "quote": "Nabór trwa",
+                    "locator": "strona 1",
+                    "method": "llm",
+                    "confidence": 0.9,
+                }
+            ]
+        )
         content = json.dumps(
             {
                 "schema_version": "extraction-v2",
