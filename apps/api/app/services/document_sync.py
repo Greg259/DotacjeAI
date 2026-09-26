@@ -9,7 +9,14 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings
-from app.models.domain import AuditLog, DocumentVersion, Program, ProgramDocument
+from app.models.domain import (
+    AuditLog,
+    DocumentVersion,
+    Program,
+    ProgramDocument,
+    ReviewTask,
+)
+from app.models.enums import DocumentState, ReviewReason, ReviewStatus
 from app.services.crawler import _build_ssl_context
 
 
@@ -74,6 +81,9 @@ async def sync_program_documents(
                 if status != 200:
                     document.is_available = False
                     document.last_error_message = f"HTTP {status}"
+                    document.state = DocumentState.UNAVAILABLE
+                    document.state_reason = f"Dokument zwraca HTTP {status}."
+                    document.state_changed_at = checked_at
                     results.append(
                         DocumentSyncResult(
                             str(document.id), document.url, "unavailable", status, None
@@ -99,6 +109,14 @@ async def sync_program_documents(
                         )
                     )
                     continue
+                had_previous_version = (
+                    await session.scalar(
+                        select(DocumentVersion.id)
+                        .where(DocumentVersion.document_id == document.id)
+                        .limit(1)
+                    )
+                    is not None
+                )
                 extension = _extension(document.url, response.headers.get("content-type"))
                 relative = (
                     Path("documents")
@@ -107,14 +125,40 @@ async def sync_program_documents(
                     / f"{digest}{extension}"
                 )
                 _write_atomic(settings.source_storage_root / relative, raw)
-                session.add(
-                    DocumentVersion(
-                        document_id=document.id,
-                        sha256=digest,
-                        content_type=response.headers.get("content-type"),
-                        storage_path=relative.as_posix(),
-                    )
+                version = DocumentVersion(
+                    document_id=document.id,
+                    sha256=digest,
+                    content_type=response.headers.get("content-type"),
+                    storage_path=relative.as_posix(),
                 )
+                session.add(version)
+                await session.flush()
+                if had_previous_version:
+                    document.state = DocumentState.NEEDS_REVIEW
+                    document.state_reason = (
+                        "Treść dokumentu zmieniła się; wymaga porównania z poprzednią wersją."
+                    )
+                    document.state_changed_at = checked_at
+                    session.add(
+                        ReviewTask(
+                            program_id=program.id,
+                            reason=ReviewReason.DOCUMENT_CHANGED,
+                            status=ReviewStatus.PENDING,
+                            payload={
+                                "kind": "document_changed",
+                                "document_id": str(document.id),
+                                "document_version_id": str(version.id),
+                                "program_slug": program.slug,
+                                "title": document.title,
+                                "url": document.url,
+                                "sha256": digest,
+                            },
+                        )
+                    )
+                else:
+                    document.state = DocumentState.CURRENT
+                    document.state_reason = None
+                    document.state_changed_at = checked_at
                 session.add(
                     AuditLog(
                         actor="document-monitor",

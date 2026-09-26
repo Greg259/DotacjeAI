@@ -200,6 +200,8 @@ async def get_program(slug: str, session: SessionDep) -> ProgramDetail:
                 url=document.url,
                 document_type=document.document_type,
                 is_available=document.is_available,
+                state=document.state,
+                state_reason=document.state_reason,
                 last_checked_at=document.last_checked_at,
             )
             for document in documents

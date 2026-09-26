@@ -52,6 +52,36 @@ SOURCES = (
         "url": "https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie",
         "source_type": SourceType.HTML,
     },
+    {
+        "name": "Miasto Pruszków — gminna dotacja na wymianę pieca 2026",
+        "slug": "pruszkow-wymiana-pieca-2026",
+        "url": "https://bip.um.pruszkow.pl/artykul/486/6496",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "Miasto Pruszków — Ciepłe Mieszkanie",
+        "slug": "pruszkow-cieple-mieszkanie",
+        "url": "https://www.pruszkow.pl/srodowisko/dofinansowanie/program-cieple-mieszkanie-mozliwosc-wymiany-pieca-weglowego-w-budynku-wielorodzinnym/",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "Gmina Brwinów — gminne dofinansowanie do wymiany pieca",
+        "slug": "brwinow-wymiana-pieca-2026",
+        "url": "https://www.brwinow.pl/aktualnosci/1600-gminne-dotacje-na-zmiane-systemu-ogrzewania-3.html",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "Gmina Michałowice — Lokalny Program Piecowy 2026",
+        "slug": "michalowice-lokalny-program-piecowy-2026",
+        "url": "https://www.michalowice.pl/czystepowietrze1/dla-rolnikow/24-lokalny-program-piecowy-na-terenie-gminy-michal",
+        "source_type": SourceType.HTML,
+    },
+    {
+        "name": "Gmina Raszyn — Program Ograniczania Niskiej Emisji 2026",
+        "slug": "raszyn-ograniczanie-niskiej-emisji-2026",
+        "url": "https://raszyn.pl/aktualnosci/program-ograniczania-niskiej-emisji-nabor-wnioskow-o-przyznanie-dotacji-celowej-do-1",
+        "source_type": SourceType.HTML,
+    },
 )
 
 
@@ -106,13 +136,21 @@ async def seed() -> None:
             location_type=LocationType.COUNTY,
             parent=mazowieckie,
         )
-        await upsert_location(
-            session,
-            name="Nadarzyn",
-            slug="nadarzyn",
-            location_type=LocationType.MUNICIPALITY,
-            parent=pruszkowski,
-        )
+        for name, slug in (
+            ("Nadarzyn", "nadarzyn"),
+            ("Pruszków", "pruszkow"),
+            ("Brwinów", "brwinow"),
+            ("Michałowice", "michalowice"),
+            ("Piastów", "piastow"),
+            ("Raszyn", "raszyn"),
+        ):
+            await upsert_location(
+                session,
+                name=name,
+                slug=slug,
+                location_type=LocationType.MUNICIPALITY,
+                parent=pruszkowski,
+            )
         await session.commit()
 
 

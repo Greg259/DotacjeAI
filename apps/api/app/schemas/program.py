@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 from app.models.enums import (
     BeneficiaryType,
+    DocumentState,
     DocumentType,
     InvestmentCategory,
     ProgramStatus,
@@ -54,6 +55,8 @@ class ProgramDocumentItem(BaseModel):
     url: str
     document_type: DocumentType
     is_available: bool
+    state: DocumentState
+    state_reason: str | None
     last_checked_at: datetime | None
 
 

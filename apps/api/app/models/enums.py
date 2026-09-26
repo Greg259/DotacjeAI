@@ -62,6 +62,7 @@ class ReviewReason(StrEnum):
     LOW_CONFIDENCE = "low_confidence"
     INVALID_EXTRACTION = "invalid_extraction"
     STATUS_CHANGED = "status_changed"
+    DOCUMENT_CHANGED = "document_changed"
 
 
 class LlmRunStatus(StrEnum):
@@ -86,3 +87,10 @@ class DocumentType(StrEnum):
     ANNOUNCEMENT = "announcement"
     GUIDELINES = "guidelines"
     OTHER = "other"
+
+
+class DocumentState(StrEnum):
+    CURRENT = "current"
+    NEEDS_REVIEW = "needs_review"
+    SUPERSEDED = "superseded"
+    UNAVAILABLE = "unavailable"

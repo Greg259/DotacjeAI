@@ -24,6 +24,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 from app.models.enums import (
     BeneficiaryType,
+    DocumentState,
     DocumentType,
     ExtractionStatus,
     InvestmentCategory,
@@ -266,6 +267,14 @@ class ProgramDocument(UuidPrimaryKeyMixin, TimestampMixin, Base):
     is_available: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=True, server_default="true"
     )
+    state: Mapped[DocumentState] = mapped_column(
+        enum_column(DocumentState, 30),
+        nullable=False,
+        default=DocumentState.CURRENT,
+        server_default="current",
+    )
+    state_reason: Mapped[str | None] = mapped_column(Text)
+    state_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class DocumentVersion(UuidPrimaryKeyMixin, Base):

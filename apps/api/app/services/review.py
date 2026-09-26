@@ -20,6 +20,7 @@ from app.models.domain import (
     SourceSnapshot,
 )
 from app.models.enums import (
+    DocumentState,
     DocumentType,
     ExtractionStatus,
     ProgramStatus,
@@ -93,6 +94,34 @@ async def approve_review(
         return program
     if review.status != ReviewStatus.PENDING:
         raise ReviewOperationError("review_not_pending")
+
+    if review.reason == ReviewReason.DOCUMENT_CHANGED:
+        document_id = review.payload.get("document_id")
+        if not document_id:
+            raise ReviewOperationError("document_review_missing_document")
+        document = await session.get(ProgramDocument, uuid.UUID(document_id))
+        if document is None:
+            raise ReviewOperationError("document_not_found")
+        now = datetime.now(UTC)
+        document.state = DocumentState.CURRENT
+        document.state_reason = None
+        document.state_changed_at = now
+        review.status = ReviewStatus.APPROVED
+        review.resolved_at = now
+        review.resolution_note = "Zweryfikowano nową wersję dokumentu"
+        session.add(
+            AuditLog(
+                actor=actor,
+                action="document.change_approve",
+                entity_type="program_document",
+                entity_id=document.id,
+                details={"review_id": str(review.id)},
+            )
+        )
+        program = await session.get(Program, document.program_id)
+        if program is None:
+            raise ReviewOperationError("program_not_found")
+        return program
 
     if review.reason == ReviewReason.STATUS_CHANGED and review.payload.get("kind") == "date_status":
         if review.program_id is None:
@@ -321,6 +350,14 @@ async def reject_review(
         return
     if review.status != ReviewStatus.PENDING:
         raise ReviewOperationError("review_not_pending")
+    if review.reason == ReviewReason.DOCUMENT_CHANGED and review.payload.get("document_id"):
+        document = await session.get(
+            ProgramDocument, uuid.UUID(str(review.payload["document_id"]))
+        )
+        if document is not None:
+            document.state = DocumentState.CURRENT
+            document.state_reason = None
+            document.state_changed_at = datetime.now(UTC)
     review.status = ReviewStatus.REJECTED
     review.resolution_note = note.strip()[:4000]
     review.resolved_at = datetime.now(UTC)

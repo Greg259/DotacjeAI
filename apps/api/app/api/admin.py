@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.core.config import get_settings
 from app.db.session import get_session
@@ -25,7 +26,8 @@ from app.models.domain import (
     Source,
     SourceSnapshot,
 )
-from app.models.enums import ExtractionStatus, ReviewStatus
+from app.models.enums import ExtractionStatus, ReviewReason, ReviewStatus
+from app.services.completeness import program_completeness
 from app.services.crawler import CrawlError, build_diff, crawl_source
 from app.services.extraction import retry_extraction_job
 from app.services.review import (
@@ -116,6 +118,24 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
     published_count = await session.scalar(
         select(func.count()).select_from(Program).where(Program.is_published.is_(True))
     )
+    published_programs = list(
+        (
+            await session.scalars(
+                select(Program)
+                .where(Program.is_published.is_(True))
+                .options(
+                    selectinload(Program.locations),
+                    selectinload(Program.beneficiary_types),
+                    selectinload(Program.investment_categories),
+                )
+                .order_by(Program.title)
+            )
+        ).all()
+    )
+    completeness = [
+        (program, await program_completeness(session, program))
+        for program in published_programs
+    ]
     metrics = (
         "<div class='grid'>"
         f"<div class='metric'><strong>{published_count or 0}</strong><br>programów publicznych</div>"
@@ -183,6 +203,14 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         f"<li class='bad'>{html.escape(item.title)} — {html.escape(item.url)} — {html.escape(item.last_error_message or 'brak odpowiedzi')}</li>"
         for item in unavailable
     ) or "<li class='ok'>Wszystkie sprawdzone dokumenty są dostępne.</li>"
+    completeness_rows = "".join(
+        "<tr>"
+        f"<td>{html.escape(program.title)}</td>"
+        f"<td class='{'ok' if result.score >= 80 else 'bad'}'>{result.score}% ({result.completed}/{result.total})</td>"
+        f"<td>{html.escape(', '.join(result.missing) or 'brak')}</td>"
+        "</tr>"
+        for program, result in completeness
+    )
     return _page(
         "Pulpit",
         metrics
@@ -199,6 +227,8 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         + "<h3>Grupowanie wyników</h3><ul>" + grouped_rows + "</ul>"
         + "<table><tr><th>ID</th><th>Źródło</th><th>Powód</th><th>Status</th><th>Koszt</th><th>Utworzono</th></tr>"
         + review_rows
+        + "</table><h2>Kompletność programów</h2><table><tr><th>Program</th><th>Wynik</th><th>Braki</th></tr>"
+        + completeness_rows
         + "</table><h2>Kontrola dokumentów</h2><ul>"
         + unavailable_rows
         + "</ul><h2>Historia operacji</h2><table><tr><th>Data</th><th>Operator</th><th>Akcja</th><th>Typ</th><th>ID</th></tr>"
@@ -231,7 +261,9 @@ async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse
         stale_warning = "<p class='bad'>Uwaga: istnieje nowszy snapshot tego źródła. Porównaj go przed zatwierdzeniem lub publikacją.</p>"
     actions = ""
     if review.status == ReviewStatus.PENDING and (
-        job is not None or review.payload.get("kind") == "date_status"
+        job is not None
+        or review.payload.get("kind") == "date_status"
+        or review.reason == ReviewReason.DOCUMENT_CHANGED
     ):
         actions = (
             f"<div class='actions'><button onclick=\"actionPost('/admin/reviews/{review.id}/approve')\">Zatwierdź</button>"

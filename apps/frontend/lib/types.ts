@@ -31,6 +31,8 @@ export interface ProgramDocument {
   url: string;
   document_type: string;
   is_available: boolean;
+  state: "current" | "needs_review" | "superseded" | "unavailable";
+  state_reason: string | null;
   last_checked_at: string | null;
 }
 

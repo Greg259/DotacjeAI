@@ -14,7 +14,7 @@ from app.models.domain import (
     ProgramPropertyType,
     ProgramVersion,
 )
-from app.models.enums import DocumentType
+from app.models.enums import DocumentState, DocumentType
 from app.schemas.content import ApplicationResource, ProgramDetails
 from app.schemas.extraction import ExtractionCandidate
 
@@ -200,7 +200,9 @@ async def update_program_content(
             ).all()
         )
         for document in obsolete_documents:
-            await session.delete(document)
+            document.state = DocumentState.SUPERSEDED
+            document.state_reason = "Usunięto z aktualnej, zatwierdzonej listy materiałów programu."
+            document.state_changed_at = datetime.now(UTC)
 
     extracted_data["schema_version"] = "extraction-v2"
     extracted_data["details"] = details.model_dump(mode="json")
@@ -236,11 +238,15 @@ async def update_program_content(
                     title=resource.title,
                     url=value,
                     document_type=_document_type(resource),
+                    state=DocumentState.CURRENT,
                 )
             )
         else:
             document.title = resource.title
             document.document_type = _document_type(resource)
+            document.state = DocumentState.CURRENT
+            document.state_reason = None
+            document.state_changed_at = now
 
     session.add(
         AuditLog(

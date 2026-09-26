@@ -12,7 +12,7 @@ from app.models.domain import (
     Source,
     SourceSnapshot,
 )
-from app.models.enums import DocumentType, ProgramStatus, SourceType
+from app.models.enums import DocumentState, DocumentType, ProgramStatus, SourceType
 from app.schemas.content import ProgramDetails
 from app.schemas.extraction import ExtractionCandidate
 from app.services.program_content import update_program_content, update_program_core
@@ -112,10 +112,12 @@ async def test_update_program_content_versions_details_and_syncs_resources() -> 
         )
         await update_program_content(session, program.slug, replacement, actor="test")
         await session.commit()
-        document_urls = set(
-            (await session.scalars(select(ProgramDocument.url))).all()
-        )
-        assert document_urls == {"https://example.org/dokumenty"}
+        documents = list((await session.scalars(select(ProgramDocument))).all())
+        states = {item.url: item.state for item in documents}
+        assert states == {
+            "https://example.org/wniosek.pdf": DocumentState.SUPERSEDED,
+            "https://example.org/dokumenty": DocumentState.CURRENT,
+        }
 
     await engine.dispose()
 

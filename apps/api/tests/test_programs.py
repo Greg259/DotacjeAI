@@ -194,9 +194,11 @@ async def test_public_program_list_supports_mvp_filters() -> None:
         {
             "title": "Regulamin naboru",
             "url": "https://example.invalid/nadarzyn.pdf",
-            "document_type": "regulations",
-            "is_available": True,
-            "last_checked_at": None,
+                "document_type": "regulations",
+                "is_available": True,
+                "state": "current",
+                "state_reason": None,
+                "last_checked_at": None,
         }
     ]
     assert [item["version_number"] for item in detail_payload["versions"]] == [1]

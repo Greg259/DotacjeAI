@@ -184,7 +184,7 @@ export default async function ProgramPage({ params }: { params: Params }) {
                   <strong>{resource.title} ↗</strong>
                   {resource.description && <span>{resource.description}</span>}
                   <span>Ostatnia kontrola linku: {formatDateTime(program.documents.find((item) => item.url === resource.url)?.last_checked_at ?? null)}</span>
-                  {program.documents.find((item) => item.url === resource.url)?.is_available === false && <span className="resource-warning">Link wymaga ponownej weryfikacji</span>}
+                  {program.documents.find((item) => item.url === resource.url)?.state !== "current" && <span className="resource-warning">Dokument wymaga ponownej weryfikacji</span>}
                 </a>
               ))}
             </div>
@@ -195,7 +195,7 @@ export default async function ProgramPage({ params }: { params: Params }) {
           <h2>Wszystkie źródła</h2>
           {program.documents.length ? (
             <ul className="source-list">
-              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a><span className="document-checked">sprawdzono link: {formatDateTime(doc.last_checked_at)}</span>{!doc.is_available && <span className="resource-warning"> — link wymaga weryfikacji</span>}</li>)}
+              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a><span className="document-checked">sprawdzono link: {formatDateTime(doc.last_checked_at)}</span>{doc.state !== "current" && <span className="resource-warning"> — {doc.state_reason ?? "dokument wymaga weryfikacji"}</span>}</li>)}
             </ul>
           ) : <p>Oficjalny dokument jest przygotowywany.</p>}
           {program.official_url && <a className="button small" href={program.official_url} target="_blank" rel="noreferrer">Otwórz oficjalną stronę</a>}

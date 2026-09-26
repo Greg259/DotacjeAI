@@ -20,6 +20,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import Settings
 from app.models.domain import ReviewTask, Source, SourceSnapshot
 from app.models.enums import ReviewReason, ReviewStatus, SourceType
+from app.services.change_detection import classify_source_change
 
 
 class CrawlError(RuntimeError):
@@ -36,6 +37,7 @@ class CrawlResult:
     normalized_sha256: str | None
     size_bytes: int
     review_created: bool
+    change_kinds: list[str]
 
     def to_dict(self) -> dict[str, str | int | bool | None]:
         return asdict(self)
@@ -247,6 +249,7 @@ async def crawl_source(
             normalized_sha256=snapshot.normalized_sha256,
             size_bytes=snapshot.size_bytes,
             review_created=False,
+            change_kinds=[],
         )
 
     if response.status_code != 200:
@@ -325,6 +328,7 @@ async def crawl_source(
     await session.flush()
 
     review_created = False
+    change = classify_source_change(previous_normalized_text, normalized_text) if previous else None
     if changed:
         reason = ReviewReason.NEW_PROGRAM if previous is None else ReviewReason.SOURCE_CHANGED
         session.add(
@@ -341,6 +345,9 @@ async def crawl_source(
                     "normalized_sha256": normalized_hash,
                     "diff_path": diff_path,
                     "diff_characters": len(diff_text),
+                    "change_kinds": change.kinds if change else ["new_program"],
+                    "added_links": change.added_links if change else [],
+                    "removed_links": change.removed_links if change else [],
                 },
             )
         )
@@ -355,4 +362,5 @@ async def crawl_source(
         normalized_hash,
         len(raw),
         review_created,
+        change.kinds if change else (["new_program"] if changed else []),
     )

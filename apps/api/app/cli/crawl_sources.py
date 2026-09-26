@@ -18,6 +18,11 @@ PRIORITY_SOURCES = (
     "przydomowe-magazyny-energii",
     "moja-elektrownia-wiatrowa",
     "cieple-mieszkanie",
+    "pruszkow-wymiana-pieca-2026",
+    "pruszkow-cieple-mieszkanie",
+    "brwinow-wymiana-pieca-2026",
+    "michalowice-lokalny-program-piecowy-2026",
+    "raszyn-ograniczanie-niskiej-emisji-2026",
 )
 
 

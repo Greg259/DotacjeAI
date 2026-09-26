@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app.core.config import Settings
 from app.db.base import Base
-from app.models.domain import DocumentVersion, Program, ProgramDocument
-from app.models.enums import DocumentType
+from app.models.domain import DocumentVersion, Program, ProgramDocument, ReviewTask
+from app.models.enums import DocumentState, DocumentType, ReviewReason
 from app.services.document_sync import sync_program_documents
 
 
@@ -57,6 +57,25 @@ async def test_document_sync_versions_content_and_marks_broken_link(tmp_path: Pa
         assert version is not None
         assert (tmp_path / version.storage_path).is_file()
 
+        def changed_handler(request: httpx.Request) -> httpx.Response:
+            return httpx.Response(
+                200,
+                content=b"%PDF-1.4 updated official form",
+                headers={"content-type": "application/pdf"},
+                request=request,
+            )
+
+        client = httpx.AsyncClient(transport=httpx.MockTransport(changed_handler))
+        changed = await sync_program_documents(session, settings, client=client)
+        await client.aclose()
+        await session.commit()
+        await session.refresh(document)
+        review = await session.scalar(select(ReviewTask))
+        assert changed[0].outcome == "versioned"
+        assert document.state == DocumentState.NEEDS_REVIEW
+        assert review is not None
+        assert review.reason == ReviewReason.DOCUMENT_CHANGED
+
         def transient_handler(request: httpx.Request) -> httpx.Response:
             raise httpx.ReadError("reset", request=request)
 
@@ -79,6 +98,7 @@ async def test_document_sync_versions_content_and_marks_broken_link(tmp_path: Pa
         await session.refresh(document)
         assert result[0].outcome == "unavailable"
         assert document.is_available is False
+        assert document.state == DocumentState.UNAVAILABLE
         assert document.last_http_status == 404
 
     await engine.dispose()
