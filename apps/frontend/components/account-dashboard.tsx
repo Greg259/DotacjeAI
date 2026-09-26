@@ -19,6 +19,15 @@ type Profile = {
   business_size: string | null;
   investment_categories: string[];
 };
+type SourceSuggestion = {
+  id: string;
+  title: string | null;
+  url: string;
+  note: string | null;
+  status: "pending" | "approved" | "rejected";
+  reviewer_note: string | null;
+  created_at: string;
+};
 
 const labels: Record<string, string> = {
   single_family_house: "dom jednorodzinny", apartment: "mieszkanie",
@@ -38,17 +47,48 @@ export function AccountDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [suggestions, setSuggestions] = useState<SourceSuggestion[]>([]);
+  const [sourceTitle, setSourceTitle] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
+  const [sourceNote, setSourceNote] = useState("");
+  const [submittingSource, setSubmittingSource] = useState(false);
   const [error, setError] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
 
   useEffect(() => {
-    Promise.all([fetch("/api/auth/me"), fetch("/api/profiles")]).then(async ([me, list]) => {
+    Promise.all([
+      fetch("/api/auth/me"),
+      fetch("/api/profiles"),
+      fetch("/api/source-suggestions"),
+    ]).then(async ([me, list, sourceList]) => {
       if (me.status === 401) return router.replace("/konto/logowanie");
-      if (!me.ok || !list.ok) return setError("Nie udało się pobrać danych konta.");
+      if (!me.ok || !list.ok || !sourceList.ok) return setError("Nie udało się pobrać danych konta.");
       setUser(await me.json());
       setProfiles(await list.json());
+      setSuggestions(await sourceList.json());
     });
   }, [router]);
+
+  async function submitSource(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setSubmittingSource(true);
+    const response = await apiRequest("/api/source-suggestions", {
+      method: "POST",
+      body: JSON.stringify({
+        title: sourceTitle || null,
+        url: sourceUrl,
+        note: sourceNote || null,
+      }),
+    });
+    setSubmittingSource(false);
+    if (!response.ok) return setError(await errorMessage(response));
+    const item: SourceSuggestion = await response.json();
+    setSuggestions((items) => [item, ...items]);
+    setSourceTitle("");
+    setSourceUrl("");
+    setSourceNote("");
+  }
 
   async function logout() {
     await apiRequest("/api/auth/logout", { method: "POST" });
@@ -103,6 +143,28 @@ export function AccountDashboard() {
             <div className="profile-actions"><Link className="text-link" href={`/konto/profil/${profile.id}/dopasowania`}>Dopasowania</Link><Link className="text-link" href={`/konto/profil/${profile.id}`}>Edytuj</Link><button onClick={() => removeProfile(profile.id)}>Usuń</button></div>
           </article>
         ))}</div>}
+
+        <section className="source-suggestions">
+          <div className="section-heading profile-heading">
+            <div>
+              <h2>Zaproponuj stronę do skanowania</h2>
+              <p>Podaj publiczną stronę HTTPS z dotacjami lub wsparciem. Skanowanie rozpocznie się dopiero po akceptacji administratora.</p>
+            </div>
+          </div>
+          <form className="source-suggestion-form" onSubmit={submitSource}>
+            <label>Tytuł lub instytucja (opcjonalnie)<input maxLength={255} value={sourceTitle} onChange={(event) => setSourceTitle(event.target.value)} /></label>
+            <label>Adres strony<input required type="url" pattern="https://.*" placeholder="https://instytucja.pl/dotacje" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} /></label>
+            <label>Co warto znaleźć? (opcjonalnie)<textarea maxLength={1000} rows={3} value={sourceNote} onChange={(event) => setSourceNote(event.target.value)} /></label>
+            <button className="button" disabled={submittingSource}>{submittingSource ? "Wysyłanie…" : "Wyślij do akceptacji"}</button>
+          </form>
+          {suggestions.length > 0 && <div className="suggestion-list">
+            {suggestions.map((item) => <article className="suggestion-card" key={item.id}>
+              <div><strong>{item.title || item.url}</strong><a href={item.url} target="_blank" rel="noreferrer">{item.url}</a></div>
+              <span className={`suggestion-status ${item.status}`}>{item.status === "pending" ? "oczekuje" : item.status === "approved" ? "zaakceptowana" : "odrzucona"}</span>
+              {item.reviewer_note && <p>{item.reviewer_note}</p>}
+            </article>)}
+          </div>}
+        </section>
       </section>
       <aside className="account-sidebar">
         <h2>Twoje dane</h2>

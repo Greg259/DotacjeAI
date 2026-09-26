@@ -7,6 +7,7 @@ from collections import Counter
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Annotated
+from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -27,8 +28,15 @@ from app.models.domain import (
     ReviewTask,
     Source,
     SourceSnapshot,
+    SourceSuggestion,
 )
-from app.models.enums import ExtractionStatus, ReviewReason, ReviewStatus
+from app.models.enums import (
+    ExtractionStatus,
+    ReviewReason,
+    ReviewStatus,
+    SourceType,
+    SuggestionStatus,
+)
 from app.services.completeness import program_completeness
 from app.services.crawler import CrawlError, build_diff, crawl_source
 from app.services.extraction import retry_extraction_job
@@ -140,6 +148,16 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
             )
         ).all()
     )
+    suggestions = list(
+        (
+            await session.scalars(
+                select(SourceSuggestion)
+                .where(SourceSuggestion.status == SuggestionStatus.PENDING)
+                .options(selectinload(SourceSuggestion.user))
+                .order_by(SourceSuggestion.created_at)
+            )
+        ).all()
+    )
     published_programs = list(
         (
             await session.scalars(
@@ -248,10 +266,25 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
             f"<td>{html.escape(', '.join(item.audience_tags))}</td>"
             f"<td><a href='{html.escape(item.url)}' target='_blank' rel='noreferrer'>oficjalna strona</a></td>"
             f"<td>{html.escape(str(item.last_seen_at))}</td>"
+            f"<td><button onclick=\"actionPost('/admin/discoveries/{item.id}/track')\">Monitoruj i analizuj</button></td>"
             "</tr>"
             for item in discoveries
         )
-        or "<tr><td colspan='4'>Brak nowych kandydatów.</td></tr>"
+        or "<tr><td colspan='5'>Brak nowych kandydatów.</td></tr>"
+    )
+    suggestion_rows = (
+        "".join(
+            "<tr>"
+            f"<td>{html.escape(item.user.username)}</td>"
+            f"<td>{html.escape(item.title or 'bez tytułu')}</td>"
+            f"<td><a href='{html.escape(item.url)}' target='_blank' rel='noreferrer'>{html.escape(item.url)}</a></td>"
+            f"<td>{html.escape(item.note or '—')}</td>"
+            f"<td><button onclick=\"actionPost('/admin/source-suggestions/{item.id}/approve')\">Akceptuj skan</button> "
+            f"<button class='danger' onclick=\"actionPost('/admin/source-suggestions/{item.id}/reject')\">Odrzuć</button></td>"
+            "</tr>"
+            for item in suggestions
+        )
+        or "<tr><td colspan='5'>Brak oczekujących zgłoszeń.</td></tr>"
     )
     profile_rows = (
         "".join(
@@ -287,7 +320,9 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         + review_rows
         + "</table><h2>Kompletność programów</h2><table><tr><th>Program</th><th>Wynik</th><th>Braki</th></tr>"
         + completeness_rows
-        + "</table><h2>Wykryte oficjalne programy dla firm</h2><table><tr><th>Tytuł</th><th>Tagi</th><th>Źródło</th><th>Wykryto</th></tr>"
+        + "</table><h2>Strony zgłoszone przez użytkowników</h2><table><tr><th>Użytkownik</th><th>Tytuł</th><th>URL</th><th>Uzasadnienie</th><th>Decyzja</th></tr>"
+        + suggestion_rows
+        + "</table><h2>Wykryte programy</h2><table><tr><th>Tytuł</th><th>Tagi</th><th>Źródło</th><th>Wykryto</th><th>Akcja</th></tr>"
         + discovery_rows
         + "</table><h2>Diagnostyka dopasowań użytkowników</h2><table><tr><th>Użytkownik</th><th>Profil</th><th>Typ</th><th>Diagnostyka</th></tr>"
         + profile_rows
@@ -297,6 +332,96 @@ async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
         + audit_rows
         + "</table><script>async function actionPost(url){const response=await fetch(url,{method:'POST'});if(!response.ok)alert(await response.text());else location.reload();}</script>",
     )
+
+
+@router.post("/source-suggestions/{suggestion_id}/approve")
+async def approve_source_suggestion(
+    suggestion_id: uuid.UUID, request: Request, session: SessionDep
+):
+    _validate_origin(request)
+    suggestion = await session.get(SourceSuggestion, suggestion_id)
+    if suggestion is None or suggestion.status != SuggestionStatus.PENDING:
+        raise HTTPException(status_code=409, detail="Suggestion is not pending")
+    source = await session.scalar(select(Source).where(Source.url == suggestion.url))
+    if source is None:
+        hostname = urlparse(suggestion.url).hostname or "zgłoszona strona"
+        source = Source(
+            name=suggestion.title or f"Zgłoszenie użytkownika — {hostname}",
+            slug=f"user-suggestion-{suggestion.id.hex[:12]}",
+            url=suggestion.url,
+            source_type=SourceType.INDEX,
+            active=True,
+        )
+        session.add(source)
+        await session.flush()
+    suggestion.status = SuggestionStatus.APPROVED
+    suggestion.source_id = source.id
+    suggestion.reviewed_at = datetime.now(UTC)
+    suggestion.reviewer_note = "Zaakceptowano do automatycznego skanowania."
+    session.add(
+        AuditLog(
+            actor="admin",
+            action="source_suggestion.approve",
+            entity_type="source_suggestion",
+            entity_id=suggestion.id,
+            details={"source_id": str(source.id), "url": suggestion.url},
+        )
+    )
+    await session.commit()
+    return {"status": "approved", "source_id": str(source.id)}
+
+
+@router.post("/source-suggestions/{suggestion_id}/reject")
+async def reject_source_suggestion(suggestion_id: uuid.UUID, request: Request, session: SessionDep):
+    _validate_origin(request)
+    suggestion = await session.get(SourceSuggestion, suggestion_id)
+    if suggestion is None or suggestion.status != SuggestionStatus.PENDING:
+        raise HTTPException(status_code=409, detail="Suggestion is not pending")
+    suggestion.status = SuggestionStatus.REJECTED
+    suggestion.reviewed_at = datetime.now(UTC)
+    suggestion.reviewer_note = "Administrator nie zaakceptował strony do skanowania."
+    session.add(
+        AuditLog(
+            actor="admin",
+            action="source_suggestion.reject",
+            entity_type="source_suggestion",
+            entity_id=suggestion.id,
+            details={"url": suggestion.url},
+        )
+    )
+    await session.commit()
+    return {"status": "rejected"}
+
+
+@router.post("/discoveries/{discovery_id}/track")
+async def track_discovery(discovery_id: uuid.UUID, request: Request, session: SessionDep):
+    _validate_origin(request)
+    discovery = await session.get(ProgramDiscovery, discovery_id)
+    if discovery is None or discovery.status != "new":
+        raise HTTPException(status_code=409, detail="Discovery is not new")
+    source = await session.scalar(select(Source).where(Source.url == discovery.url))
+    if source is None:
+        source = Source(
+            name=discovery.title,
+            slug=f"discovered-program-{discovery.id.hex[:12]}",
+            url=discovery.url,
+            source_type=SourceType.HTML,
+            active=True,
+        )
+        session.add(source)
+        await session.flush()
+    discovery.status = "tracked"
+    session.add(
+        AuditLog(
+            actor="admin",
+            action="program_discovery.track",
+            entity_type="program_discovery",
+            entity_id=discovery.id,
+            details={"source_id": str(source.id), "url": discovery.url},
+        )
+    )
+    await session.commit()
+    return {"status": "tracked", "source_id": str(source.id)}
 
 
 @router.get("/profiles/{profile_id}/matches", response_class=HTMLResponse)

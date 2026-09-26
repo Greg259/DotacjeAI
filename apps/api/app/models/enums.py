@@ -200,3 +200,9 @@ class DiscoveryStatus(StrEnum):
     NEW = "new"
     TRACKED = "tracked"
     IGNORED = "ignored"
+
+
+class SuggestionStatus(StrEnum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"

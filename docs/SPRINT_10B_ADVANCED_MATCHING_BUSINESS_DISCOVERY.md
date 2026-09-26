@@ -48,3 +48,7 @@ Testy obejmują zgodność pozytywną firmy z programem B+R, przekroczenie limit
 ## Granica wdrożenia danych
 
 Dodanie źródła nie oznacza publikacji programu. Po pierwszym pobraniu szczegółowych stron firmowych należy sprawdzić wynik ekstrakcji w REVIEW, porównać terminy i regulaminy, a dopiero potem zatwierdzić i opublikować poprawne rekordy.
+
+## Rozszerzenie 10C — sugestie użytkowników
+
+Zalogowany użytkownik może zgłosić własną stronę HTTPS z dotacjami lub wsparciem. Strona nie jest pobierana przed akceptacją administratora. Po akceptacji crawler traktuje ją jako indeks, wykrywa istotne linki z tej samej domeny, a administrator osobno uruchamia monitorowanie i analizę wybranego programu. Szczegóły, zabezpieczenia oraz testy opisuje `SPRINT_10C_USER_SOURCE_SUGGESTIONS.md`.

@@ -14,3 +14,19 @@ LINK: Fundusze Europejskie -> https://funduszeeuropejskie.gov.pl/
     assert items[0][1] == "https://www.parp.gov.pl/component/grants/grants/sciezka-smart"
     assert "sme" in items[0][2]
     assert {"startup", "vc"}.issubset(items[1][2])
+
+
+def test_discovery_accepts_relevant_links_from_admin_approved_host() -> None:
+    text = """
+LINK: Nabór na dotacje dla przedsiębiorstw -> https://wsparcie.example/program/dotacje-2026
+LINK: Kontakt -> https://wsparcie.example/kontakt
+LINK: Dotacje z obcej domeny -> https://untrusted.example/dotacje
+"""
+    items = discover_links(text, allowed_hosts={"wsparcie.example"})
+    assert items == [
+        (
+            "Nabór na dotacje dla przedsiębiorstw",
+            "https://wsparcie.example/program/dotacje-2026",
+            ["call", "enterprise", "grant", "program"],
+        )
+    ]

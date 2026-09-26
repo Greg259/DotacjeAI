@@ -18,6 +18,7 @@ from app.core.security import hash_password, new_token, token_hash, verify_passw
 from app.models.domain import (
     ProfileInvestmentCategory,
     PropertyProfile,
+    SourceSuggestion,
     User,
     UserSession,
 )
@@ -159,6 +160,15 @@ async def export_account(identity: IdentityDep, session: SessionDep):
             )
         ).all()
     )
+    source_suggestions = list(
+        (
+            await session.scalars(
+                select(SourceSuggestion)
+                .where(SourceSuggestion.user_id == identity.user.id)
+                .order_by(SourceSuggestion.created_at)
+            )
+        ).all()
+    )
     payload = {
         "exported_at": datetime.now(UTC),
         "account": UserResponse.model_validate(identity.user),
@@ -206,6 +216,19 @@ async def export_account(identity: IdentityDep, session: SessionDep):
             }
             for profile in profiles
         ],
+        "source_suggestions": [
+            {
+                "id": item.id,
+                "title": item.title,
+                "url": item.url,
+                "note": item.note,
+                "status": item.status,
+                "reviewer_note": item.reviewer_note,
+                "created_at": item.created_at,
+                "reviewed_at": item.reviewed_at,
+            }
+            for item in source_suggestions
+        ],
     }
     return JSONResponse(
         content=jsonable_encoder(payload),
@@ -227,6 +250,9 @@ async def delete_account(
     )
     await session.execute(
         delete(PropertyProfile).where(PropertyProfile.user_id == identity.user.id)
+    )
+    await session.execute(
+        delete(SourceSuggestion).where(SourceSuggestion.user_id == identity.user.id)
     )
     await session.execute(delete(UserSession).where(UserSession.user_id == identity.user.id))
     await session.execute(delete(User).where(User.id == identity.user.id))

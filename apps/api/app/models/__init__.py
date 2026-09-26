@@ -17,6 +17,7 @@ from app.models.domain import (
     ReviewTask,
     Source,
     SourceSnapshot,
+    SourceSuggestion,
     User,
     UserSession,
 )
@@ -40,6 +41,7 @@ __all__ = [
     "ReviewTask",
     "Source",
     "SourceSnapshot",
+    "SourceSuggestion",
     "User",
     "UserSession",
 ]

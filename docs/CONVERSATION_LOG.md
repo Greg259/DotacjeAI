@@ -542,3 +542,9 @@ Zaprojektowano lokalne uwierzytelnianie z hasłami scrypt, sesją serwerową, ci
 Użytkownik polecił rozpocząć Sprint 10 i uwzględnić sytuację, w której jedno konto ma kilka różnych profili, np. dom dla Czystego Powietrza i przedsiębiorstwo dla NCBR. Przyjęto niezależne profile `property` i `business`, liczone osobno.
 
 Profil firmowy otrzymał wielkość przedsiębiorstwa, formę prawną, zatrudnienie, obrót, kody branżowe i cele B+R. Silnik bez udziału AI sprawdza status, beneficjenta, hierarchię lokalizacji, rodzaj nieruchomości lub wielkość firmy oraz cel inwestycji. Każda reguła zwraca spełnienie, niespełnienie albo brak danych, a programy otrzymują ranking i wyjaśnienie. Obecny katalog wymaga jeszcze osobnego rozszerzenia o oficjalne programy NCBR/PARP.
+
+## 35. Strony zgłaszane przez użytkowników
+
+Użytkownik poprosił o możliwość dodania własnej strony, którą system przeskanuje w poszukiwaniu dotacji i innych form wsparcia, pod warunkiem wcześniejszej akceptacji linku przez administratora.
+
+Dodano formularz na koncie, prywatną listę zgłoszeń i kolejkę administratora. Żadne pobranie nie odbywa się przed akceptacją. Zaakceptowana strona trafia do harmonogramu jako katalog, a znalezione programy wymagają osobnej decyzji administratora przed uruchomieniem szczegółowego crawla i ekstrakcji OpenRouter. AI nadal nie publikuje danych automatycznie. Dodano ograniczenie pięciu oczekujących zgłoszeń, blokadę duplikatów, HTTPS, ochronę przed bezpośrednimi adresami prywatnymi, CSRF, audit log oraz ujęcie danych w eksporcie i usuwaniu konta.

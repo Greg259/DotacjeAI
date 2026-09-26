@@ -4,7 +4,7 @@ import json
 import sys
 from datetime import UTC, datetime
 
-from sqlalchemy import select, update
+from sqlalchemy import or_, select, update
 
 from app.core.config import get_settings
 from app.db.session import SessionFactory
@@ -39,16 +39,25 @@ def parse_args() -> argparse.Namespace:
 async def run() -> int:
     args = parse_args()
     settings = get_settings()
-    requested = tuple(args.slug or PRIORITY_SOURCES)
+    explicitly_requested = tuple(args.slug or ())
+    requested = explicitly_requested or PRIORITY_SOURCES
 
     async with SessionFactory() as session:
         statement = select(Source).where(Source.active.is_(True)).order_by(Source.slug)
-        if not args.all:
-            statement = statement.where(Source.slug.in_(requested))
+        if explicitly_requested:
+            statement = statement.where(Source.slug.in_(explicitly_requested))
+        elif not args.all:
+            statement = statement.where(
+                or_(
+                    Source.slug.in_(PRIORITY_SOURCES),
+                    Source.slug.like("user-suggestion-%"),
+                    Source.slug.like("discovered-program-%"),
+                )
+            )
         sources = list((await session.scalars(statement)).all())
 
         found = {source.slug for source in sources}
-        missing = sorted(set(requested) - found) if not args.all else []
+        missing = sorted(set(requested) - found) if explicitly_requested else []
         if missing:
             print(json.dumps({"error": "unknown_sources", "slugs": missing}))
             return 2

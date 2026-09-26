@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(case_sensitive=True, extra="ignore")
 
     app_env: str = Field(default="development", validation_alias="APP_ENV")
-    app_version: str = Field(default="0.10.0", validation_alias="APP_VERSION")
+    app_version: str = Field(default="0.11.0", validation_alias="APP_VERSION")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
     session_days: int = Field(default=30, ge=1, le=90, validation_alias="SESSION_DAYS")
     session_cookie_secure: bool = Field(default=True, validation_alias="SESSION_COOKIE_SECURE")

@@ -40,6 +40,7 @@ from app.models.enums import (
     ReviewReason,
     ReviewStatus,
     SourceType,
+    SuggestionStatus,
     UserRole,
 )
 
@@ -435,6 +436,9 @@ class User(UuidPrimaryKeyMixin, TimestampMixin, Base):
     profiles: Mapped[list["PropertyProfile"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
+    source_suggestions: Mapped[list["SourceSuggestion"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
 
 
 class UserSession(UuidPrimaryKeyMixin, Base):
@@ -542,3 +546,26 @@ class ProgramDiscovery(UuidPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     index_source: Mapped[Source] = relationship()
+
+
+class SourceSuggestion(UuidPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "source_suggestions"
+    __table_args__ = (UniqueConstraint("user_id", "url"),)
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    source_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("sources.id", ondelete="SET NULL")
+    )
+    title: Mapped[str | None] = mapped_column(String(255))
+    url: Mapped[str] = mapped_column(Text, nullable=False)
+    note: Mapped[str | None] = mapped_column(String(1000))
+    status: Mapped[SuggestionStatus] = mapped_column(
+        enum_column(SuggestionStatus, 20), nullable=False, default=SuggestionStatus.PENDING
+    )
+    reviewer_note: Mapped[str | None] = mapped_column(String(1000))
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped["User"] = relationship(back_populates="source_suggestions")
+    source: Mapped[Source | None] = relationship()

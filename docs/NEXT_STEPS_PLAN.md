@@ -309,6 +309,14 @@ Stan wdrożenia: commit `99f22c7`, CI run 22 `success`, backup przed wdrożeniem
 
 Stan po decyzji REVIEW: dwa programy publiczne, dwa zadania zatwierdzone, jeden duplikat odrzucony, filtry i karty działają. Zweryfikowany backup po publikacji: `bdb9f3f2`. Pozostały kontrola wizualna oraz końcowa rotacja ujawnionego klucza.
 
+## Po wdrożeniu źródeł użytkowników
+
+1. Obserwować pierwsze prawdziwe zgłoszenia i odrzucać strony niebędące wiarygodnym źródłem programu.
+2. Dla zaakceptowanych katalogów wybierać w panelu wyłącznie konkretne programy warte monitorowania.
+3. Każdy wynik OpenRouter sprawdzić w REVIEW przed publikacją.
+4. Przed publiczną betą dodać zewnętrzny monitoring oraz backup poza VPS.
+5. Na końcu prac unieważnić ujawniony klucz OpenRouter i wprowadzić nowy bezpośrednio na VPS.
+
 ## Stan po rozszerzeniu kart — 2026-09-24
 
 1. [x] Rozszerzyć model ekstrakcji o warunki, beneficjentów, warianty finansowania, ograniczenia, kroki, załączniki i formularze.

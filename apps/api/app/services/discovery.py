@@ -57,12 +57,17 @@ OFFICIAL_SUFFIXES = (
 TRACKING_PARAMS = {"utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"}
 
 
-def _normalize_url(value: str) -> str | None:
+def _normalize_url(value: str, allowed_hosts: set[str] | None = None) -> str | None:
     parsed = urlparse(value)
     hostname = (parsed.hostname or "").lower()
-    if parsed.scheme not in {"http", "https"} or not any(
+    allowed_hosts = allowed_hosts or set()
+    official = any(
         hostname == suffix or hostname.endswith("." + suffix) for suffix in OFFICIAL_SUFFIXES
-    ):
+    )
+    explicitly_allowed = any(
+        hostname == host or hostname.endswith("." + host) for host in allowed_hosts
+    )
+    if parsed.scheme not in {"http", "https"} or not (official or explicitly_allowed):
         return None
     query = urlencode(
         [(key, item) for key, item in parse_qsl(parsed.query) if key.lower() not in TRACKING_PARAMS]
@@ -72,7 +77,9 @@ def _normalize_url(value: str) -> str | None:
     )
 
 
-def discover_links(text: str) -> list[tuple[str, str, list[str]]]:
+def discover_links(
+    text: str, allowed_hosts: set[str] | None = None
+) -> list[tuple[str, str, list[str]]]:
     discovered = []
     seen = set()
     for line in text.splitlines():
@@ -80,7 +87,7 @@ def discover_links(text: str) -> list[tuple[str, str, list[str]]]:
         if not match:
             continue
         title = match.group("title").strip()[:500]
-        url = _normalize_url(match.group("url"))
+        url = _normalize_url(match.group("url"), allowed_hosts)
         searchable = f"{title} {urlparse(url).path if url else ''}".casefold()
         tags = sorted({tag for keyword, tag in KEYWORDS.items() if keyword in searchable})
         if not url or not (set(tags) & STRONG_TAGS) or url in seen:
@@ -114,7 +121,10 @@ async def discover_from_indexes(session: AsyncSession) -> tuple[int, int]:
         )
         if not snapshot:
             continue
-        found = discover_links(snapshot.normalized_text or "")
+        hostname = (urlparse(source.url).hostname or "").lower()
+        found = discover_links(
+            snapshot.normalized_text or "", allowed_hosts={hostname} if hostname else set()
+        )
         seen_urls = {url for _, url, _ in found}
         await session.execute(
             update(ProgramDiscovery)

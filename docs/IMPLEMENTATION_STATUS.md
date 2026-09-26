@@ -269,3 +269,12 @@ Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
 - oficjalne indeksy PARP, Funduszy Europejskich i NCBR są monitorowane pod kątem nowych programów dla firm, startupów, VC i B+R;
 - panel administratora pokazuje wykryte linki oraz pełną diagnostykę dopasowań profili;
 - szczegóły: `SPRINT_10B_ADVANCED_MATCHING_BUSINESS_DISCOVERY.md`.
+
+## Sprint 10C — źródła zgłaszane przez użytkowników (2026-09-26)
+
+- konto użytkownika zawiera formularz zgłoszenia własnej strony HTTPS;
+- zgłoszenie nie uruchamia pobierania i oczekuje na decyzję administratora;
+- panel administratora obsługuje akceptację lub odrzucenie linku oraz rozpoczęcie monitorowania wykrytego programu;
+- zaakceptowane katalogi i śledzone programy są automatycznie uwzględniane w cyklicznym crawlerze;
+- historia zgłoszeń trafia do eksportu danych i jest usuwana wraz z kontem;
+- szczegóły: `SPRINT_10C_USER_SOURCE_SUGGESTIONS.md`.

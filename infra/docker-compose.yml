@@ -8,7 +8,7 @@ x-logging: &default-logging
 
 x-api-environment: &api-environment
   APP_ENV: production
-  APP_VERSION: "0.10.0"
+  APP_VERSION: "0.11.0"
   LOG_LEVEL: INFO
   SESSION_DAYS: ${SESSION_DAYS:-30}
   SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}

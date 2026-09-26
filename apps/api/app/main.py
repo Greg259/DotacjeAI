@@ -11,6 +11,7 @@ from app.api.auth import router as auth_router
 from app.api.health import router as health_router
 from app.api.profiles import router as profiles_router
 from app.api.programs import router as programs_router
+from app.api.source_suggestions import router as source_suggestions_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 
@@ -24,6 +25,7 @@ app.include_router(health_router, prefix="/api")
 app.include_router(programs_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
 app.include_router(profiles_router, prefix="/api")
+app.include_router(source_suggestions_router, prefix="/api")
 app.include_router(admin_router)
 
 
