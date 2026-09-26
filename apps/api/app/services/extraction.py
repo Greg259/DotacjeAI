@@ -201,7 +201,11 @@ async def process_extraction_job(
         )
         if previous_run and previous_run.status == LlmRunStatus.SUCCEEDED:
             candidate = ExtractionCandidate.model_validate(previous_run.response_data)
+            candidate = _finalize_candidate(candidate, deterministic, source, today=today)
             job.last_llm_run_id = previous_run.id
+            if candidate.missing_critical_evidence():
+                candidate = None
+                continue
             break
         if previous_run is not None:
             continue
@@ -223,7 +227,32 @@ async def process_extraction_job(
                 source_text=snapshot.normalized_text or "",
                 client=client,
             )
-            candidate = result.candidate
+            candidate = _finalize_candidate(
+                result.candidate, deterministic, source, today=today
+            )
+            missing_evidence = candidate.missing_critical_evidence()
+            if missing_evidence:
+                run.status = LlmRunStatus.REJECTED_BY_VALIDATION
+                run.request_sha256 = result.request_sha256
+                run.external_id = result.external_id
+                run.model = result.model
+                run.input_tokens = result.input_tokens
+                run.output_tokens = result.output_tokens
+                run.cost_usd = result.cost_usd
+                run.latency_ms = result.latency_ms
+                run.response_data = candidate.model_dump(mode="json")
+                run.validation_errors = [
+                    {"message": "missing_critical_evidence", "fields": missing_evidence}
+                ]
+                job.last_llm_run_id = run.id
+                candidate = None
+                if attempt < len(models[:2]):
+                    continue
+                job.status = ExtractionStatus.FAILED
+                job.error_message = "missing_critical_evidence:" + ",".join(
+                    missing_evidence
+                )
+                return job
             run.status = LlmRunStatus.SUCCEEDED
             run.request_sha256 = result.request_sha256
             run.external_id = result.external_id
@@ -268,7 +297,6 @@ async def process_extraction_job(
         job.error_message = "no_valid_llm_result"
         return job
 
-    candidate = _finalize_candidate(candidate, deterministic, source, today=today)
     missing_evidence = candidate.missing_critical_evidence()
     if missing_evidence:
         job.status = ExtractionStatus.FAILED
