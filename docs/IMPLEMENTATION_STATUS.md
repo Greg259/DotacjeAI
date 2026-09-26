@@ -1,6 +1,6 @@
 # Status przygotowania serwera DotacjeAI
 
-Ostatnia weryfikacja: 2026-09-24.
+Ostatnia weryfikacja: 2026-09-26.
 
 ## Stan końcowy
 
@@ -44,11 +44,14 @@ PostgreSQL i Redis nie publikują portów na hoście. Z Internetu dostępne są 
 
 ## Otwarte zadania
 
-1. Dodać zewnętrzny backup i alarmy przed rozpoczęciem bety.
-2. Skonfigurować zasady pracy z repozytorium: ochrona `main`, pull requesty i CI.
-3. Zastąpić techniczny frontend docelową aplikacją Next.js oraz dodać migracje bazy.
-4. Zaimplementować pierwsze źródła opisane w `SOURCE_CATALOG.md`.
-5. Ustawić `OPENROUTER_API_KEY` dopiero przed wdrożeniem i testami integracji LLM; limit miesięczny wynosi 10 USD.
+MVP-0 jest zakończone. Przed betą pozostają zadania spoza jego zakresu:
+
+1. Obrócić ujawniony klucz OpenRouter w panelu właściciela.
+2. Dodać zewnętrzny backup i alarmy działające poza VPS.
+3. Włączyć ochronę `main` i obowiązkowe pull requesty przed powiększeniem zespołu.
+4. Rozszerzyć katalog źródeł i obserwować automatyzację przez kilka dni przed MVP-1.
+
+Pełny protokół odbioru znajduje się w `MVP0_COMPLETION.md`.
 
 ## Fundament API przygotowany 2026-09-23
 
@@ -180,3 +183,16 @@ Po jawnej decyzji właściciela wykonano dwa `approve`, jedno `reject` oraz dwie
 - backup po wdrożeniu `0049f91e` przeszedł kontrolę Restic, sum i pełne odtworzenie PostgreSQL.
 
 Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTENT_ENRICHMENT.md`.
+
+## Zamknięcie MVP-0 — 2026-09-26
+
+- API `0.6.0` i migracja `e7f2a1c8d904` działają produkcyjnie,
+- opublikowano trzy kompletne programy: Czyste Powietrze, Nadarzyn i Moje Ciepło,
+- dodano pełne filtry, paginację, powiat, dynamiczną sitemap i canonical,
+- chroniony Basic Auth panel `/admin` obsługuje REVIEW, edycję, approve, reject i publish,
+- dokumenty są okresowo pobierane, hashowane, wersjonowane i kontrolowane pod kątem dostępności,
+- statusy wynikające z dat są proponowane do ręcznego REVIEW co godzinę,
+- pipeline crawler → ekstrakcja działa co 6 godzin,
+- finalny zestaw CI obejmuje 26 testów API, migrację na PostgreSQL, lint, typecheck i build Next.js,
+- nagłówki bezpieczeństwa, rate limiting, backup przed wydaniem i monitoring produkcyjny zostały zweryfikowane,
+- kolejka REVIEW ma zero oczekujących zadań, a zapisany koszt LLM wynosi `0.036768 USD`.

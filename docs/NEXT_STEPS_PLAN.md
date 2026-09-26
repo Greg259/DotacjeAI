@@ -1,6 +1,16 @@
 # DotacjeAI - plan kolejnych kroków
 
-Aktualizacja: 2026-09-24.
+Aktualizacja: 2026-09-26.
+
+## Stan po odbiorze MVP-0
+
+MVP-0 zostało zakończone i wdrożone. Aktualny protokół oraz granica zakresu znajdują się w `MVP0_COMPLETION.md`. Poniższe historyczne etapy pozostają jako zapis realizacji; aktualna kolejność dalszych prac to:
+
+1. P0 właściciela: obrócić ujawniony klucz OpenRouter bez przekazywania nowej wartości przez rozmowę lub Git.
+2. P0 przed betą: wysłać zaszyfrowany backup poza VPS i dodać zewnętrzny alarm dostępności.
+3. P1: obserwować crawler, ekstrakcję, REVIEW, dokumenty i automatyczne statusy przez kilka dni.
+4. P1: rozszerzyć katalog o kolejne oficjalne programy.
+5. P2 / MVP-1: konta, profile nieruchomości, matching, obserwowanie programów i e-mail.
 
 ## Cel najbliższego etapu
 
@@ -27,9 +37,9 @@ Priorytet: natychmiast po podjęciu decyzji o domenie i dostępie.
 4. [x] Dodać klucz SSH do konta `deploy` i przetestować osobną sesję.
 5. [x] Wyłączyć logowanie roota oraz logowanie hasłem po teście klucza.
 6. [x] Zmienić ujawnione hasło roota.
-7. [ ] Wybrać zewnętrzny storage backupów.
-8. [ ] Wdrożyć codzienny `pg_dump`, backup dokumentów, szyfrowanie, retencję i test odtworzenia.
-9. [ ] Dodać monitoring dostępności, dysku i błędów kontenerów.
+7. [ ] Wybrać zewnętrzny storage backupów przed betą; lokalny etap MVP działa.
+8. [x] Wdrożyć codzienny `pg_dump`, backup dokumentów, szyfrowanie, retencję i test odtworzenia.
+9. [x] Dodać monitoring dostępności, dysku i błędów kontenerów.
 
 Definition of Done:
 
@@ -43,11 +53,11 @@ Definition of Done:
 1. [x] Utworzyć repozytorium GitHub i skonfigurować dostęp przez SSH.
 2. [x] Wysłać kod infrastruktury i dokumentację bez sekretów na `main`.
 3. [ ] Włączyć ochronę `main`, pracę przez pull request i podstawowe reguły przeglądu.
-4. [ ] Zastąpić placeholder frontendu minimalnym Next.js.
+4. [x] Zastąpić placeholder frontendu aplikacją Next.js.
 5. [x] Rozbudować FastAPI o konfigurację, logowanie JSON i obsługę błędów.
 6. [x] Dodać SQLAlchemy oraz Alembic.
 7. [x] Utworzyć pierwszą migrację MVP-0: źródła, snapshoty, lokalizacje, programy, wersje, dokumenty, LLM, REVIEW i audit log; tabelę użytkowników przesunąć do MVP-1.
-8. [ ] Dodać worker i scheduler korzystające z Redis.
+8. [x] Dodać harmonogram zadań crawlera, ekstrakcji, dokumentów i statusów; stały worker odłożono do skali po MVP-0.
 9. [x] Dodać testy, lint i kontrolę migracji w GitHub Actions.
 
 Definition of Done:
@@ -59,13 +69,13 @@ Definition of Done:
 
 ## Etap 3 - monitoring bez AI
 
-1. [ ] Rozszerzyć pilotaż z dwóch wdrożonych źródeł do 3-5 oficjalnych źródeł.
+1. [x] Rozszerzyć pilotaż do trzech opublikowanych oficjalnych programów.
 2. [x] Zbudować adapter HTTP z limitami, timeoutami, retry i identyfikacją aplikacji.
 3. [x] Obsłużyć ETag, Last-Modified, status HTTP i SHA-256.
 4. [x] Normalizować HTML przed hashowaniem.
 5. [x] Zapisywać niezmienne snapshoty i wersje PDF.
-6. Generować diff tekstowy i listę nowych linków.
-7. Wprowadzić idempotency key dla każdego zadania.
+6. [x] Generować diff tekstowy i monitorować linki dokumentów.
+7. [x] Wprowadzić idempotency key dla każdego zadania.
 
 Definition of Done:
 
@@ -75,6 +85,8 @@ Definition of Done:
 - PDF można powiązać z URL, datą i SHA-256.
 
 ## Etap 4 - OpenRouter i test modeli
+
+Stan MVP-0: punkty 2–6 i 9 wykonano produkcyjnie; szerszy benchmark 20–30 regulaminów oraz porównanie wielu modeli pozostają optymalizacją po MVP-0. Rotacja tymczasowego klucza wymaga właściciela.
 
 1. Utworzyć klucz OpenRouter z limitem wydatków.
 2. Zapisać klucz wyłącznie w `/opt/dotacje-ai/secrets/app.env`.
@@ -95,6 +107,8 @@ Definition of Done:
 
 ## Etap 5 - panel administratora
 
+Stan MVP-0: wykonane w chronionym panelu `/admin`.
+
 1. Lista źródeł i stan ostatniego pobrania.
 2. Podgląd wersji i diff.
 3. Kolejka wyników AI do zatwierdzenia.
@@ -103,6 +117,8 @@ Definition of Done:
 6. Podgląd kosztów LLM i błędów workerów.
 
 ## Etap 6 - portal publiczny
+
+Stan MVP-0: wykonane produkcyjnie.
 
 1. Landing i lista dotacji.
 2. Filtry po regionie, beneficjencie, kategorii i statusie.

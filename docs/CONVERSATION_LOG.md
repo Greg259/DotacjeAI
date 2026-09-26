@@ -488,3 +488,17 @@ Wprowadzono `extraction-v2` z sekcją `details`, wskazaniami źródeł i typami 
 Na podstawie oficjalnych dokumentów uzupełniono obie karty. Nadarzyn zawiera wniosek, oświadczenie, regulamin, uchwałę i stronę gminy. Czyste Powietrze zawiera GWD, instrukcję WOD, instrukcję złożenia wniosku, aktualne dokumenty i załącznik z limitami kosztów. Oba programy otrzymały zatwierdzoną wersję 2.
 
 Commit `12833a7` przeszedł GitHub Actions run 27. Lokalnie przeszły Ruff, 24 testy API i typecheck; build produkcyjny frontendu przeszedł w CI i na VPS. Po wdrożeniu pięć kontenerów jest zdrowych, API i obie karty odpowiadają przez HTTPS, a logi nie zawierają błędów. Wbudowana kontrola graficzna przeglądarki nie była dostępna, dlatego zweryfikowano build, API i wyrenderowany HTML. Backup `0049f91e` przeszedł kontrolę Restic, sum i pełne odtworzenie PostgreSQL. Nie wykonano nowego wywołania OpenRouter ani nie zmieniono klucza.
+
+## 29. Zamknięcie braków MVP-0
+
+Użytkownik polecił wykonać wszystkie brakujące zadania MVP-0 bez zatrzymywania się po kolejne potwierdzenia. Rozszerzono API i frontend o pełne filtry, sortowanie, paginację, trasę powiatu, canonical i dynamiczną sitemap. Dodano chroniony Basic Auth panel administratora, rate limiting i nagłówki bezpieczeństwa.
+
+Wprowadzono monitor dokumentów: pobieranie, SHA-256, niezmienne wersje, dostępność i historię kontroli. Potwierdzone 404 oznacza dokument wycofany, natomiast chwilowy błąd sieci nie kasuje ostatniego poprawnego stanu. Dodano harmonogram pipeline crawler → ekstrakcja, codzienną kontrolę dokumentów i godzinną kontrolę statusów z obowiązkowym REVIEW.
+
+Źródło Moje Ciepło przeszło pełny przepływ: crawl, snapshot, OpenRouter, ręczne porównanie z oficjalnymi informacjami, approve i osobny publish. Publiczna karta zawiera termin 26.02.2027, warianty 30%/45%, limit 21 000 zł, warunki EP, listę załączników, GWD i oficjalne wzory. Portal zawiera trzy opublikowane programy, a kolejka REVIEW została opróżniona po odrzuceniu redundantnego wyniku mieszającego historyczne wersje Czystego Powietrza.
+
+Aktualny łańcuch TLS serwisu Czyste Powietrze nie był kompletny. Dodano wskazany przez certyfikat pośredni `nazwaSSL DV TLS G2 E29 CA` bez wyłączania weryfikacji. Dwa stare PDF-y zwracające 404 usunięto z zasobów karty i zastąpiono aktualnym oficjalnym katalogiem dokumentów edycji od 20.07.2026.
+
+GitHub Actions potwierdził pełny pakiet 26 testów API, migrację PostgreSQL, lint, typecheck i build Next.js. Produkcja raportuje API 0.6.0, pięć zdrowych kontenerów, działający HTTPS, panel 401/200 zależnie od uwierzytelnienia, aktywne nagłówki bezpieczeństwa oraz monitoring `OK`. Powtarzalny skrypt wydania wykonuje backup, pobiera dokładny zielony commit, wdraża, migruje, przeładowuje Caddy, seeduje źródła i instaluje cron.
+
+Klucz OpenRouter pozostaje tymczasowy i ujawniony. Jego bezpieczna rotacja wymaga zalogowania właściciela do OpenRouter albo osobnego Management API Key; nowej wartości nie wolno przekazywać w rozmowie. Zewnętrzny backup i zewnętrzne alarmy pozostają obowiązkowym zakresem przed betą, zgodnie z wcześniejszą decyzją właściciela, a nie brakiem MVP-0.

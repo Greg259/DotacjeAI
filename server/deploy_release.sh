@@ -38,6 +38,7 @@ if ! grep -q '^ADMIN_PASSWORD_HASH=' "${SECRETS_FILE}" || grep -q 'CHANGE_ME_WIT
 fi
 
 rsync -a --delete --exclude='.git/' "${RELEASE_TMP}/repo/" "${APP_ROOT}/"
+printf '%s\n' "${ACTUAL_COMMIT}" >"${APP_ROOT}/.deployed-commit"
 
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" config --quiet
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" up -d --build
