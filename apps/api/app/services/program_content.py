@@ -1,15 +1,157 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.domain import AuditLog, Program, ProgramDocument, ProgramVersion
+from app.models.domain import (
+    AuditLog,
+    Location,
+    Program,
+    ProgramBeneficiaryType,
+    ProgramDocument,
+    ProgramInvestmentCategory,
+    ProgramLocation,
+    ProgramPropertyType,
+    ProgramVersion,
+)
 from app.models.enums import DocumentType
 from app.schemas.content import ApplicationResource, ProgramDetails
+from app.schemas.extraction import ExtractionCandidate
 
 
 class ProgramContentError(RuntimeError):
     pass
+
+
+async def _latest_approved_version(
+    session: AsyncSession, program_id
+) -> ProgramVersion | None:
+    return await session.scalar(
+        select(ProgramVersion)
+        .where(
+            ProgramVersion.program_id == program_id,
+            ProgramVersion.approved_at.is_not(None),
+        )
+        .order_by(ProgramVersion.version_number.desc())
+    )
+
+
+async def update_program_core(
+    session: AsyncSession,
+    slug: str,
+    candidate: ExtractionCandidate,
+    *,
+    actor: str,
+) -> ProgramVersion:
+    """Apply a manually reviewed core correction and keep it in version history."""
+    if candidate.slug != slug:
+        raise ProgramContentError("slug_mismatch")
+    if candidate.missing_critical_evidence():
+        raise ProgramContentError("missing_critical_evidence")
+    program = await session.scalar(select(Program).where(Program.slug == slug))
+    if program is None:
+        raise ProgramContentError("program_not_found")
+    latest = await _latest_approved_version(session, program.id)
+    if latest is None:
+        raise ProgramContentError("approved_version_not_found")
+
+    locations = list(
+        (
+            await session.scalars(
+                select(Location).where(Location.slug.in_(candidate.location_slugs))
+            )
+        ).all()
+    )
+    found_locations = {location.slug for location in locations}
+    missing_locations = sorted(set(candidate.location_slugs) - found_locations)
+    if missing_locations:
+        raise ProgramContentError("unknown_locations:" + ",".join(missing_locations))
+
+    program.title = candidate.title
+    program.organizer = candidate.organizer
+    program.summary = candidate.summary
+    program.status = candidate.status
+    program.application_start = candidate.application_start
+    program.application_end = candidate.application_end
+    program.max_amount = candidate.max_amount
+    program.support_percent = candidate.support_percent
+    program.currency = candidate.currency
+
+    await session.execute(delete(ProgramLocation).where(ProgramLocation.program_id == program.id))
+    await session.execute(
+        delete(ProgramPropertyType).where(ProgramPropertyType.program_id == program.id)
+    )
+    await session.execute(
+        delete(ProgramBeneficiaryType).where(ProgramBeneficiaryType.program_id == program.id)
+    )
+    await session.execute(
+        delete(ProgramInvestmentCategory).where(
+            ProgramInvestmentCategory.program_id == program.id
+        )
+    )
+    session.add_all(
+        [ProgramLocation(program_id=program.id, location_id=item.id) for item in locations]
+    )
+    session.add_all(
+        [
+            ProgramPropertyType(program_id=program.id, property_type=item)
+            for item in candidate.property_types
+        ]
+    )
+    session.add_all(
+        [
+            ProgramBeneficiaryType(program_id=program.id, beneficiary_type=item)
+            for item in candidate.beneficiary_types
+        ]
+    )
+    session.add_all(
+        [
+            ProgramInvestmentCategory(program_id=program.id, investment_category=item)
+            for item in candidate.investment_categories
+        ]
+    )
+
+    version_number = (
+        await session.scalar(
+            select(func.coalesce(func.max(ProgramVersion.version_number), 0)).where(
+                ProgramVersion.program_id == program.id
+            )
+        )
+    ) + 1
+    extracted_data = dict(latest.extracted_data)
+    extracted_data.update(
+        candidate.model_dump(mode="json", exclude={"details", "evidence"})
+    )
+    now = datetime.now(UTC)
+    version = ProgramVersion(
+        program_id=program.id,
+        source_snapshot_id=latest.source_snapshot_id,
+        version_number=version_number,
+        extracted_data=extracted_data,
+        evidence={
+            "core_review": "manual_review_of_official_sources",
+            "previous_version_id": str(latest.id),
+            "fields": [item.model_dump(mode="json") for item in candidate.evidence],
+        },
+        change_summary="Korekta danych głównych i filtrów po kontroli wizualnej",
+        approved_at=now,
+    )
+    session.add(version)
+    await session.flush()
+    session.add(
+        AuditLog(
+            actor=actor,
+            action="program.core_update",
+            entity_type="program_version",
+            entity_id=version.id,
+            details={
+                "program_id": str(program.id),
+                "previous_version_id": str(latest.id),
+            },
+        )
+    )
+    await session.flush()
+    return version
 
 
 def _document_type(resource: ApplicationResource) -> DocumentType:
@@ -30,14 +172,7 @@ async def update_program_content(
     program = await session.scalar(select(Program).where(Program.slug == slug))
     if program is None:
         raise ProgramContentError("program_not_found")
-    latest = await session.scalar(
-        select(ProgramVersion)
-        .where(
-            ProgramVersion.program_id == program.id,
-            ProgramVersion.approved_at.is_not(None),
-        )
-        .order_by(ProgramVersion.version_number.desc())
-    )
+    latest = await _latest_approved_version(session, program.id)
     if latest is None:
         raise ProgramContentError("approved_version_not_found")
 

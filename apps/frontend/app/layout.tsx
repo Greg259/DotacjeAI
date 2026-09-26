@@ -14,6 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pl">
       <body>
+        <a className="skip-link" href="#main-content">Przejdź do treści</a>
         <header className="site-header">
           <div className="shell header-inner">
             <Link className="brand" href="/">Dotacje<span>AI</span></Link>
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </nav>
           </div>
         </header>
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <footer><div className="shell">DotacjeAI · Dane wyłącznie z oficjalnych źródeł · Zawsze sprawdź regulamin programu.</div></footer>
       </body>
     </html>
