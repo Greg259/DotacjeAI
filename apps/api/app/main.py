@@ -7,7 +7,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from app.api.admin import router as admin_router
+from app.api.auth import router as auth_router
 from app.api.health import router as health_router
+from app.api.profiles import router as profiles_router
 from app.api.programs import router as programs_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
@@ -20,6 +22,8 @@ request_windows: dict[str, deque[float]] = defaultdict(deque)
 app = FastAPI(title="DotacjeAI API", version=settings.app_version)
 app.include_router(health_router, prefix="/api")
 app.include_router(programs_router, prefix="/api")
+app.include_router(auth_router, prefix="/api")
+app.include_router(profiles_router, prefix="/api")
 app.include_router(admin_router)
 
 
@@ -33,7 +37,12 @@ async def rate_limit(request: Request, call_next):
     window = request_windows[client_ip]
     while window and now - window[0] > 60:
         window.popleft()
-    limit = 60 if request.url.path.startswith("/admin") else 180
+    if request.url.path.startswith("/api/auth/"):
+        limit = 20
+    elif request.url.path.startswith("/admin"):
+        limit = 60
+    else:
+        limit = 180
     if len(window) >= limit:
         return JSONResponse(
             status_code=429,

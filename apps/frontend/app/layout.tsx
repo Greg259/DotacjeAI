@@ -22,11 +22,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/dotacje">Wszystkie dotacje</Link>
               <Link href="/region/mazowieckie">Mazowieckie</Link>
               <Link href="/gmina/nadarzyn">Nadarzyn</Link>
+              <Link href="/konto">Moje konto</Link>
             </nav>
           </div>
         </header>
         <main id="main-content">{children}</main>
-        <footer><div className="shell">DotacjeAI · Dane wyłącznie z oficjalnych źródeł · Zawsze sprawdź regulamin programu.</div></footer>
+        <footer><div className="shell">DotacjeAI · Dane wyłącznie z oficjalnych źródeł · Zawsze sprawdź regulamin programu. · <Link href="/regulamin">Regulamin</Link> · <Link href="/prywatnosc">Prywatność</Link></div></footer>
       </body>
     </html>
   );

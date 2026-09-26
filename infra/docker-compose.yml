@@ -8,8 +8,11 @@ x-logging: &default-logging
 
 x-api-environment: &api-environment
   APP_ENV: production
-  APP_VERSION: "0.7.0"
+  APP_VERSION: "0.8.0"
   LOG_LEVEL: INFO
+  SESSION_DAYS: ${SESSION_DAYS:-30}
+  SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}
+  TERMS_VERSION: ${TERMS_VERSION:-2026-09-26}
   SOURCE_STORAGE_ROOT: /data/source-snapshots
   CRAWLER_USER_AGENT: "DotacjeAI/0.3 (+https://dotacjeai.eu)"
   CRAWLER_TIMEOUT_SECONDS: 30

@@ -27,6 +27,13 @@ curl --fail --silent --show-error 'https://dotacjeai.eu/api/programs?limit=20' |
 printf 'OK %s publicznych programów\n' "${EXPECTED_PROGRAM_COUNT}"
 curl --fail --silent --show-error https://dotacjeai.eu/sitemap.xml | grep -q '<loc>https://dotacjeai.eu/dotacje/'
 echo 'OK sitemap'
+for public_path in /konto/logowanie /konto/rejestracja /regulamin /prywatnosc; do
+  curl --fail --silent --show-error "https://dotacjeai.eu${public_path}" >/dev/null
+done
+echo 'OK strony konta i prywatności'
+unauthenticated_account_status="$(curl --silent --output /dev/null --write-out '%{http_code}' https://dotacjeai.eu/api/auth/me)"
+test "${unauthenticated_account_status}" = "401"
+echo 'OK ochrona danych konta 401'
 
 unauthorized_status="$(curl --silent --output /dev/null --write-out '%{http_code}' https://dotacjeai.eu/admin)"
 test "${unauthorized_status}" = "401"

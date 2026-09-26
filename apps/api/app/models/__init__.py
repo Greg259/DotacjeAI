@@ -3,6 +3,7 @@ from app.models.domain import (
     DocumentVersion,
     LlmRun,
     Location,
+    ProfileInvestmentCategory,
     Program,
     ProgramBeneficiaryType,
     ProgramDocument,
@@ -10,9 +11,12 @@ from app.models.domain import (
     ProgramLocation,
     ProgramPropertyType,
     ProgramVersion,
+    PropertyProfile,
     ReviewTask,
     Source,
     SourceSnapshot,
+    User,
+    UserSession,
 )
 
 __all__ = [
@@ -27,7 +31,11 @@ __all__ = [
     "ProgramLocation",
     "ProgramPropertyType",
     "ProgramVersion",
+    "ProfileInvestmentCategory",
+    "PropertyProfile",
     "ReviewTask",
     "Source",
     "SourceSnapshot",
+    "User",
+    "UserSession",
 ]

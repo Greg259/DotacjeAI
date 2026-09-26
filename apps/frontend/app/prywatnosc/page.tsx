@@ -1,0 +1,7 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Prywatność i dane użytkownika" };
+
+export default function PrivacyPage() {
+  return <article className="shell narrow-section legal-copy"><p className="eyebrow">Wersja testowa · 26.09.2026</p><h1>Prywatność i dane użytkownika</h1><p>DotacjeAI zapisuje obecnie nazwę użytkownika, bezpieczny skrót hasła, aktywne sesje oraz dane profili nieruchomości podane przez użytkownika. Adres e-mail nie jest zbierany.</p><h2>Cel przetwarzania</h2><p>Dane służą do obsługi konta, tworzenia profili nieruchomości i przygotowania przyszłego dopasowania dotacji. Nie są sprzedawane ani używane do profilowania reklamowego.</p><h2>Kontrola użytkownika</h2><p>Po zalogowaniu można pobrać dane w formacie JSON, edytować lub usunąć profile oraz trwale usunąć konto. Usunięcie konta usuwa również zapisane sesje i profile.</p><h2>Bezpieczeństwo i retencja</h2><p>Hasła są zapisywane wyłącznie jako silne, solone skróty. Sesje wygasają automatycznie. Dane produkcyjne wchodzą do zaszyfrowanych kopii zapasowych i mogą pozostawać w nich do końca przyjętego okresu retencji.</p><h2>Zakres dokumentu</h2><p>To techniczna informacja dla zamkniętej wersji testowej. Przed publiczną betą dokument zostanie uzupełniony o pełne dane administratora, podstawy prawne, okresy retencji i sposób realizacji wszystkich praw osoby, której dane dotyczą.</p></article>;
+}

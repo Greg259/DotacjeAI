@@ -2,6 +2,18 @@
 
 Aktualizacja: 2026-09-26.
 
+## Rozpoczęcie MVP-1 — Sprint 09A
+
+- [x] Dodano lokalne konta oparte na nazwie użytkownika i haśle, bez wymagania e-maila.
+- [x] Dodano role `user`, `editor` i `admin`, sesje serwerowe oraz ochronę CSRF.
+- [x] Dodano tworzenie, edycję i usuwanie profili nieruchomości.
+- [x] Dodano eksport danych i trwałe usunięcie konta.
+- [x] Dodano wersjonowane zgody, informację o prywatności i regulamin wersji testowej.
+- [ ] Dodać e-mail, weryfikację adresu i reset hasła w późniejszym sprincie.
+- [ ] Sprint 10: wykorzystać profile w deterministycznym silniku dopasowania.
+
+Szczegóły: `SPRINT_09_ACCOUNTS_PROFILES.md`.
+
 ## Stan po Sprincie 07
 
 - [x] Rozszerzono katalog do 12 oficjalnych źródeł i 11 programów publicznych.

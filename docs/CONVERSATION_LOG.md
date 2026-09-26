@@ -526,3 +526,9 @@ Dodano audytowalne narzędzie korekty głównych pól programu, które tworzy no
 Użytkownik zlecił wykonanie Sprintu 07: rozszerzenie katalogu, kolejne gminy Mazowsza, klasyfikację zmian, kontrolę nieaktualnych dokumentów, zestaw jakości AI, porównanie modeli OpenRouter i ocenę kompletności. Dodano pięć źródeł lokalnych, opublikowano pięć ręcznie sprawdzonych kart i zwiększono katalog do 12 źródeł oraz 11 programów. Wdrożono klasyfikację zmian i cztery stany dokumentów, osobny REVIEW dokumentów oraz wynik kompletności według 14 kryteriów.
 
 Benchmark 20 przypadków i 45 pól porównał cztery modele. Najlepszy wynik uzyskał `openai/gpt-6-luna`: 93,33% przy koszcie 0,0013096 USD i bez błędów formatu. Produkcyjny przypadek Brwinowa ujawnił brak fallbacku po odpowiedzi bez dowodu statusu; mechanizm poprawiono i zabezpieczono testem regresji. Wszystkie nowe źródła zakończyły ekstrakcję jako `ready_for_review`, a następnie zostały ręcznie zatwierdzone i opublikowane. Backup po publikacji: `64959196`.
+
+## 33. Rozpoczęcie Sprintu 09 — konta bez e-maila i profile
+
+Użytkownik polecił rozpocząć Sprint 09 i przygotować na początku proste konta typu `user1` z hasłem, bez potwierdzania adresu e-mail. Zakres obejmuje dane konta, profile nieruchomości, eksport, usunięcie konta i podstawy prywatności. Integrację poczty oraz Sprint 10 odłożono do kolejnej części.
+
+Zaprojektowano lokalne uwierzytelnianie z hasłami scrypt, sesją serwerową, ciasteczkiem `HttpOnly` i tokenem CSRF. Dodano trzy role, pełny CRUD profili nieruchomości, wersjonowane zgody, eksport JSON i kaskadowe usunięcie danych. Profil przechowuje dane strukturalne przygotowane pod późniejszy, deterministyczny matching.

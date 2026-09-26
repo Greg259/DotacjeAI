@@ -24,9 +24,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 from app.models.enums import (
     BeneficiaryType,
+    BuildingState,
     DocumentState,
     DocumentType,
     ExtractionStatus,
+    HeatSource,
     InvestmentCategory,
     LlmRunStatus,
     LocationType,
@@ -35,6 +37,7 @@ from app.models.enums import (
     ReviewReason,
     ReviewStatus,
     SourceType,
+    UserRole,
 )
 
 json_type = JSON().with_variant(JSONB(), "postgresql")
@@ -390,3 +393,98 @@ class AuditLog(UuidPrimaryKeyMixin, Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
+
+
+class User(UuidPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "users"
+
+    username: Mapped[str] = mapped_column(String(80), nullable=False, unique=True)
+    password_hash: Mapped[str] = mapped_column(Text, nullable=False)
+    role: Mapped[UserRole] = mapped_column(
+        enum_column(UserRole, 20), nullable=False, default=UserRole.USER, server_default="user"
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default="true"
+    )
+    terms_version: Mapped[str] = mapped_column(String(40), nullable=False)
+    accepted_terms_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    accepted_privacy_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    sessions: Mapped[list["UserSession"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+    profiles: Mapped[list["PropertyProfile"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+
+
+class UserSession(UuidPrimaryKeyMixin, Base):
+    __tablename__ = "user_sessions"
+    __table_args__ = (
+        Index("ix_user_sessions_token_hash", "token_hash", unique=True),
+        Index("ix_user_sessions_user_expires", "user_id", "expires_at"),
+    )
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    csrf_token_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    last_seen_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    user_agent: Mapped[str | None] = mapped_column(String(500))
+    ip_address: Mapped[str | None] = mapped_column(String(64))
+
+    user: Mapped[User] = relationship(back_populates="sessions")
+
+
+class PropertyProfile(UuidPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "property_profiles"
+    __table_args__ = (UniqueConstraint("user_id", "name"),)
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    location_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("locations.id", ondelete="SET NULL")
+    )
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    beneficiary_type: Mapped[BeneficiaryType] = mapped_column(
+        enum_column(BeneficiaryType, 40), nullable=False
+    )
+    property_type: Mapped[PropertyType] = mapped_column(
+        enum_column(PropertyType, 40), nullable=False
+    )
+    building_state: Mapped[BuildingState] = mapped_column(
+        enum_column(BuildingState, 20), nullable=False
+    )
+    current_heat_source: Mapped[HeatSource] = mapped_column(
+        enum_column(HeatSource, 30), nullable=False
+    )
+    year_built: Mapped[int | None] = mapped_column(Integer)
+    heated_area_m2: Mapped[Decimal | None] = mapped_column(Numeric(8, 2))
+
+    user: Mapped[User] = relationship(back_populates="profiles")
+    location: Mapped[Location | None] = relationship()
+    investment_categories: Mapped[list["ProfileInvestmentCategory"]] = relationship(
+        back_populates="profile", cascade="all, delete-orphan"
+    )
+
+
+class ProfileInvestmentCategory(Base):
+    __tablename__ = "profile_investment_categories"
+
+    profile_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("property_profiles.id", ondelete="CASCADE"), primary_key=True
+    )
+    investment_category: Mapped[InvestmentCategory] = mapped_column(
+        enum_column(InvestmentCategory, 40), primary_key=True
+    )
+
+    profile: Mapped[PropertyProfile] = relationship(back_populates="investment_categories")

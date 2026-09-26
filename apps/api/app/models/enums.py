@@ -94,3 +94,25 @@ class DocumentState(StrEnum):
     NEEDS_REVIEW = "needs_review"
     SUPERSEDED = "superseded"
     UNAVAILABLE = "unavailable"
+
+
+class UserRole(StrEnum):
+    USER = "user"
+    EDITOR = "editor"
+    ADMIN = "admin"
+
+
+class BuildingState(StrEnum):
+    NEW = "new"
+    EXISTING = "existing"
+
+
+class HeatSource(StrEnum):
+    COAL = "coal"
+    BIOMASS = "biomass"
+    GAS = "gas"
+    ELECTRIC = "electric"
+    DISTRICT_HEATING = "district_heating"
+    HEAT_PUMP = "heat_pump"
+    OTHER = "other"
+    NONE = "none"

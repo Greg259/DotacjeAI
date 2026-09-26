@@ -235,3 +235,15 @@ Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTEN
 - backup po publikacji i synchronizacji dokumentów: `64959196`.
 
 Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
+
+## Sprint 09A — konta i profile nieruchomości (2026-09-26)
+
+- dodano rejestrację i logowanie nazwą użytkownika bez wymagania adresu e-mail;
+- hasła są hashowane przez scrypt, a niejawne sesje są przechowywane po stronie serwera;
+- wszystkie operacje zmieniające prywatne dane wymagają tokenu CSRF;
+- dodano role `user`, `editor`, `admin` oraz bezpieczne CLI do tworzenia kont;
+- użytkownik może tworzyć, edytować i usuwać profile domu, mieszkania albo wspólnoty;
+- profil obejmuje lokalizację, beneficjenta, stan budynku, źródło ciepła, rok, powierzchnię i inwestycje;
+- dodano eksport JSON, usunięcie konta po potwierdzeniu hasłem, regulamin i informację o prywatności;
+- e-mail, reset hasła i matching pozostają świadomie poza tym wydaniem;
+- szczegółowy zakres: `SPRINT_09_ACCOUNTS_PROFILES.md`.
