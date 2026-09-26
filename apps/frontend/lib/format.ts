@@ -24,6 +24,7 @@ export const propertyLabels: Record<string, string> = {
   apartment: "Mieszkanie",
   housing_community: "Wspólnota mieszkaniowa",
   new_house: "Nowy dom",
+  existing_building: "Istniejący budynek",
 };
 
 export const beneficiaryLabels: Record<string, string> = {

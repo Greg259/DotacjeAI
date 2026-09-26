@@ -506,3 +506,11 @@ Klucz OpenRouter pozostaje tymczasowy i ujawniony. Jego bezpieczna rotacja wymag
 Podczas końcowego odbioru wykryto cztery nowe zadania REVIEW dla Czystego Powietrza. Analiza zapisanych diffów wykazała, że jedyną zmianą był dynamiczny licznik odwiedzin strony WFOŚiGW. Wszystkie cztery zadania odrzucono bez zmiany danych publicznych. Crawler otrzymał filtr licznika i porównanie zgodne ze starszym formatem snapshotu, dzięki czemu pierwsze pobranie po wdrożeniu również nie generuje fałszywej zmiany.
 
 Poprawka `920cc22` przeszła GitHub Actions run 35 z 28 testami API. Po wdrożeniu wykonano dwa pobrania kontrolne: oba zwróciły `unchanged` i `review_created=false`, a koszt OpenRouter pozostał na poziomie `0.059997 USD`. Końcowy skrypt odbiorowy potwierdził trzy programy, zero oczekujących REVIEW, zero niedostępnych dokumentów, panel 401/200, nagłówki bezpieczeństwa i pięć zdrowych kontenerów. Monitoring zwrócił `OK`. Snapshot Restic `09097500` przeszedł kontrolę pakietów, odtworzenie 115 plików i katalogów, SHA-256 dumpa oraz pełny import PostgreSQL do bazy tymczasowej.
+
+## 30. Sprint 05 — realizacja punktów 5, 6 i 7
+
+Użytkownik polecił rozpocząć wyłącznie punkty 5–7 planu, pozostawiając wcześniejsze punkty bez realizacji. Rozszerzono katalog o Przydomowe Magazyny Energii, Moją Elektrownię Wiatrową i Ciepłe Mieszkanie. Oficjalne źródła zostały pobrane na VPS, a trzy ekstrakcje OpenRouter przeszły ręczny REVIEW i korektę filtrów przed zatwierdzeniem. Programy opublikowano osobnymi operacjami.
+
+Panel administratora otrzymał filtry kolejki, grupowanie według źródła, koszt LLM, ręczny crawl, ponowienie ekstrakcji, ostrzeżenie o nowszym snapshocie oraz historię operacji. Portal publiczny otrzymał komunikaty statusów, czas kontroli dokumentów, JSON-LD, ulepszone filtry mobilne i pełne sekcje warunków, kwot, beneficjentów, kroków i formularzy.
+
+GitHub Actions zakończył się sukcesem dla commita `8b5c4e7`. Backup przed wdrożeniem ma identyfikator `2459ca90`. Końcowy test produkcyjny potwierdził 6 publicznych programów, 0 zadań REVIEW, 0 niedostępnych dokumentów, zdrowy monitoring i koszt OpenRouter `0.067923 USD`. Rotacja ujawnionego klucza pozostaje celowo odłożona do końca całości.

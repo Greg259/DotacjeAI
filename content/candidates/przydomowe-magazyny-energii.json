@@ -1,0 +1,42 @@
+{
+  "schema_version": "extraction-v2",
+  "slug": "przydomowe-magazyny-energii",
+  "title": "Przydomowe Magazyny Energii — część 2",
+  "organizer": "Narodowy Fundusz Ochrony Środowiska i Gospodarki Wodnej (NFOŚiGW)",
+  "summary": "Planowany program dotacyjny dla prosumentów z mikroinstalacją OZE. Wsparcie ma obejmować przydomowe magazyny energii i ciepła; nabór zapowiedziano na IV kwartał 2026 r.",
+  "status": "planned",
+  "application_start": null,
+  "application_end": null,
+  "max_amount": null,
+  "support_percent": null,
+  "currency": "PLN",
+  "location_slugs": ["polska"],
+  "beneficiary_types": ["natural_person", "owner", "co_owner"],
+  "property_types": ["single_family_house", "existing_building"],
+  "investment_categories": ["energy_storage", "heat_storage", "photovoltaics"],
+  "official_url": "https://przydomowemagazyny.gov.pl/",
+  "document_urls": [],
+  "evidence": [
+    {
+      "field": "status",
+      "quote": "PME2 (planowany nabór IV kwartał 2026 r.)",
+      "locator": "Oficjalna strona programu — sekcja PME2",
+      "method": "rule",
+      "confidence": 0.99
+    },
+    {
+      "field": "official_url",
+      "quote": "Dofinansowanie przydomowych magazynów energii Część 2",
+      "locator": "rekord oficjalnego źródła",
+      "method": "rule",
+      "confidence": 1.0
+    }
+  ],
+  "warnings": [
+    {
+      "code": "planned_call",
+      "message": "Ostateczne kwoty, terminy i formularz będą wiążące dopiero po uruchomieniu naboru.",
+      "fields": ["application_start", "application_end", "max_amount", "support_percent"]
+    }
+  ]
+}

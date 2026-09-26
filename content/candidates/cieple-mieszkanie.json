@@ -1,0 +1,44 @@
+{
+  "schema_version": "extraction-v2",
+  "slug": "cieple-mieszkanie",
+  "title": "Ciepłe Mieszkanie — nabory gminne",
+  "organizer": "Narodowy Fundusz Ochrony Środowiska i Gospodarki Wodnej (NFOŚiGW)",
+  "summary": "Program dla lokali i małych wspólnot w budynkach wielorodzinnych. Wnioski mieszkańców przyjmują uczestniczące gminy, dlatego dostępność i termin trzeba sprawdzić lokalnie.",
+  "status": "unknown",
+  "application_start": null,
+  "application_end": null,
+  "max_amount": null,
+  "support_percent": null,
+  "currency": "PLN",
+  "location_slugs": ["polska"],
+  "beneficiary_types": ["natural_person", "owner", "tenant", "housing_community"],
+  "property_types": ["apartment", "housing_community", "existing_building"],
+  "investment_categories": ["heat_source_replacement", "thermal_modernization", "heat_pump", "domestic_hot_water", "photovoltaics"],
+  "official_url": "https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie",
+  "document_urls": [
+    "https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie/03-program-cieple-mieszkanie-2-nabor-dla-gmin-2023/2024_06_03_pp_cieple_mieszkanie.pdf"
+  ],
+  "evidence": [
+    {
+      "field": "status",
+      "quote": "Środki są w znacznej części rozdysponowane Gminom.",
+      "locator": "Oficjalna strona programu — opis budżetu i partnerów",
+      "method": "rule",
+      "confidence": 0.72
+    },
+    {
+      "field": "official_url",
+      "quote": "Program dofinansowania dla właścicieli lokali",
+      "locator": "rekord oficjalnego źródła",
+      "method": "rule",
+      "confidence": 1.0
+    }
+  ],
+  "warnings": [
+    {
+      "code": "local_availability",
+      "message": "Nie ma jednego ogólnopolskiego statusu naboru dla mieszkańców; termin i formularze zależą od gminy.",
+      "fields": ["status", "application_start", "application_end"]
+    }
+  ]
+}

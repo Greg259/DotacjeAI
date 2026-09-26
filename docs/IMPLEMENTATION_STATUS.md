@@ -199,3 +199,15 @@ Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTEN
 - cztery niemerytoryczne wyniki wywołane wyłącznie zmianą licznika odrzucono, a dwa kontrolne pobrania nie utworzyły kolejnego REVIEW,
 - kolejka REVIEW ma zero oczekujących zadań, a zapisany koszt LLM wynosi `0.059997 USD`,
 - commit produkcyjny `920cc22`, GitHub Actions run 35 `success`, backup `09097500` zweryfikowany przez pełne odtworzenie.
+
+## Sprint 05 — katalog, panel i portal (2026-09-26)
+
+- zrealizowano wyłącznie punkty 5–7 planu zgodnie z decyzją właściciela;
+- dodano i opublikowano programy: Przydomowe Magazyny Energii, Moja Elektrownia Wiatrowa oraz Ciepłe Mieszkanie;
+- katalog publiczny wzrósł z 3 do 6 zweryfikowanych programów;
+- trzy nowe źródła przeszły pełny przepływ przez OpenRouter i ręczny REVIEW, bez automatycznej publikacji;
+- panel administratora obsługuje filtrowanie REVIEW, ręczny crawl, koszt zadania, ponowienie ekstrakcji, ostrzeżenie o nowszym snapshocie i historię audytu;
+- portal pokazuje komunikaty zależne od statusu, czas kontroli linku, JSON-LD oraz wygodniejsze filtry mobilne;
+- produkcyjny test odbiorowy potwierdził 6 programów, 0 REVIEW, 0 niedostępnych dokumentów i 5 zdrowych kontenerów;
+- koszt OpenRouter po sprincie wynosi `0.067923 USD`, a backup przed wdrożeniem ma identyfikator `2459ca90`;
+- szczegółowy protokół znajduje się w `SPRINT_05_CATALOG_ADMIN_PORTAL.md`.

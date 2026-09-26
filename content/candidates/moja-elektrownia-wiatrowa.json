@@ -1,0 +1,59 @@
+{
+  "schema_version": "extraction-v2",
+  "slug": "moja-elektrownia-wiatrowa",
+  "title": "Moja Elektrownia Wiatrowa",
+  "organizer": "Narodowy Fundusz Ochrony Środowiska i Gospodarki Wodnej (NFOŚiGW)",
+  "summary": "Dotacja na zakup i montaż przydomowej mikroinstalacji wiatrowej oraz opcjonalnego magazynu energii. Nabór zamknięto 20 lutego 2026 r.",
+  "status": "closed",
+  "application_start": null,
+  "application_end": "2026-02-20",
+  "max_amount": null,
+  "support_percent": 50,
+  "currency": "PLN",
+  "location_slugs": ["polska"],
+  "beneficiary_types": ["natural_person", "owner", "co_owner"],
+  "property_types": ["single_family_house", "apartment", "existing_building"],
+  "investment_categories": ["micro_wind", "energy_storage"],
+  "official_url": "https://mojaelektrowniawiatrowa.gov.pl/o-programie/",
+  "document_urls": [
+    "https://mojaelektrowniawiatrowa.gov.pl/wp-content/uploads/2026/02/Program-priorytetowy-Moja-Elektrownia-Wiatrowa.pdf",
+    "https://mojaelektrowniawiatrowa.gov.pl/wp-content/uploads/2026/02/MEW-Regulamin-naboru.zmiana.pdf"
+  ],
+  "evidence": [
+    {
+      "field": "status",
+      "quote": "Nabór wniosków został zamknięty.",
+      "locator": "O programie — Budżet i Terminy",
+      "method": "rule",
+      "confidence": 0.99
+    },
+    {
+      "field": "application_end",
+      "quote": "został zamknięty w dniu 20.02.2026 r.",
+      "locator": "O programie — Nabór zakończony",
+      "method": "rule",
+      "confidence": 0.99
+    },
+    {
+      "field": "support_percent",
+      "quote": "Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych",
+      "locator": "O programie — Forma dofinansowania",
+      "method": "rule",
+      "confidence": 0.98
+    },
+    {
+      "field": "official_url",
+      "quote": "Program priorytetowy Moja elektrownia wiatrowa",
+      "locator": "rekord oficjalnego źródła",
+      "method": "rule",
+      "confidence": 1.0
+    }
+  ],
+  "warnings": [
+    {
+      "code": "separate_funding_caps",
+      "message": "Program ma odrębne limity dla turbiny i magazynu, dlatego nie podano jednej maksymalnej kwoty.",
+      "fields": ["max_amount"]
+    }
+  ]
+}

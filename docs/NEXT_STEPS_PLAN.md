@@ -9,7 +9,7 @@ MVP-0 zostało zakończone i wdrożone. Aktualny protokół oraz granica zakresu
 1. P0 właściciela: obrócić ujawniony klucz OpenRouter bez przekazywania nowej wartości przez rozmowę lub Git.
 2. P0 przed betą: wysłać zaszyfrowany backup poza VPS i dodać zewnętrzny alarm dostępności.
 3. P1: obserwować crawler, ekstrakcję, REVIEW, dokumenty i automatyczne statusy przez kilka dni.
-4. P1: rozszerzyć katalog o kolejne oficjalne programy.
+4. [x] P1: rozszerzyć katalog do sześciu oficjalnych programów; wykonano w Sprincie 05.
 5. P2 / MVP-1: konta, profile nieruchomości, matching, obserwowanie programów i e-mail.
 
 ## Cel najbliższego etapu
