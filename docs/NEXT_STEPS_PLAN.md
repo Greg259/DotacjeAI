@@ -254,7 +254,7 @@ Szczegółowy następny etap opisuje `SPRINT_04_PUBLIC_PORTAL_PLAN.md`. Na decyz
 6. [x] Zbudować obrazy na VPS, wdrożyć dokładny commit i sprawdzić HTTPS oraz healthchecki.
 7. [x] Otrzymać od właściciela decyzje REVIEW dla Nadarzyna i dwóch wyników WFOŚiGW.
 8. [x] Wykonać jawne `approve`, a potem osobne `publish` tylko dla zatwierdzonych danych.
-9. [ ] Przejść test lista → filtr → karta → oficjalne źródło oraz sprawdzić mobile. Test techniczny HTTPS ukończony; pozostała kontrola wizualna.
+9. [x] Przejść kontrolę listy, filtrów i karty oraz sprawdzić mobile; audyt produkcji 390 × 844 px zakończono w punkcie 4 Sprintu 05.
 10. [x] Wykonać backup po publikacji i pełny test odtworzenia.
 11. [ ] Na samym końcu obrócić ujawniony klucz OpenRouter bez wpisywania nowego klucza do rozmowy lub Git.
 
@@ -270,7 +270,7 @@ Stan po decyzji REVIEW: dwa programy publiczne, dwa zadania zatwierdzone, jeden 
 4. [x] Zachować ręczny REVIEW i wersjonowanie; zablokować automatyczną publikację wyniku AI.
 5. [x] Wdrożyć commit `12833a7`, sprawdzić API, HTML, kontenery i logi.
 6. [x] Wykonać oraz w pełni zweryfikować backup `0049f91e`.
-7. [ ] Wykonać ręczną kontrolę wizualną na telefonie i komputerze; kontrola automatyczna przeglądarki nie była dostępna w tej sesji.
+7. [x] Wykonać kontrolę wizualną na telefonie i komputerze; wykryty błąd UTF-8 naprawiono i zweryfikowano ponownie.
 8. [ ] Dodać trzeci program i sprawdzić pełny automatyczny przepływ `crawler → extraction-v2 → REVIEW → publish`.
 9. [ ] Dodać walidator linków dokumentów oraz oznaczanie formularza jako nieaktualnego po zmianie źródła.
 10. [ ] Na końcu prac obrócić ujawniony klucz OpenRouter bez wpisywania nowej wartości do rozmowy lub Git.

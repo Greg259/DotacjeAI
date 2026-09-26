@@ -211,3 +211,13 @@ Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTEN
 - produkcyjny test odbiorowy potwierdził 6 programów, 0 REVIEW, 0 niedostępnych dokumentów i 5 zdrowych kontenerów;
 - koszt OpenRouter po sprincie wynosi `0.067923 USD`, a backup przed wdrożeniem ma identyfikator `2459ca90`;
 - szczegółowy protokół znajduje się w `SPRINT_05_CATALOG_ADMIN_PORTAL.md`.
+
+### Punkt 4 — przegląd wizualny i dostępność
+
+- sprawdzono produkcję w widoku 1440 px i emulowanym widoku mobilnym 390 × 844 px;
+- wykryto i naprawiono uszkodzone polskie znaki w głównych polach trzech nowych programów;
+- korekty danych zapisano audytowalnie jako wersje 3 programów;
+- dodano skip-link, widoczny fokus klawiatury, bezpieczne zawijanie tekstu i poprawne mobilne `calc()`;
+- pomiar końcowy: `clientWidth=390`, `scrollWidth=390`, zero elementów poza viewportem;
+- produkcja działa na commicie `39a4daa`, CI zakończył się sukcesem, backup przed wdrożeniem: `3e52402c`;
+- szczegóły: `SPRINT_05_VISUAL_ACCESSIBILITY_AUDIT.md`.

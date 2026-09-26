@@ -514,3 +514,9 @@ Użytkownik polecił rozpocząć wyłącznie punkty 5–7 planu, pozostawiając 
 Panel administratora otrzymał filtry kolejki, grupowanie według źródła, koszt LLM, ręczny crawl, ponowienie ekstrakcji, ostrzeżenie o nowszym snapshocie oraz historię operacji. Portal publiczny otrzymał komunikaty statusów, czas kontroli dokumentów, JSON-LD, ulepszone filtry mobilne i pełne sekcje warunków, kwot, beneficjentów, kroków i formularzy.
 
 GitHub Actions zakończył się sukcesem dla commita `8b5c4e7`. Backup przed wdrożeniem ma identyfikator `2459ca90`. Końcowy test produkcyjny potwierdził 6 publicznych programów, 0 zadań REVIEW, 0 niedostępnych dokumentów, zdrowy monitoring i koszt OpenRouter `0.067923 USD`. Rotacja ujawnionego klucza pozostaje celowo odłożona do końca całości.
+
+## 31. Punkt 4 — audyt wizualny i dostępności
+
+Użytkownik polecił wykonać również punkt 4. Przegląd produkcji w Edge na desktopie i emulowanym telefonie wykrył uszkodzone polskie znaki w tytułach, organizatorach i opisach trzech nowych programów. Przyczyną było kodowanie wcześniejszego strumienia JSON z PowerShell do SSH. Rozbudowane treści zaimportowane z plików na Linuksie pozostały poprawne.
+
+Dodano audytowalne narzędzie korekty głównych pól programu, które tworzy nową zatwierdzoną wersję i wpis audit log. Trzy programy poprawiono bezpośrednio z plików UTF-8 na VPS. Dodano również skip-link, widoczny fokus klawiatury, poprawne mobilne `calc()` i zawijanie długiej treści. Końcowy pomiar viewportu 390 px wykazał `scrollWidth=390` i zero elementów poza ekranem. Test odbiorowy potwierdził poprawne polskie znaki, 6 programów, 0 REVIEW, 0 niedostępnych dokumentów i pięć zdrowych kontenerów.

@@ -62,5 +62,5 @@ Zgodnie z decyzją właściciela nie realizowano teraz wcześniejszych punktów 
 1. rotacja ujawnionego klucza OpenRouter po zakończeniu prac nad całością;
 2. backup w niezależnej lokalizacji poza VPS i GitHubem;
 3. alarm zewnętrzny niezależny od tego VPS;
-4. osobny przegląd wizualny i dostępności na rzeczywistych urządzeniach;
+4. [x] przegląd wizualny i dostępności desktop/mobile; wynik opisano w `SPRINT_05_VISUAL_ACCESSIBILITY_AUDIT.md`;
 5. rozpoczęcie MVP-1 dopiero po świadomej decyzji: konta, profil nieruchomości, matching, obserwowane programy i e-mail.
