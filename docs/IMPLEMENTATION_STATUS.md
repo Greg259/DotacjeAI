@@ -193,6 +193,9 @@ Szczegóły techniczne i sposób ręcznego uzupełniania opisuje `PROGRAM_CONTEN
 - dokumenty są okresowo pobierane, hashowane, wersjonowane i kontrolowane pod kątem dostępności,
 - statusy wynikające z dat są proponowane do ręcznego REVIEW co godzinę,
 - pipeline crawler → ekstrakcja działa co 6 godzin,
-- finalny zestaw CI obejmuje 26 testów API, migrację na PostgreSQL, lint, typecheck i build Next.js,
+- finalny zestaw CI obejmuje 28 testów API, migrację na PostgreSQL, lint, typecheck i build Next.js,
 - nagłówki bezpieczeństwa, rate limiting, backup przed wydaniem i monitoring produkcyjny zostały zweryfikowane,
-- kolejka REVIEW ma zero oczekujących zadań, a zapisany koszt LLM wynosi `0.036768 USD`.
+- techniczny licznik odwiedzin WFOŚiGW jest usuwany przed hashowaniem; porównanie jest zgodne także ze starszym snapshotem,
+- cztery niemerytoryczne wyniki wywołane wyłącznie zmianą licznika odrzucono, a dwa kontrolne pobrania nie utworzyły kolejnego REVIEW,
+- kolejka REVIEW ma zero oczekujących zadań, a zapisany koszt LLM wynosi `0.059997 USD`,
+- commit produkcyjny `920cc22`, GitHub Actions run 35 `success`, backup `09097500` zweryfikowany przez pełne odtworzenie.

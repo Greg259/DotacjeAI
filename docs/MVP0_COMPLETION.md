@@ -45,13 +45,16 @@ Opublikowane programy:
 
 ## Stan produkcji przy odbiorze
 
+- wdrożony commit aplikacji `920cc22afd0979a446d7eed145928987d19c15ea`, GitHub Actions run 35 `success`;
 - API `0.6.0`, migracja `e7f2a1c8d904`;
 - pięć stałych kontenerów ma stan `healthy`;
 - `/health`, `/api/health`, trzy karty, filtry i sitemap odpowiadają przez HTTPS;
 - `/admin` zwraca `401` bez danych oraz `200` po poprawnym uwierzytelnieniu;
 - HSTS, CSP, `X-Frame-Options`, `Permissions-Policy` i `nosniff` są aktywne;
 - kolejka REVIEW nie zawiera oczekujących zadań;
-- miesięczny koszt zapisanych wywołań LLM: `0.036768 USD`;
+- miesięczny koszt zapisanych wywołań LLM: `0.059997 USD`;
+- crawler ignoruje techniczny licznik odwiedzin strony WFOŚiGW; dwa kolejne pobrania po poprawce nie utworzyły REVIEW ani kosztu LLM;
+- snapshot Restic `09097500` przeszedł kontrolę repozytorium, sumy SHA-256 i pełny import PostgreSQL do bazy tymczasowej;
 - zaszyfrowane backupy Restic oraz monitoring lokalny działają zgodnie z harmonogramem.
 
 Hasło startowe administratora nie jest przechowywane w Git. Uprawniony operator może je odczytać po SSH z `/opt/dotacje-ai/secrets/admin-initial-password`; plik ma pozostać chroniony i docelowo powinien zostać zastąpiony hasłem zapisanym w menedżerze haseł.
