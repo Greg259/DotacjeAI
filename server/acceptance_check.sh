@@ -34,6 +34,9 @@ echo 'OK strony konta i prywatności'
 unauthenticated_account_status="$(curl --silent --output /dev/null --write-out '%{http_code}' https://dotacjeai.eu/api/auth/me)"
 test "${unauthenticated_account_status}" = "401"
 echo 'OK ochrona danych konta 401'
+unauthenticated_matches_status="$(curl --silent --output /dev/null --write-out '%{http_code}' https://dotacjeai.eu/api/profiles/00000000-0000-0000-0000-000000000000/matches)"
+test "${unauthenticated_matches_status}" = "401"
+echo 'OK ochrona wyników dopasowania 401'
 
 unauthorized_status="$(curl --silent --output /dev/null --write-out '%{http_code}' https://dotacjeai.eu/admin)"
 test "${unauthorized_status}" = "401"

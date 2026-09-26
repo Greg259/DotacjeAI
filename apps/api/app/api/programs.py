@@ -12,6 +12,7 @@ from app.models.domain import (
     Location,
     Program,
     ProgramBeneficiaryType,
+    ProgramBusinessSize,
     ProgramDocument,
     ProgramInvestmentCategory,
     ProgramLocation,
@@ -20,6 +21,7 @@ from app.models.domain import (
 )
 from app.models.enums import (
     BeneficiaryType,
+    BusinessSize,
     InvestmentCategory,
     ProgramStatus,
     PropertyType,
@@ -45,6 +47,7 @@ def _options():
         selectinload(Program.property_types),
         selectinload(Program.beneficiary_types),
         selectinload(Program.investment_categories),
+        selectinload(Program.business_sizes),
     )
 
 
@@ -69,6 +72,7 @@ def _serialize(program: Program) -> ProgramItem:
         investment_categories=[
             item.investment_category for item in program.investment_categories
         ],
+        business_sizes=[item.business_size for item in program.business_sizes],
     )
 
 
@@ -80,6 +84,7 @@ async def list_programs(
     category: InvestmentCategory | None = None,
     property_type: PropertyType | None = None,
     beneficiary_type: BeneficiaryType | None = None,
+    business_size: BusinessSize | None = None,
     application_end_from: date | None = None,
     application_end_to: date | None = None,
     min_amount: Annotated[Decimal | None, Query(ge=0)] = None,
@@ -130,6 +135,10 @@ async def list_programs(
             Program.beneficiary_types.any(
                 ProgramBeneficiaryType.beneficiary_type == beneficiary_type
             )
+        )
+    if business_size:
+        filters.append(
+            Program.business_sizes.any(ProgramBusinessSize.business_size == business_size)
         )
     if application_end_from:
         filters.append(Program.application_end >= application_end_from)

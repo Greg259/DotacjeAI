@@ -168,6 +168,7 @@ async def export_account(identity: IdentityDep, session: SessionDep):
             {
                 "id": profile.id,
                 "name": profile.name,
+                "profile_kind": profile.profile_kind,
                 "location": (
                     {
                         "id": profile.location.id,
@@ -184,6 +185,13 @@ async def export_account(identity: IdentityDep, session: SessionDep):
                 "current_heat_source": profile.current_heat_source,
                 "year_built": profile.year_built,
                 "heated_area_m2": profile.heated_area_m2,
+                "business_name": profile.business_name,
+                "business_size": profile.business_size,
+                "legal_form": profile.legal_form,
+                "established_year": profile.established_year,
+                "employee_count": profile.employee_count,
+                "annual_turnover_pln": profile.annual_turnover_pln,
+                "industry_codes": profile.industry_codes,
                 "investment_categories": [
                     item.investment_category for item in profile.investment_categories
                 ],

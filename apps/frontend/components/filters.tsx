@@ -38,6 +38,15 @@ export function Filters({ values }: { values: Record<string, string | string[] |
           {Object.entries(beneficiaryLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </select>
       </label>
+      <label>Wielkość firmy
+        <select name="business_size" defaultValue={selected("business_size") ?? ""}>
+          <option value="">Dowolna</option>
+          <option value="micro">Mikro</option>
+          <option value="small">Mała</option>
+          <option value="medium">Średnia</option>
+          <option value="large">Duża</option>
+        </select>
+      </label>
       <label>Nabór kończy się od
         <input type="date" name="application_end_from" defaultValue={selected("application_end_from") ?? ""} />
       </label>

@@ -532,3 +532,9 @@ Benchmark 20 przypadków i 45 pól porównał cztery modele. Najlepszy wynik uzy
 Użytkownik polecił rozpocząć Sprint 09 i przygotować na początku proste konta typu `user1` z hasłem, bez potwierdzania adresu e-mail. Zakres obejmuje dane konta, profile nieruchomości, eksport, usunięcie konta i podstawy prywatności. Integrację poczty oraz Sprint 10 odłożono do kolejnej części.
 
 Zaprojektowano lokalne uwierzytelnianie z hasłami scrypt, sesją serwerową, ciasteczkiem `HttpOnly` i tokenem CSRF. Dodano trzy role, pełny CRUD profili nieruchomości, wersjonowane zgody, eksport JSON i kaskadowe usunięcie danych. Profil przechowuje dane strukturalne przygotowane pod późniejszy, deterministyczny matching.
+
+## 34. Sprint 10 — wiele profili i deterministyczny matching
+
+Użytkownik polecił rozpocząć Sprint 10 i uwzględnić sytuację, w której jedno konto ma kilka różnych profili, np. dom dla Czystego Powietrza i przedsiębiorstwo dla NCBR. Przyjęto niezależne profile `property` i `business`, liczone osobno.
+
+Profil firmowy otrzymał wielkość przedsiębiorstwa, formę prawną, zatrudnienie, obrót, kody branżowe i cele B+R. Silnik bez udziału AI sprawdza status, beneficjenta, hierarchię lokalizacji, rodzaj nieruchomości lub wielkość firmy oraz cel inwestycji. Każda reguła zwraca spełnienie, niespełnienie albo brak danych, a programy otrzymują ranking i wyjaśnienie. Obecny katalog wymaga jeszcze osobnego rozszerzenia o oficjalne programy NCBR/PARP.

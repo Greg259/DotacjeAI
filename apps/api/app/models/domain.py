@@ -25,6 +25,8 @@ from app.db.base import Base
 from app.models.enums import (
     BeneficiaryType,
     BuildingState,
+    BusinessLegalForm,
+    BusinessSize,
     DocumentState,
     DocumentType,
     ExtractionStatus,
@@ -32,6 +34,7 @@ from app.models.enums import (
     InvestmentCategory,
     LlmRunStatus,
     LocationType,
+    ProfileKind,
     ProgramStatus,
     PropertyType,
     ReviewReason,
@@ -177,6 +180,9 @@ class Program(UuidPrimaryKeyMixin, TimestampMixin, Base):
     investment_categories: Mapped[list["ProgramInvestmentCategory"]] = relationship(
         back_populates="program", cascade="all, delete-orphan"
     )
+    business_sizes: Mapped[list["ProgramBusinessSize"]] = relationship(
+        back_populates="program", cascade="all, delete-orphan"
+    )
 
 
 class ProgramLocation(Base):
@@ -230,6 +236,19 @@ class ProgramInvestmentCategory(Base):
     )
 
     program: Mapped[Program] = relationship(back_populates="investment_categories")
+
+
+class ProgramBusinessSize(Base):
+    __tablename__ = "program_business_sizes"
+
+    program_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("programs.id", ondelete="CASCADE"), primary_key=True
+    )
+    business_size: Mapped[BusinessSize] = mapped_column(
+        enum_column(BusinessSize, 20), primary_key=True
+    )
+
+    program: Mapped[Program] = relationship(back_populates="business_sizes")
 
 
 class ProgramVersion(UuidPrimaryKeyMixin, Base):
@@ -455,20 +474,37 @@ class PropertyProfile(UuidPrimaryKeyMixin, TimestampMixin, Base):
         ForeignKey("locations.id", ondelete="SET NULL")
     )
     name: Mapped[str] = mapped_column(String(120), nullable=False)
+    profile_kind: Mapped[ProfileKind] = mapped_column(
+        enum_column(ProfileKind, 20),
+        nullable=False,
+        default=ProfileKind.PROPERTY,
+        server_default="property",
+    )
     beneficiary_type: Mapped[BeneficiaryType] = mapped_column(
         enum_column(BeneficiaryType, 40), nullable=False
     )
-    property_type: Mapped[PropertyType] = mapped_column(
-        enum_column(PropertyType, 40), nullable=False
+    property_type: Mapped[PropertyType | None] = mapped_column(
+        enum_column(PropertyType, 40)
     )
-    building_state: Mapped[BuildingState] = mapped_column(
-        enum_column(BuildingState, 20), nullable=False
+    building_state: Mapped[BuildingState | None] = mapped_column(
+        enum_column(BuildingState, 20)
     )
-    current_heat_source: Mapped[HeatSource] = mapped_column(
-        enum_column(HeatSource, 30), nullable=False
+    current_heat_source: Mapped[HeatSource | None] = mapped_column(
+        enum_column(HeatSource, 30)
     )
     year_built: Mapped[int | None] = mapped_column(Integer)
     heated_area_m2: Mapped[Decimal | None] = mapped_column(Numeric(8, 2))
+    business_name: Mapped[str | None] = mapped_column(String(255))
+    business_size: Mapped[BusinessSize | None] = mapped_column(enum_column(BusinessSize, 20))
+    legal_form: Mapped[BusinessLegalForm | None] = mapped_column(
+        enum_column(BusinessLegalForm, 40)
+    )
+    established_year: Mapped[int | None] = mapped_column(Integer)
+    employee_count: Mapped[int | None] = mapped_column(Integer)
+    annual_turnover_pln: Mapped[Decimal | None] = mapped_column(Numeric(16, 2))
+    industry_codes: Mapped[list[str]] = mapped_column(
+        json_type, nullable=False, default=list
+    )
 
     user: Mapped[User] = relationship(back_populates="profiles")
     location: Mapped[Location | None] = relationship()

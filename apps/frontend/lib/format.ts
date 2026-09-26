@@ -17,12 +17,21 @@ export const categoryLabels: Record<string, string> = {
   micro_wind: "Mikrowiatrak",
   heat_source_replacement: "Wymiana źródła ciepła",
   thermal_modernization: "Termomodernizacja",
+  research_and_development: "Badania i rozwój",
+  innovation: "Innowacje",
+  digitalization: "Cyfryzacja",
+  energy_efficiency: "Efektywność energetyczna",
+  internationalization: "Internacjonalizacja",
 };
 
 export const propertyLabels: Record<string, string> = {
   single_family_house: "Dom jednorodzinny",
   apartment: "Mieszkanie",
   housing_community: "Wspólnota mieszkaniowa",
+  enterprise: "Przedsiębiorstwo",
+  sme: "MŚP",
+  research_organization: "Organizacja badawcza",
+  consortium: "Konsorcjum",
   new_house: "Nowy dom",
   existing_building: "Istniejący budynek",
 };

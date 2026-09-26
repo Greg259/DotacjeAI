@@ -57,6 +57,8 @@ Definition of Done:
 
 Priorytet: P0 dla wartości produktu.
 
+Stan: wykonany 2026-09-26 w wersji deterministycznej, rozszerzonej o wiele profili oraz profile przedsiębiorstw. Produkcyjne wyniki firmowe wymagają teraz dodania źródeł NCBR/PARP.
+
 1. Zbudować deterministyczny silnik reguł na danych zatwierdzonych przez administratora.
 2. Dla każdego warunku zwracać `spełniony`, `niespełniony` albo `brak danych`.
 3. Pokazywać wynik dopasowania wraz z konkretnym uzasadnieniem i źródłem warunku.

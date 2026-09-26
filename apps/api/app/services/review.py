@@ -11,6 +11,7 @@ from app.models.domain import (
     Location,
     Program,
     ProgramBeneficiaryType,
+    ProgramBusinessSize,
     ProgramDocument,
     ProgramInvestmentCategory,
     ProgramLocation,
@@ -223,6 +224,9 @@ async def approve_review(
     await session.execute(
         delete(ProgramInvestmentCategory).where(ProgramInvestmentCategory.program_id == program.id)
     )
+    await session.execute(
+        delete(ProgramBusinessSize).where(ProgramBusinessSize.program_id == program.id)
+    )
     locations = list(
         (
             await session.scalars(
@@ -253,6 +257,12 @@ async def approve_review(
         [
             ProgramInvestmentCategory(program_id=program.id, investment_category=value)
             for value in candidate.investment_categories
+        ]
+    )
+    session.add_all(
+        [
+            ProgramBusinessSize(program_id=program.id, business_size=value)
+            for value in candidate.business_sizes
         ]
     )
 

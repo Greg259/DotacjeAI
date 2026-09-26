@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
 
 from app.models.enums import (
     BeneficiaryType,
+    BusinessSize,
     InvestmentCategory,
     ProgramStatus,
     PropertyType,
@@ -49,6 +50,7 @@ class ExtractionCandidate(StrictSchema):
     beneficiary_types: list[BeneficiaryType] = Field(default_factory=list)
     property_types: list[PropertyType] = Field(default_factory=list)
     investment_categories: list[InvestmentCategory] = Field(default_factory=list)
+    business_sizes: list[BusinessSize] = Field(default_factory=list)
     official_url: HttpUrl
     document_urls: list[HttpUrl] = Field(default_factory=list)
     details: ProgramDetails = Field(default_factory=ProgramDetails)
@@ -60,6 +62,7 @@ class ExtractionCandidate(StrictSchema):
         "beneficiary_types",
         "property_types",
         "investment_categories",
+        "business_sizes",
         "document_urls",
     )
     @classmethod

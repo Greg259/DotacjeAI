@@ -14,6 +14,18 @@ Aktualizacja: 2026-09-26.
 
 Szczegóły: `SPRINT_09_ACCOUNTS_PROFILES.md`.
 
+## Sprint 10 — deterministyczne dopasowanie
+
+- [x] Jeden użytkownik może mieć wiele niezależnych profili.
+- [x] Profile obejmują nieruchomości oraz przedsiębiorstwa/organizacje.
+- [x] Dodano dane MŚP, formę prawną, zatrudnienie, obrót, branże i cele B+R.
+- [x] Dodano reguły statusu, beneficjenta, lokalizacji, rodzaju profilu i celu inwestycji.
+- [x] Dodano wyniki `spełnione`, `niespełnione`, `brak danych` oraz ranking programów.
+- [x] Każda decyzja ma jawne uzasadnienie; AI nie decyduje o kwalifikacji.
+- [ ] Rozszerzyć produkcyjny katalog o zweryfikowane programy NCBR, PARP i Funduszy Europejskich.
+
+Szczegóły: `SPRINT_10_DETERMINISTIC_MATCHING.md`.
+
 ## Stan po Sprincie 07
 
 - [x] Rozszerzono katalog do 12 oficjalnych źródeł i 11 programów publicznych.

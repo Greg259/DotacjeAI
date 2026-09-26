@@ -3,13 +3,16 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.models.enums import (
     BeneficiaryType,
     BuildingState,
+    BusinessLegalForm,
+    BusinessSize,
     HeatSource,
     InvestmentCategory,
+    ProfileKind,
     PropertyType,
     UserRole,
 )
@@ -69,14 +72,22 @@ class LocationOption(BaseModel):
 
 class ProfilePayload(BaseModel):
     name: str = Field(min_length=1, max_length=120)
+    profile_kind: ProfileKind = ProfileKind.PROPERTY
     location_id: uuid.UUID | None = None
     beneficiary_type: BeneficiaryType
-    property_type: PropertyType
-    building_state: BuildingState
-    current_heat_source: HeatSource
+    property_type: PropertyType | None = None
+    building_state: BuildingState | None = None
+    current_heat_source: HeatSource | None = None
     year_built: int | None = Field(default=None, ge=1800, le=2100)
     heated_area_m2: Decimal | None = Field(default=None, gt=0, le=100000)
-    investment_categories: list[InvestmentCategory] = Field(min_length=1, max_length=8)
+    business_name: str | None = Field(default=None, max_length=255)
+    business_size: BusinessSize | None = None
+    legal_form: BusinessLegalForm | None = None
+    established_year: int | None = Field(default=None, ge=1800, le=2100)
+    employee_count: int | None = Field(default=None, ge=0, le=10_000_000)
+    annual_turnover_pln: Decimal | None = Field(default=None, ge=0, le=10**15)
+    industry_codes: list[str] = Field(default_factory=list, max_length=20)
+    investment_categories: list[InvestmentCategory] = Field(min_length=1, max_length=16)
 
     @field_validator("name")
     @classmethod
@@ -85,29 +96,72 @@ class ProfilePayload(BaseModel):
 
     @field_validator("property_type")
     @classmethod
-    def validate_property_type(cls, value: PropertyType) -> PropertyType:
-        if value not in PROFILE_PROPERTY_TYPES:
+    def validate_property_type(cls, value: PropertyType | None) -> PropertyType | None:
+        if value is not None and value not in PROFILE_PROPERTY_TYPES:
             raise ValueError("Nieobsługiwany typ profilu nieruchomości.")
         return value
 
+    @field_validator("business_name")
+    @classmethod
+    def strip_business_name(cls, value: str | None) -> str | None:
+        return value.strip() if value else None
+
+    @field_validator("industry_codes")
+    @classmethod
+    def normalize_industry_codes(cls, value: list[str]) -> list[str]:
+        normalized = [item.strip().upper() for item in value if item.strip()]
+        if any(len(item) > 20 for item in normalized):
+            raise ValueError("Kod branży może mieć maksymalnie 20 znaków.")
+        return list(dict.fromkeys(normalized))
+
     @field_validator("investment_categories")
     @classmethod
-    def unique_categories(
-        cls, value: list[InvestmentCategory]
-    ) -> list[InvestmentCategory]:
+    def unique_categories(cls, value: list[InvestmentCategory]) -> list[InvestmentCategory]:
         return list(dict.fromkeys(value))
+
+    @model_validator(mode="after")
+    def validate_profile_kind(self):
+        if self.profile_kind == ProfileKind.PROPERTY:
+            if not self.property_type or not self.building_state or not self.current_heat_source:
+                raise ValueError("Profil nieruchomości wymaga typu, stanu i źródła ciepła.")
+            if self.beneficiary_type in {
+                BeneficiaryType.ENTERPRISE,
+                BeneficiaryType.SME,
+                BeneficiaryType.RESEARCH_ORGANIZATION,
+                BeneficiaryType.CONSORTIUM,
+            }:
+                raise ValueError("Nieprawidłowy beneficjent profilu nieruchomości.")
+        else:
+            if not self.business_name or not self.business_size or not self.legal_form:
+                raise ValueError("Profil przedsiębiorstwa wymaga nazwy, wielkości i formy prawnej.")
+            if self.beneficiary_type not in {
+                BeneficiaryType.ENTERPRISE,
+                BeneficiaryType.SME,
+                BeneficiaryType.RESEARCH_ORGANIZATION,
+                BeneficiaryType.CONSORTIUM,
+            }:
+                raise ValueError("Nieprawidłowy beneficjent profilu przedsiębiorstwa.")
+        return self
 
 
 class PropertyProfileResponse(BaseModel):
     id: uuid.UUID
     name: str
+    profile_kind: ProfileKind
     location: LocationOption | None
     beneficiary_type: BeneficiaryType
-    property_type: PropertyType
-    building_state: BuildingState
-    current_heat_source: HeatSource
+    property_type: PropertyType | None
+    building_state: BuildingState | None
+    current_heat_source: HeatSource | None
     year_built: int | None
     heated_area_m2: Decimal | None
+    business_name: str | None
+    business_size: BusinessSize | None
+    legal_form: BusinessLegalForm | None
+    established_year: int | None
+    employee_count: int | None
+    annual_turnover_pln: Decimal | None
+    industry_codes: list[str]
     investment_categories: list[InvestmentCategory]
     created_at: datetime
     updated_at: datetime
@@ -120,3 +174,6 @@ class ProfileOptionsResponse(BaseModel):
     building_states: list[BuildingState]
     heat_sources: list[HeatSource]
     investment_categories: list[InvestmentCategory]
+    profile_kinds: list[ProfileKind]
+    business_sizes: list[BusinessSize]
+    legal_forms: list[BusinessLegalForm]

@@ -247,3 +247,15 @@ Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
 - dodano eksport JSON, usunięcie konta po potwierdzeniu hasłem, regulamin i informację o prywatności;
 - e-mail, reset hasła i matching pozostają świadomie poza tym wydaniem;
 - szczegółowy zakres: `SPRINT_09_ACCOUNTS_PROFILES.md`.
+
+## Sprint 10 — deterministyczne dopasowanie (2026-09-26)
+
+- użytkownik może mieć wiele niezależnych profili nieruchomości i przedsiębiorstw;
+- profil przedsiębiorstwa obejmuje wielkość, formę prawną, rok, zatrudnienie, obrót i branże;
+- rozszerzono taksonomię o MŚP, organizacje badawcze, konsorcja, B+R, innowacje i cyfryzację;
+- program może jawnie określać dopuszczalne wielkości przedsiębiorstwa;
+- silnik porównuje pięć deterministycznych reguł i nie wykonuje wywołań AI;
+- wyniki mają status `eligible`, `possible` lub `not_eligible`, ranking i pełne uzasadnienie;
+- API oraz frontend izolują wynik według właściciela profilu;
+- obecny katalog nie zawiera jeszcze produkcyjnych programów NCBR/PARP;
+- szczegóły: `SPRINT_10_DETERMINISTIC_MATCHING.md`.

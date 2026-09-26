@@ -24,6 +24,7 @@ export interface ProgramItem {
   property_types: string[];
   beneficiary_types: string[];
   investment_categories: string[];
+  business_sizes: string[];
 }
 
 export interface ProgramDocument {

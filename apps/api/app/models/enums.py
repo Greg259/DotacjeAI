@@ -36,6 +36,10 @@ class BeneficiaryType(StrEnum):
     CO_OWNER = "co_owner"
     TENANT = "tenant"
     HOUSING_COMMUNITY = "housing_community"
+    ENTERPRISE = "enterprise"
+    SME = "sme"
+    RESEARCH_ORGANIZATION = "research_organization"
+    CONSORTIUM = "consortium"
 
 
 class InvestmentCategory(StrEnum):
@@ -47,6 +51,11 @@ class InvestmentCategory(StrEnum):
     MICRO_WIND = "micro_wind"
     THERMAL_MODERNIZATION = "thermal_modernization"
     HEAT_SOURCE_REPLACEMENT = "heat_source_replacement"
+    RESEARCH_AND_DEVELOPMENT = "research_and_development"
+    INNOVATION = "innovation"
+    DIGITALIZATION = "digitalization"
+    ENERGY_EFFICIENCY = "energy_efficiency"
+    INTERNATIONALIZATION = "internationalization"
 
 
 class ReviewStatus(StrEnum):
@@ -116,3 +125,36 @@ class HeatSource(StrEnum):
     HEAT_PUMP = "heat_pump"
     OTHER = "other"
     NONE = "none"
+
+
+class ProfileKind(StrEnum):
+    PROPERTY = "property"
+    BUSINESS = "business"
+
+
+class BusinessSize(StrEnum):
+    MICRO = "micro"
+    SMALL = "small"
+    MEDIUM = "medium"
+    LARGE = "large"
+
+
+class BusinessLegalForm(StrEnum):
+    SOLE_PROPRIETORSHIP = "sole_proprietorship"
+    COMPANY = "company"
+    COOPERATIVE = "cooperative"
+    NGO = "ngo"
+    RESEARCH_ORGANIZATION = "research_organization"
+    OTHER = "other"
+
+
+class MatchRuleStatus(StrEnum):
+    FULFILLED = "fulfilled"
+    NOT_FULFILLED = "not_fulfilled"
+    MISSING_DATA = "missing_data"
+
+
+class MatchOutcome(StrEnum):
+    ELIGIBLE = "eligible"
+    POSSIBLE = "possible"
+    NOT_ELIGIBLE = "not_eligible"

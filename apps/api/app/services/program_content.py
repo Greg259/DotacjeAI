@@ -8,6 +8,7 @@ from app.models.domain import (
     Location,
     Program,
     ProgramBeneficiaryType,
+    ProgramBusinessSize,
     ProgramDocument,
     ProgramInvestmentCategory,
     ProgramLocation,
@@ -89,6 +90,9 @@ async def update_program_core(
             ProgramInvestmentCategory.program_id == program.id
         )
     )
+    await session.execute(
+        delete(ProgramBusinessSize).where(ProgramBusinessSize.program_id == program.id)
+    )
     session.add_all(
         [ProgramLocation(program_id=program.id, location_id=item.id) for item in locations]
     )
@@ -108,6 +112,12 @@ async def update_program_core(
         [
             ProgramInvestmentCategory(program_id=program.id, investment_category=item)
             for item in candidate.investment_categories
+        ]
+    )
+    session.add_all(
+        [
+            ProgramBusinessSize(program_id=program.id, business_size=item)
+            for item in candidate.business_sizes
         ]
     )
 

@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 from app.models.enums import (
     BeneficiaryType,
+    BusinessSize,
     DocumentState,
     DocumentType,
     InvestmentCategory,
@@ -41,6 +42,7 @@ class ProgramItem(BaseModel):
     property_types: list[PropertyType]
     beneficiary_types: list[BeneficiaryType]
     investment_categories: list[InvestmentCategory]
+    business_sizes: list[BusinessSize]
 
 
 class ProgramListResponse(BaseModel):
