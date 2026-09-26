@@ -1,6 +1,18 @@
 # DotacjeAI - plan kolejnych kroków
 
-Aktualizacja: 2026-09-26.
+Aktualizacja: 2026-09-27.
+
+## Priorytety po audycie sprzedażowym — 2026-09-27
+
+1. Sprint 08: zewnętrzny backup, zewnętrzny monitoring, rotacja OpenRouter, recovery i ochrona `main`.
+2. Sprint 10D: 30–50 zweryfikowanych programów firmowych oraz pełne reguły i testy jakości.
+3. Sprint 09B: e-mail, weryfikacja adresu, reset hasła i historia bezpieczeństwa konta.
+4. Sprint 11: obserwowanie programów i zatwierdzone alerty o zmianach.
+5. Sprint 12: audyt bezpieczeństwa, RODO, WCAG, E2E i zamknięta beta.
+6. Sprint 13: pakiety, płatności, faktury i analityka konwersji.
+7. Sprint 14–16: NIP/REGON, raporty PDF, zespoły doradców, CRM/API oraz wzrost pokrycia.
+
+Pełny plan biznesowo-techniczny: `COMMERCIALIZATION_ROADMAP.md`.
 
 ## Rozpoczęcie MVP-1 — Sprint 09A
 

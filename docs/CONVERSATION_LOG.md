@@ -548,3 +548,9 @@ Profil firmowy otrzymał wielkość przedsiębiorstwa, formę prawną, zatrudnie
 Użytkownik poprosił o możliwość dodania własnej strony, którą system przeskanuje w poszukiwaniu dotacji i innych form wsparcia, pod warunkiem wcześniejszej akceptacji linku przez administratora.
 
 Dodano formularz na koncie, prywatną listę zgłoszeń i kolejkę administratora. Żadne pobranie nie odbywa się przed akceptacją. Zaakceptowana strona trafia do harmonogramu jako katalog, a znalezione programy wymagają osobnej decyzji administratora przed uruchomieniem szczegółowego crawla i ekstrakcji OpenRouter. AI nadal nie publikuje danych automatycznie. Dodano ograniczenie pięciu oczekujących zgłoszeń, blokadę duplikatów, HTTPS, ochronę przed bezpośrednimi adresami prywatnymi, CSRF, audit log oraz ujęcie danych w eksporcie i usuwaniu konta.
+
+## 36. Audyt dalszych sprintów i komercjalizacji
+
+Użytkownik poprosił o sprawdzenie brakujących sprintów, utworzenie konta testowego oraz ocenę możliwości sprzedaży aplikacji. Próba utworzenia konta została odrzucona przez istniejącą politykę bezpieczeństwa, ponieważ wskazane hasło miało 10 znaków, a minimum wynosi 12. Nie obniżono wymagań ani nie obchodzono walidacji.
+
+Audyt potwierdził, że przed betą priorytetem pozostają zewnętrzny backup i monitoring, rotacja klucza OpenRouter, pokrycie programów firmowych, e-mail i odzyskiwanie konta, alerty, testy bezpieczeństwa, dokumentacja prawna i zamknięta beta. Dla sprzedaży zaplanowano następnie płatności, integrację REGON po NIP, raporty PDF, zespoły doradców, CRM/API i rozwój pokrycia. Rekomendowane pozycjonowanie opiera się na audytowalnym dopasowaniu z dowodami, a pierwszy segment płatny stanowią doradcy oraz instalatorzy obsługujący wielu klientów.
