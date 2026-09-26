@@ -39,6 +39,14 @@ export function formatDate(value: string | null): string {
   return new Intl.DateTimeFormat("pl-PL", { dateStyle: "long" }).format(new Date(value));
 }
 
+export function formatDateTime(value: string | null): string {
+  if (!value) return "jeszcze nie sprawdzono";
+  return new Intl.DateTimeFormat("pl-PL", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
+}
+
 export function formatMoney(value: string | null, currency: string): string {
   if (!value) return "Nie podano";
   return new Intl.NumberFormat("pl-PL", {

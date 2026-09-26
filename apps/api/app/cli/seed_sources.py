@@ -43,7 +43,7 @@ SOURCES = (
     {
         "name": "Moja Elektrownia Wiatrowa",
         "slug": "moja-elektrownia-wiatrowa",
-        "url": "https://mojaelektrowniawiatrowa.gov.pl/",
+        "url": "https://mojaelektrowniawiatrowa.gov.pl/o-programie/",
         "source_type": SourceType.HTML,
     },
     {

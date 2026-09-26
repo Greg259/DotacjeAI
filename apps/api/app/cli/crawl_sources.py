@@ -15,6 +15,9 @@ PRIORITY_SOURCES = (
     "wfosigw-warszawa-czyste-powietrze",
     "nadarzyn-wymiana-zrodla-ciepla-2026",
     "moje-cieplo",
+    "przydomowe-magazyny-energii",
+    "moja-elektrownia-wiatrowa",
+    "cieple-mieszkanie",
 )
 
 

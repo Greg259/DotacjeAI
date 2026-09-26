@@ -1,0 +1,35 @@
+{
+  "key_takeaways": [
+    {"title":"Wniosek składa się w gminie","description":"Centralny nabór dla gmin zakończył się 31 stycznia 2024 r., ale nabory dla mieszkańców i wspólnot są prowadzone przez uczestniczące gminy. Dostępność i termin trzeba sprawdzić lokalnie.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"},
+    {"title":"Program dla budynków wielorodzinnych","description":"Wsparcie jest przeznaczone m.in. dla właścicieli mieszkań, określonych najemców komunalnych i wspólnot mieszkaniowych liczących 3–7 lokali.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"}
+  ],
+  "eligible_applicants": [
+    {"title":"Osoby fizyczne","description":"Właściciele lokali mieszkalnych w budynkach wielorodzinnych, osoby z ograniczonym prawem rzeczowym oraz kwalifikujący się najemcy lokali komunalnych — zgodnie z naborem swojej gminy.","source_reference":"Beneficjent końcowy programu","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/pytania-i-odpowiedzi/beneficjent-koncowy"},
+    {"title":"Wspólnoty mieszkaniowe 3–7 lokali","description":"Drugi nabór objął wspólnoty mieszkaniowe w małych budynkach wielorodzinnych liczących od 3 do 7 lokali.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"}
+  ],
+  "eligibility_conditions": [
+    {"title":"Lokalny regulamin jest wiążący","description":"Gmina określa termin, sposób składania wniosku i lokalne formularze. Przed rozpoczęciem prac należy sprawdzić zasady konkretnego naboru.","source_reference":"Materiały do pobrania — informacja dla gmin","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/do-pobrania"},
+    {"title":"Wymiana nieefektywnego źródła ciepła","description":"Dla osób fizycznych sama wymiana okien lub drzwi nie wystarcza; jest możliwa jako element przedsięwzięcia po likwidacji wszystkich nieefektywnych źródeł ciepła na paliwo stałe w lokalu.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"}
+  ],
+  "funding_options": [
+    {"name":"Osoby fizyczne","description":"W zależności od poziomu dochodowego i lokalizacji wsparcie może wynieść do 41 000 zł na lokal; w najbardziej zanieczyszczonych gminach dokument programu przewiduje podwyższony limit.","support_percent":90,"max_amount":41000,"currency":"PLN","source_reference":"Program Ciepłe Mieszkanie — II nabór","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie/03-program-cieple-mieszkanie-2-nabor-dla-gmin-2023/2024_06_03_pp_cieple_mieszkanie.pdf"},
+    {"name":"Wspólnoty mieszkaniowe","description":"Oficjalne podsumowanie programu wskazuje wsparcie do 375 000 zł dla wspólnot; dokładny limit zależy od wariantu przedsięwzięcia.","support_percent":60,"max_amount":375000,"currency":"PLN","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"}
+  ],
+  "important_information": [
+    {"title":"Brak jednego ogólnopolskiego terminu","description":"Status karty nie oznacza, że nabór jest otwarty w każdej gminie. Użytkownik musi sprawdzić stronę swojego urzędu gminy lub miasta.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"},
+    {"title":"Różnice między naborami","description":"Warunki pierwszego i drugiego naboru mogą się różnić. Należy stosować dokumentację wskazaną przez gminę prowadzącą aktualny nabór.","source_reference":"Beneficjent końcowy programu","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/pytania-i-odpowiedzi/beneficjent-koncowy"}
+  ],
+  "application_steps": [
+    {"title":"Sprawdź udział swojej gminy","description":"Znajdź na stronie urzędu gminy lub miasta ogłoszenie o naborze Ciepłe Mieszkanie.","source_reference":"O programie Ciepłe Mieszkanie","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie"},
+    {"title":"Pobierz lokalne formularze","description":"Korzystaj z formularza, regulaminu i listy załączników opublikowanych przez właściwą gminę, ponieważ materiały centralne są wzorami dla samorządów.","source_reference":"Materiały do pobrania","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/do-pobrania"},
+    {"title":"Złóż wniosek przed rozpoczęciem prac","description":"Potwierdź w lokalnym regulaminie moment kwalifikowania kosztów i nie rozpoczynaj inwestycji wyłącznie na podstawie tej karty informacyjnej.","source_reference":"Program i regulamin naboru","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/do-pobrania"}
+  ],
+  "required_documents": [
+    {"title":"Dokumenty określone przez gminę","description":"Typowo obejmują formularz wniosku, dokument potwierdzający tytuł do lokalu, dokumenty dochodowe oraz opis lub kosztorys przedsięwzięcia. Wiążąca jest lista lokalna.","source_reference":"Materiały do pobrania","source_url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/do-pobrania"}
+  ],
+  "application_resources": [
+    {"title":"O programie Ciepłe Mieszkanie","url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie","resource_type":"official_page","description":"Centralny opis programu i informacja o naborach gminnych."},
+    {"title":"Materiały do pobrania","url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/do-pobrania","resource_type":"regulations","description":"Program, regulaminy i wzory dla gmin."},
+    {"title":"Program Ciepłe Mieszkanie — II nabór","url":"https://czystepowietrze.gov.pl/inne-programy/cieple-mieszkanie/o-programie/03-program-cieple-mieszkanie-2-nabor-dla-gmin-2023/2024_06_03_pp_cieple_mieszkanie.pdf","resource_type":"regulations","description":"Oficjalny dokument programu zawierający poziomy wsparcia i warunki."}
+  ]
+}

@@ -5,6 +5,7 @@ APP_ROOT="${APP_ROOT:-/opt/dotacje-ai/app}"
 SECRETS_ROOT="${SECRETS_ROOT:-/opt/dotacje-ai/secrets}"
 APP_ENV="${SECRETS_ROOT}/app.env"
 COMPOSE_FILE="${APP_ROOT}/infra/docker-compose.yml"
+EXPECTED_PROGRAM_COUNT="${EXPECTED_PROGRAM_COUNT:-6}"
 ADMIN_PASSWORD_FILE="${SECRETS_ROOT}/admin-initial-password"
 ADMIN_HTML="$(mktemp)"
 trap 'rm -f -- "${ADMIN_HTML}"' EXIT
@@ -20,8 +21,8 @@ test "$(curl --fail --silent --show-error https://dotacjeai.eu/health)" = "ok"
 echo 'OK /health'
 curl --fail --silent --show-error https://dotacjeai.eu/api/health | grep -q '"status":"ok"'
 echo 'OK /api/health'
-curl --fail --silent --show-error 'https://dotacjeai.eu/api/programs?limit=10' | grep -q '"total":3'
-echo 'OK 3 publiczne programy'
+curl --fail --silent --show-error 'https://dotacjeai.eu/api/programs?limit=20' | grep -q "\"total\":${EXPECTED_PROGRAM_COUNT}"
+printf 'OK %s publicznych programów\n' "${EXPECTED_PROGRAM_COUNT}"
 curl --fail --silent --show-error https://dotacjeai.eu/sitemap.xml | grep -q '<loc>https://dotacjeai.eu/dotacje/'
 echo 'OK sitemap'
 
@@ -32,10 +33,10 @@ authorized_status="$(curl --silent --user "admin:${admin_password}" --output "${
 test "${authorized_status}" = "200"
 printf 'OK panel admin %s/%s\n' "${unauthorized_status}" "${authorized_status}"
 grep -oE '<strong>[^<]+</strong><br>[^<]+</div>' "${ADMIN_HTML}" || true
-grep -q '<strong>3</strong><br>programów publicznych' "${ADMIN_HTML}"
+grep -q "<strong>${EXPECTED_PROGRAM_COUNT}</strong><br>program" "${ADMIN_HTML}"
 grep -q '<strong>0</strong><br>zadań REVIEW' "${ADMIN_HTML}"
 grep -q '<strong>0</strong><br>niedostępnych dokumentów' "${ADMIN_HTML}"
-echo 'OK metryki panelu: 3 programy, 0 REVIEW, 0 niedostępnych dokumentów'
+printf 'OK metryki panelu: %s programów, 0 REVIEW, 0 niedostępnych dokumentów\n' "${EXPECTED_PROGRAM_COUNT}"
 
 headers="$(curl --fail --silent --show-error --head https://dotacjeai.eu/)"
 grep -qi '^strict-transport-security:' <<<"${headers}"
@@ -48,4 +49,4 @@ if grep -qi '^x-powered-by:' <<<"${headers}"; then
   exit 1
 fi
 
-printf 'OK commit, kontenery, health, 3 programy, sitemap, panel 401/200, 0 REVIEW, 0 niedostępnych dokumentów i nagłówki bezpieczeństwa.\n'
+printf 'OK commit, kontenery, health, %s programów, sitemap, panel 401/200, 0 REVIEW, 0 niedostępnych dokumentów i nagłówki bezpieczeństwa.\n' "${EXPECTED_PROGRAM_COUNT}"

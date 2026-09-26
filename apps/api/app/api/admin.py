@@ -3,6 +3,7 @@
 import html
 import json
 import uuid
+from collections import Counter
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Annotated
@@ -12,8 +13,10 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.db.session import get_session
 from app.models.domain import (
+    AuditLog,
     ExtractionJob,
     LlmRun,
     Program,
@@ -22,8 +25,9 @@ from app.models.domain import (
     Source,
     SourceSnapshot,
 )
-from app.models.enums import ReviewStatus
-from app.services.crawler import build_diff
+from app.models.enums import ExtractionStatus, ReviewStatus
+from app.services.crawler import CrawlError, build_diff, crawl_source
+from app.services.extraction import retry_extraction_job
 from app.services.review import (
     ReviewOperationError,
     approve_review,
@@ -67,15 +71,34 @@ def _validate_origin(request: Request) -> None:
 
 
 @router.get("", response_class=HTMLResponse)
-async def dashboard(session: SessionDep) -> HTMLResponse:
+async def dashboard(request: Request, session: SessionDep) -> HTMLResponse:
     sources = list((await session.scalars(select(Source).order_by(Source.name))).all())
-    reviews = list(
+    all_reviews = list(
         (
             await session.scalars(
-                select(ReviewTask).order_by(ReviewTask.created_at.desc()).limit(50)
+                select(ReviewTask).order_by(ReviewTask.created_at.desc()).limit(200)
             )
         ).all()
     )
+    status_filter = request.query_params.get("status", "")
+    program_filter = request.query_params.get("program", "").strip().casefold()
+    created_from = request.query_params.get("created_from", "")
+    reviews = all_reviews
+    if status_filter:
+        reviews = [item for item in reviews if item.status.value == status_filter]
+    if program_filter:
+        reviews = [
+            item
+            for item in reviews
+            if program_filter
+            in str(item.payload.get("source_slug", "")).casefold()
+        ]
+    if created_from:
+        try:
+            minimum = datetime.fromisoformat(created_from).replace(tzinfo=UTC)
+            reviews = [item for item in reviews if item.created_at >= minimum]
+        except ValueError:
+            pass
     unavailable = list(
         (
             await session.scalars(
@@ -89,7 +112,7 @@ async def dashboard(session: SessionDep) -> HTMLResponse:
             LlmRun.created_at >= month_start
         )
     )
-    pending_count = sum(item.status == ReviewStatus.PENDING for item in reviews)
+    pending_count = sum(item.status == ReviewStatus.PENDING for item in all_reviews)
     published_count = await session.scalar(
         select(func.count()).select_from(Program).where(Program.is_published.is_(True))
     )
@@ -106,16 +129,55 @@ async def dashboard(session: SessionDep) -> HTMLResponse:
         f"<td>{html.escape(source.name)}</td><td>{html.escape(source.slug)}</td>"
         f"<td>{html.escape(str(source.last_checked_at or 'nigdy'))}</td>"
         f"<td class='{'bad' if source.last_error_message else 'ok'}'>{html.escape(source.last_error_message or 'OK')}</td>"
+        f"<td><button onclick=\"actionPost('/admin/sources/{source.id}/crawl')\">Sprawdź teraz</button></td>"
         "</tr>"
         for source in sources
+    )
+    review_ids = [item.id for item in all_reviews]
+    jobs = list(
+        (
+            await session.scalars(
+                select(ExtractionJob).where(ExtractionJob.review_task_id.in_(review_ids))
+            )
+        ).all()
+    ) if review_ids else []
+    jobs_by_review = {item.review_task_id: item for item in jobs}
+    llm_ids = [item.last_llm_run_id for item in jobs if item.last_llm_run_id]
+    llm_runs = list(
+        (await session.scalars(select(LlmRun).where(LlmRun.id.in_(llm_ids)))).all()
+    ) if llm_ids else []
+    costs = {item.id: item.cost_usd for item in llm_runs}
+    source_counts = Counter(
+        str(item.payload.get("source_slug", "brak źródła")) for item in reviews
     )
     review_rows = "".join(
         "<tr>"
         f"<td><a href='/admin/reviews/{review.id}'>{review.id}</a></td>"
+        f"<td>{html.escape(str(review.payload.get('source_slug', '—')))}</td>"
         f"<td>{review.reason.value}</td><td>{review.status.value}</td>"
+        f"<td>{costs.get(jobs_by_review.get(review.id).last_llm_run_id, 0) if jobs_by_review.get(review.id) else 0} USD</td>"
         f"<td>{html.escape(str(review.created_at))}</td>"
         "</tr>"
         for review in reviews
+    )
+    grouped_rows = "".join(
+        f"<li><strong>{html.escape(slug)}</strong>: {count}</li>"
+        for slug, count in source_counts.most_common()
+    ) or "<li>Brak wyników dla filtrów.</li>"
+    audit_items = list(
+        (
+            await session.scalars(
+                select(AuditLog).order_by(AuditLog.created_at.desc()).limit(50)
+            )
+        ).all()
+    )
+    audit_rows = "".join(
+        "<tr>"
+        f"<td>{html.escape(str(item.created_at))}</td>"
+        f"<td>{html.escape(item.actor)}</td><td>{html.escape(item.action)}</td>"
+        f"<td>{html.escape(item.entity_type)}</td><td>{html.escape(str(item.entity_id or '—'))}</td>"
+        "</tr>"
+        for item in audit_items
     )
     unavailable_rows = "".join(
         f"<li class='bad'>{html.escape(item.title)} — {html.escape(item.url)} — {html.escape(item.last_error_message or 'brak odpowiedzi')}</li>"
@@ -124,13 +186,24 @@ async def dashboard(session: SessionDep) -> HTMLResponse:
     return _page(
         "Pulpit",
         metrics
-        + "<h2>Źródła</h2><table><tr><th>Nazwa</th><th>Slug</th><th>Ostatnia kontrola</th><th>Stan</th></tr>"
+        + "<h2>Źródła</h2><table><tr><th>Nazwa</th><th>Slug</th><th>Ostatnia kontrola</th><th>Stan</th><th>Akcja</th></tr>"
         + source_rows
-        + "</table><h2>Kolejka REVIEW</h2><table><tr><th>ID</th><th>Powód</th><th>Status</th><th>Utworzono</th></tr>"
+        + "</table><h2>Kolejka REVIEW</h2>"
+        + "<form method='get' class='panel actions'><label>Status <select name='status'><option value=''>wszystkie</option>"
+        + "".join(f"<option value='{value}' {'selected' if status_filter == value else ''}>{value}</option>" for value in ('pending','approved','rejected'))
+        + "</select></label><label>Źródło <input name='program' value='"
+        + html.escape(request.query_params.get("program", ""))
+        + "'></label><label>Od <input type='date' name='created_from' value='"
+        + html.escape(created_from)
+        + "'></label><button type='submit'>Filtruj</button><a href='/admin'>Wyczyść</a></form>"
+        + "<h3>Grupowanie wyników</h3><ul>" + grouped_rows + "</ul>"
+        + "<table><tr><th>ID</th><th>Źródło</th><th>Powód</th><th>Status</th><th>Koszt</th><th>Utworzono</th></tr>"
         + review_rows
         + "</table><h2>Kontrola dokumentów</h2><ul>"
         + unavailable_rows
-        + "</ul>",
+        + "</ul><h2>Historia operacji</h2><table><tr><th>Data</th><th>Operator</th><th>Akcja</th><th>Typ</th><th>ID</th></tr>"
+        + audit_rows
+        + "</table><script>async function actionPost(url){const response=await fetch(url,{method:'POST'});if(!response.ok)alert(await response.text());else location.reload();}</script>",
     )
 
 
@@ -145,6 +218,17 @@ async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse
     diff = build_diff(previous.normalized_text or "", snapshot.normalized_text or "") if previous and snapshot else "Brak poprzedniego snapshotu."
     candidate = json.dumps(job.candidate_data if job else None, ensure_ascii=False, indent=2)
     program = await session.get(Program, review.program_id) if review.program_id else None
+    latest_snapshot = None
+    if snapshot is not None:
+        latest_snapshot = await session.scalar(
+            select(SourceSnapshot)
+            .where(SourceSnapshot.source_id == snapshot.source_id)
+            .order_by(SourceSnapshot.fetched_at.desc(), SourceSnapshot.id.desc())
+            .limit(1)
+        )
+    stale_warning = ""
+    if latest_snapshot is not None and snapshot is not None and latest_snapshot.id != snapshot.id:
+        stale_warning = "<p class='bad'>Uwaga: istnieje nowszy snapshot tego źródła. Porównaj go przed zatwierdzeniem lub publikacją.</p>"
     actions = ""
     if review.status == ReviewStatus.PENDING and (
         job is not None or review.payload.get("kind") == "date_status"
@@ -155,6 +239,12 @@ async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse
         )
     if program is not None and not program.is_published:
         actions += f"<button onclick=\"actionPost('/admin/programs/{program.id}/publish')\">Opublikuj program</button>"
+    if job is not None and job.status in {
+        ExtractionStatus.FAILED,
+        ExtractionStatus.AWAITING_API_KEY,
+        ExtractionStatus.BLOCKED_BY_BUDGET,
+    }:
+        actions += f"<button onclick=\"actionPost('/admin/extractions/{job.id}/retry')\">Ponów ekstrakcję</button>"
     script = f"""
     <script>
     async function actionPost(url, body) {{
@@ -168,7 +258,7 @@ async def review_page(review_id: uuid.UUID, session: SessionDep) -> HTMLResponse
     function rejectReview(url) {{ const note=prompt('Podaj przyczynę odrzucenia:'); if(note) actionPost(url, {{note}}); }}
     </script>"""
     body = (
-        f"<p>Status: <strong>{review.status.value}</strong> · powód: {review.reason.value}</p>{actions}"
+        f"<p>Status: <strong>{review.status.value}</strong> · powód: {review.reason.value}</p>{stale_warning}{actions}"
         f"<h2>Dane kandydata</h2><textarea id='candidate'>{html.escape(candidate)}</textarea>"
         + ("<button onclick='saveCandidate()'>Zapisz poprawiony JSON</button>" if review.status == ReviewStatus.PENDING and job else "")
         + f"<h2>Ostrzeżenia</h2><pre>{html.escape(json.dumps(job.warnings if job else [], ensure_ascii=False, indent=2))}</pre>"
@@ -222,3 +312,50 @@ async def publish(program_id: uuid.UUID, request: Request, session: SessionDep):
     except ReviewOperationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return RedirectResponse("/admin", status_code=303)
+
+
+@router.post("/sources/{source_id}/crawl")
+async def crawl_now(source_id: uuid.UUID, request: Request, session: SessionDep):
+    _validate_origin(request)
+    source = await session.get(Source, source_id)
+    if source is None:
+        raise HTTPException(status_code=404, detail="Source not found")
+    try:
+        result = await crawl_source(session, source, get_settings())
+        session.add(
+            AuditLog(
+                actor="admin-web",
+                action="source.crawl",
+                entity_type="source",
+                entity_id=source.id,
+                details=result.to_dict(),
+            )
+        )
+        await session.commit()
+    except (CrawlError, OSError) as exc:
+        await session.rollback()
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    return result.to_dict()
+
+
+@router.post("/extractions/{job_id}/retry")
+async def retry_extraction(job_id: uuid.UUID, request: Request, session: SessionDep):
+    _validate_origin(request)
+    job = await session.get(ExtractionJob, job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Extraction not found")
+    try:
+        await retry_extraction_job(session, job, get_settings())
+        session.add(
+            AuditLog(
+                actor="admin-web",
+                action="extraction.retry",
+                entity_type="extraction_job",
+                entity_id=job.id,
+                details={"retry_count": job.retry_count, "status": job.status.value},
+            )
+        )
+        await session.commit()
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"status": job.status.value, "retry_count": job.retry_count}

@@ -175,6 +175,7 @@ async def test_public_program_list_supports_mvp_filters() -> None:
                 "/api/programs/wymiana-zrodla-ciepla-nadarzyn-2026"
             )
             unpublished = await client.get("/api/programs/program-roboczy")
+            admin = await client.get("/admin", params={"status": "pending"})
     finally:
         app.dependency_overrides.clear()
         await engine.dispose()
@@ -204,3 +205,6 @@ async def test_public_program_list_supports_mvp_filters() -> None:
         "6000.00"
     )
     assert unpublished.status_code == 404
+    assert admin.status_code == 200
+    assert "Historia operacji" in admin.text
+    assert "Sprawdź teraz" in admin.text

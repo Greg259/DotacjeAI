@@ -1,0 +1,33 @@
+{
+  "key_takeaways": [
+    {"title":"Nabór zakończony","description":"NFOŚiGW zamknął nabór 20 lutego 2026 r. po wykorzystaniu 100% budżetu programu.","source_reference":"O programie, sekcje Budżet i Terminy","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"},
+    {"title":"Mikroturbina i opcjonalny magazyn","description":"Program obejmował przydomową mikroinstalację wiatrową oraz opcjonalny magazyn energii elektrycznej.","source_reference":"O programie, sekcja Rodzaje przedsięwzięć","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "eligible_applicants": [
+    {"title":"Właściciele i współwłaściciele","description":"Program był skierowany do osób fizycznych będących właścicielami lub współwłaścicielami budynku albo lokalu mieszkalnego, wytwarzających energię na własne potrzeby w instalacji on-grid lub off-grid.","source_reference":"O programie, sekcja Beneficjenci","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "eligibility_conditions": [
+    {"title":"Moc turbiny 1–20 kW","description":"Mikroinstalacja wiatrowa musiała mieć moc elektryczną co najmniej 1 kW i nie więcej niż 20 kW.","source_reference":"O programie, sekcja Rodzaje przedsięwzięć","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"},
+    {"title":"Magazyn co najmniej 2 kWh","description":"Opcjonalny magazyn energii musiał mieć pojemność co najmniej 2 kWh.","source_reference":"O programie, sekcja Rodzaje przedsięwzięć","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"},
+    {"title":"Inwestycja zakończona przed wnioskiem","description":"Dofinansowanie dotyczyło inwestycji zakończonych i uruchomionych przed złożeniem wniosku.","source_reference":"Oficjalna strona główna programu","source_url":"https://mojaelektrowniawiatrowa.gov.pl/"}
+  ],
+  "funding_options": [
+    {"name":"Mikroinstalacja wiatrowa","description":"Do 50% kosztów kwalifikowanych, maksymalnie 30 000 zł i nie więcej niż 5 000 zł na 1 kW.","support_percent":50,"max_amount":30000,"currency":"PLN","source_reference":"O programie, sekcja Forma dofinansowania","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"},
+    {"name":"Magazyn energii elektrycznej","description":"Do 50% kosztów kwalifikowanych, maksymalnie 17 000 zł i nie więcej niż 6 000 zł na 1 kWh.","support_percent":50,"max_amount":17000,"currency":"PLN","source_reference":"O programie, sekcja Forma dofinansowania","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "important_information": [
+    {"title":"Karta historyczna","description":"Nie można obecnie składać nowych wniosków. Dokumenty i GWD pozostają przydatne osobom, które złożyły wniosek wcześniej lub otrzymały wezwanie do uzupełnienia.","source_reference":"Komunikat Nabór zakończony","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "application_steps": [
+    {"title":"Nie składaj nowego wniosku","description":"Nabór jest zamknięty. Osoby z wcześniej złożonym wnioskiem powinny sprawdzać jego status w GWD i odpowiadać na wezwania NFOŚiGW.","source_reference":"O programie, komunikat po złożeniu wniosku","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "required_documents": [
+    {"title":"Dokumenty wykonania i zakupu","description":"Lista obejmuje m.in. protokół odbioru, kartę generatora, fakturę, potwierdzenie płatności i dokumentację fotograficzną.","source_reference":"O programie, Załączniki do wniosku","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"},
+    {"title":"Dokumenty dodatkowe","description":"Zależnie od sytuacji wymagane były zgody współwłaścicieli, zaświadczenie OSD, pełnomocnictwo, karta magazynu i potwierdzenie rachunku bankowego.","source_reference":"O programie, Załączniki do wniosku","source_url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/"}
+  ],
+  "application_resources": [
+    {"title":"O programie i dokumenty","url":"https://mojaelektrowniawiatrowa.gov.pl/o-programie/","resource_type":"regulations","description":"Warunki, kwoty, dokumenty i informacja o zamknięciu naboru."},
+    {"title":"Generator Wniosków o Dofinansowanie","url":"https://gwd.nfosigw.gov.pl/","resource_type":"application_portal","description":"Obsługa wcześniej złożonych wniosków."},
+    {"title":"Aktualności programu","url":"https://mojaelektrowniawiatrowa.gov.pl/aktualnosci/","resource_type":"official_page","description":"Oficjalne komunikaty NFOŚiGW."}
+  ]
+}

@@ -341,6 +341,9 @@ class ExtractionJob(UuidPrimaryKeyMixin, TimestampMixin, Base):
     evidence: Mapped[list[Any] | None] = mapped_column(json_type)
     warnings: Mapped[list[Any] | None] = mapped_column(json_type)
     error_message: Mapped[str | None] = mapped_column(Text)
+    retry_count: Mapped[int] = mapped_column(
+        Integer, nullable=False, default=0, server_default="0"
+    )
 
 
 class ReviewTask(UuidPrimaryKeyMixin, TimestampMixin, Base):

@@ -17,7 +17,11 @@ from app.models.enums import (
     SourceType,
 )
 from app.schemas.extraction import ExtractionCandidate
-from app.services.extraction import _finalize_candidate, process_pending_extractions
+from app.services.extraction import (
+    _finalize_candidate,
+    process_pending_extractions,
+    retry_extraction_job,
+)
 
 
 async def seed_pending_review(
@@ -79,6 +83,38 @@ async def test_pending_extraction_is_idempotent_and_waits_for_key() -> None:
         assert first[0].status == ExtractionStatus.AWAITING_API_KEY
         assert first[0].error_message == "missing_api_key"
         assert second[0].id == first[0].id
+        assert await session.scalar(select(func.count()).select_from(ExtractionJob)) == 1
+
+    await engine.dispose()
+
+
+async def test_manual_retry_increments_attempt_without_replacing_job() -> None:
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+    factory = async_sessionmaker(engine, expire_on_commit=False)
+    async with engine.begin() as connection:
+        await connection.run_sync(Base.metadata.create_all)
+
+    async with factory() as session:
+        await seed_pending_review(session)
+        settings = Settings(
+            DATABASE_URL="sqlite+aiosqlite:///:memory:",
+            OPENROUTER_API_KEY="",
+        )
+        jobs = await process_pending_extractions(session, settings, today=date(2026, 9, 24))
+        await session.commit()
+        original_id = jobs[0].id
+
+        retried = await retry_extraction_job(
+            session,
+            jobs[0],
+            settings,
+            today=date(2026, 9, 24),
+        )
+        await session.commit()
+
+        assert retried.id == original_id
+        assert retried.retry_count == 1
+        assert retried.status == ExtractionStatus.AWAITING_API_KEY
         assert await session.scalar(select(func.count()).select_from(ExtractionJob)) == 1
 
     await engine.dispose()

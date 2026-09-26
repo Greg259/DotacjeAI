@@ -1,0 +1,34 @@
+{
+  "key_takeaways": [
+    {"title":"Nabór planowany","description":"Część 2 programu, finansowana z Funduszu Modernizacyjnego, jest zapowiedziana na IV kwartał 2026 r. Formularz ma być udostępniony dopiero po uruchomieniu naboru.","source_reference":"Strona programu, sekcja Terminy i forma składania wniosków","source_url":"https://przydomowemagazyny.gov.pl/"},
+    {"title":"Wsparcie magazynowania energii","description":"Program jest kierowany do prosumentów posiadających mikroinstalację OZE i obejmuje magazyny energii elektrycznej oraz magazyny ciepła zwiększające autokonsumpcję.","source_reference":"Strona programu, sekcja O programie","source_url":"https://przydomowemagazyny.gov.pl/"}
+  ],
+  "eligible_applicants": [
+    {"title":"Prosumenci z mikroinstalacją OZE","description":"Osoby posiadające mikroinstalację OZE przyłączoną do sieci elektroenergetycznej i ubiegające się o urządzenie wspierające autokonsumpcję.","source_reference":"Strona programu, sekcja O programie","source_url":"https://przydomowemagazyny.gov.pl/"}
+  ],
+  "eligibility_conditions": [
+    {"title":"Minimalna pojemność magazynu energii","description":"Magazyn energii elektrycznej objęty wsparciem ma mieć co najmniej 10 kWh pojemności nominalnej.","source_reference":"Strona programu, sekcja O programie","source_url":"https://przydomowemagazyny.gov.pl/"},
+    {"title":"Minimalna pojemność magazynu ciepła","description":"Magazyn ciepła objęty wsparciem ma mieć co najmniej 100 dm³ pojemności.","source_reference":"Strona programu, sekcja O programie","source_url":"https://przydomowemagazyny.gov.pl/"},
+    {"title":"Okres rozpoczęcia przedsięwzięcia","description":"Oficjalna strona wskazuje rozpoczęcie przedsięwzięcia nie wcześniej niż 1 listopada 2025 r.; pełne zasady należy potwierdzić w regulaminie opublikowanym dla naboru.","source_reference":"Strona programu, sekcja O programie","source_url":"https://przydomowemagazyny.gov.pl/"}
+  ],
+  "funding_options": [],
+  "important_information": [
+    {"title":"Warunki mogą zostać doprecyzowane","description":"Karta opisuje zapowiedź części 2. Wiążące kwoty, terminy i wzory dokumentów będą wynikały z ogłoszenia i regulaminu uruchomionego naboru.","source_reference":"Strona programu, komunikat Wkrótce","source_url":"https://przydomowemagazyny.gov.pl/"},
+    {"title":"Planowany budżet programu","description":"Oficjalna strona wskazuje budżet do 1 mld zł, ale nie zastępuje to limitu dotacji dla pojedynczego wnioskodawcy.","source_reference":"Strona programu, sekcja Budżet","source_url":"https://przydomowemagazyny.gov.pl/"}
+  ],
+  "application_steps": [
+    {"title":"Sprawdź uruchomienie naboru","description":"Przed przygotowaniem dokumentów sprawdź, czy NFOŚiGW opublikował ostateczny regulamin i formularz części 2.","source_reference":"Strona programu","source_url":"https://przydomowemagazyny.gov.pl/"},
+    {"title":"Przygotuj dokumenty inwestycji","description":"Oficjalna instrukcja wymienia m.in. faktury, potwierdzenia płatności, dokument OSD, protokół odbioru, fotografie urządzeń, karty produktu i potwierdzenie rachunku bankowego.","source_reference":"Jak uzyskać dofinansowanie — PME 2","source_url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/"},
+    {"title":"Złóż elektroniczny wniosek","description":"Po otwarciu naboru formularz ma być dostępny w Generatorze Wniosków o Dofinansowanie. Do konta wymagany jest profil zaufany albo e-dowód.","source_reference":"Jak uzyskać dofinansowanie — PME 2","source_url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/"}
+  ],
+  "required_documents": [
+    {"title":"Faktury i potwierdzenia płatności","description":"Dokumenty muszą jednoznacznie wskazywać urządzenia oraz potwierdzać pełne rozliczenie kosztów.","source_reference":"Jak uzyskać dofinansowanie, punkty 1–2","source_url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/"},
+    {"title":"Dokument OSD i protokół odbioru","description":"Wymagane są aktualne wzory potwierdzenia przyłączenia oraz protokołu wykonania instalacji z magazynem.","source_reference":"Jak uzyskać dofinansowanie, punkty 3–4","source_url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/"},
+    {"title":"Dokumentacja urządzeń","description":"Należy przygotować fotografie, karty produktu lub etykiety energetyczne oraz wymagane oświadczenia.","source_reference":"Jak uzyskać dofinansowanie, punkty 5–10","source_url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/"}
+  ],
+  "application_resources": [
+    {"title":"Oficjalna strona Przydomowe Magazyny Energii","url":"https://przydomowemagazyny.gov.pl/","resource_type":"official_page","description":"Aktualny status i komunikaty programu."},
+    {"title":"Jak uzyskać dofinansowanie — PME 2","url":"https://przydomowemagazyny.gov.pl/jak-uzyskac-dofinansowanie/","resource_type":"instructions","description":"Lista dokumentów i przebieg składania wniosku."},
+    {"title":"Generator Wniosków o Dofinansowanie","url":"https://gwd.nfosigw.gov.pl/","resource_type":"application_portal","description":"Portal elektroniczny; formularz ma być aktywny po rozpoczęciu naboru."}
+  ]
+}

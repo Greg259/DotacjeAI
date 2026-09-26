@@ -3,7 +3,9 @@ import { beneficiaryLabels, categoryLabels, propertyLabels, statusLabels } from 
 export function Filters({ values }: { values: Record<string, string | string[] | undefined> }) {
   const selected = (key: string) => Array.isArray(values[key]) ? values[key][0] : values[key];
   return (
-    <form className="filters" action="/dotacje" method="get">
+    <details className="filters-panel" open>
+      <summary>Filtry dotacji</summary>
+      <form className="filters" action="/dotacje" method="get">
       <label>Lokalizacja
         <select name="location" defaultValue={selected("location") ?? ""}>
           <option value="">Wszystkie lokalizacje</option>
@@ -70,6 +72,8 @@ export function Filters({ values }: { values: Record<string, string | string[] |
         <input type="date" name="verified_since" defaultValue={selected("verified_since") ?? ""} />
       </label>
       <button type="submit">Filtruj dotacje</button>
-    </form>
+      <a className="clear-filters" href="/dotacje">Wyczyść filtry</a>
+      </form>
+    </details>
   );
 }

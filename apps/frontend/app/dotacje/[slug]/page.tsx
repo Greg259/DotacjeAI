@@ -7,6 +7,7 @@ import {
   beneficiaryLabels,
   categoryLabels,
   formatDate,
+  formatDateTime,
   formatMoney,
   propertyLabels,
   statusLabels,
@@ -65,10 +66,21 @@ export default async function ProgramPage({ params }: { params: Params }) {
   const program = await getProgram(slug);
   if (!program) notFound();
   const details = program.details;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "GovernmentService",
+    name: program.title,
+    description: program.summary,
+    provider: { "@type": "GovernmentOrganization", name: program.organizer },
+    areaServed: program.locations.map((item) => item.name),
+    url: `https://dotacjeai.eu/dotacje/${program.slug}`,
+    serviceUrl: program.official_url,
+  };
 
   return (
     <div className="shell section detail-layout">
       <article>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
         <Link className="back-link" href="/dotacje">← Wszystkie dotacje</Link>
         <div className="card-topline">
           <span className={`status status-${program.status}`}>{statusLabels[program.status]}</span>
@@ -77,6 +89,12 @@ export default async function ProgramPage({ params }: { params: Params }) {
         <h1>{program.title}</h1>
         <p className="organizer">{program.organizer}</p>
         <p className="lead compact">{program.summary}</p>
+        {program.status !== "open" && (
+          <div className={`status-notice status-notice-${program.status}`}>
+            <strong>{statusLabels[program.status]}</strong>
+            <span>{program.status === "closed" ? "Nabór jest zakończony — karta pozostaje dostępna informacyjnie." : program.status === "planned" ? "Nabór jest zapowiedziany, ale formularz może nie być jeszcze dostępny." : "Status lub dostępność naboru trzeba potwierdzić w oficjalnym źródle albo właściwej gminie."}</span>
+          </div>
+        )}
 
         {details.key_takeaways.length > 0 && (
           <section className="detail-section takeaways">
@@ -165,6 +183,7 @@ export default async function ProgramPage({ params }: { params: Params }) {
                   <span className="resource-type">{resourceLabels[resource.resource_type] ?? "Dokument"}</span>
                   <strong>{resource.title} ↗</strong>
                   {resource.description && <span>{resource.description}</span>}
+                  <span>Ostatnia kontrola linku: {formatDateTime(program.documents.find((item) => item.url === resource.url)?.last_checked_at ?? null)}</span>
                   {program.documents.find((item) => item.url === resource.url)?.is_available === false && <span className="resource-warning">Link wymaga ponownej weryfikacji</span>}
                 </a>
               ))}
@@ -176,7 +195,7 @@ export default async function ProgramPage({ params }: { params: Params }) {
           <h2>Wszystkie źródła</h2>
           {program.documents.length ? (
             <ul className="source-list">
-              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a>{!doc.is_available && <span className="resource-warning"> — link wymaga weryfikacji</span>}</li>)}
+              {program.documents.map((doc) => <li key={doc.url}><a href={doc.url} target="_blank" rel="noreferrer">{doc.title} ↗</a><span className="document-checked">sprawdzono link: {formatDateTime(doc.last_checked_at)}</span>{!doc.is_available && <span className="resource-warning"> — link wymaga weryfikacji</span>}</li>)}
             </ul>
           ) : <p>Oficjalny dokument jest przygotowywany.</p>}
           {program.official_url && <a className="button small" href={program.official_url} target="_blank" rel="noreferrer">Otwórz oficjalną stronę</a>}

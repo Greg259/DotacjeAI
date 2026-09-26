@@ -30,7 +30,10 @@ def _job_key(snapshot: SourceSnapshot) -> str:
 
 
 def _llm_key(job: ExtractionJob, model: str, attempt: int) -> str:
-    value = f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:{model}:{attempt}"
+    value = (
+        f"{job.idempotency_key}:{LLM_REQUEST_VERSION}:"
+        f"retry-{job.retry_count}:{model}:{attempt}"
+    )
     return hashlib.sha256(value.encode()).hexdigest()
 
 
@@ -306,3 +309,29 @@ async def process_pending_extractions(
         await process_extraction_job(session, job, settings, today=today, client=client)
         jobs.append(job)
     return jobs
+
+
+async def retry_extraction_job(
+    session: AsyncSession,
+    job: ExtractionJob,
+    settings: Settings,
+    *,
+    today: date | None = None,
+) -> ExtractionJob:
+    if job.status not in {
+        ExtractionStatus.FAILED,
+        ExtractionStatus.AWAITING_API_KEY,
+        ExtractionStatus.BLOCKED_BY_BUDGET,
+    }:
+        raise ValueError("extraction_not_retryable")
+    job.retry_count += 1
+    job.status = ExtractionStatus.RULES_READY
+    job.last_llm_run_id = None
+    job.candidate_data = None
+    job.error_message = None
+    return await process_extraction_job(
+        session,
+        job,
+        settings,
+        today=today or datetime.now(UTC).date(),
+    )
