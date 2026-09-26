@@ -31,6 +31,7 @@ admin_password="$(cat "${ADMIN_PASSWORD_FILE}")"
 authorized_status="$(curl --silent --user "admin:${admin_password}" --output "${ADMIN_HTML}" --write-out '%{http_code}' https://dotacjeai.eu/admin)"
 test "${authorized_status}" = "200"
 printf 'OK panel admin %s/%s\n' "${unauthorized_status}" "${authorized_status}"
+grep -oE '<strong>[^<]+</strong><br>[^<]+</div>' "${ADMIN_HTML}" || true
 grep -q '<strong>3</strong><br>programów publicznych' "${ADMIN_HTML}"
 grep -q '<strong>0</strong><br>zadań REVIEW' "${ADMIN_HTML}"
 grep -q '<strong>0</strong><br>niedostępnych dokumentów' "${ADMIN_HTML}"

@@ -51,6 +51,26 @@ def _validate_web_url(url: str) -> None:
         raise CrawlError(f"Unsupported source URL: {url}")
 
 
+_VOLATILE_VALUE_LABELS = {
+    "liczba odwiedzin:",
+}
+
+
+def strip_volatile_content(text: str) -> str:
+    """Remove CMS counters that change without changing the grant content."""
+    stable_lines: list[str] = []
+    skip_next_value = False
+    for line in text.splitlines():
+        if skip_next_value:
+            skip_next_value = False
+            continue
+        if line.strip().casefold() in _VOLATILE_VALUE_LABELS:
+            skip_next_value = True
+            continue
+        stable_lines.append(line)
+    return "\n".join(stable_lines).strip()
+
+
 def _build_ssl_context(settings: Settings) -> ssl.SSLContext:
     context = ssl.create_default_context()
     extra_ca_path = settings.crawler_extra_ca_path
@@ -87,7 +107,9 @@ def normalize_html(raw: bytes, base_url: str) -> str:
     sections = ["\n".join(lines)]
     if links:
         sections.append("\n".join(links))
-    return "\n\n".join(section for section in sections if section).strip()
+    return strip_volatile_content(
+        "\n\n".join(section for section in sections if section).strip()
+    )
 
 
 def normalize_pdf(raw: bytes) -> str:
@@ -252,7 +274,17 @@ async def crawl_source(
 
     raw_hash = _sha256(raw)
     normalized_hash = _sha256(normalized_text.encode("utf-8")) if normalized_text else raw_hash
-    changed = previous is None or previous.normalized_sha256 != normalized_hash
+    previous_normalized_text = (
+        strip_volatile_content(previous.normalized_text or "") if previous else ""
+    )
+    previous_comparable_hash = (
+        _sha256(previous_normalized_text.encode("utf-8"))
+        if previous_normalized_text
+        else previous.normalized_sha256
+        if previous
+        else None
+    )
+    changed = previous is None or previous_comparable_hash != normalized_hash
     timestamp = checked_at.strftime("%Y/%m/%d/%H%M%S")
     extension = _extension(source, content_type)
     relative_path = Path(source.slug) / f"{timestamp}-{raw_hash[:16]}{extension}"
@@ -267,7 +299,7 @@ async def crawl_source(
     diff_path: str | None = None
     diff_text = ""
     if changed and previous is not None:
-        diff_text = build_diff(previous.normalized_text or "", normalized_text)
+        diff_text = build_diff(previous_normalized_text, normalized_text)
         diff_relative = relative_path.with_suffix(relative_path.suffix + ".diff")
         _write_atomic(settings.source_storage_root / diff_relative, diff_text.encode("utf-8"))
         diff_path = diff_relative.as_posix()
