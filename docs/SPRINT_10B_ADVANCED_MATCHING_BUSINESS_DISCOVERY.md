@@ -31,6 +31,8 @@ Monitorowane są oficjalne indeksy:
 
 Indeksy nie są traktowane jak pojedynczy program. Po pobraniu system wyodrębnia oficjalne linki zawierające sygnały takie jak nabór, dotacja, przedsiębiorstwo, MŚP, startup, VC, B+R albo innowacje. Kandydat trafia do panelu administratora. Nie jest automatycznie publikowany.
 
+Serwis PARP zwraca automatycznemu klientowi wyzwanie Incapsula zamiast treści strony. Bezpośrednie źródła PARP pozostają zapisane, ale nieaktywne w automatycznym crawlerze, żeby nie tworzyć fałszywych wyników ani cyklicznych alarmów. Programy PARP mogą być nadal wykrywane przez oficjalną wyszukiwarkę Funduszy Europejskich i następnie weryfikowane ręcznie.
+
 ## Bezpieczeństwo decyzji
 
 - AI nie ustala wyniku kwalifikacji;

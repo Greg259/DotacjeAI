@@ -87,6 +87,7 @@ SOURCES = (
         "slug": "parp-katalog-naborow",
         "url": "https://www.parp.gov.pl/component/grants/grants",
         "source_type": SourceType.INDEX,
+        "active": False,
     },
     {
         "name": "Fundusze Europejskie — wyszukiwarka dotacji",
@@ -105,18 +106,21 @@ SOURCES = (
         "slug": "parp-sciezka-smart",
         "url": "https://www.parp.gov.pl/component/grants/grants/sciezka-smart",
         "source_type": SourceType.HTML,
+        "active": False,
     },
     {
         "name": "PARP — Start-up Booster Poland",
         "slug": "parp-start-up-booster-poland",
         "url": "https://www.parp.gov.pl/component/grants/grants/start-up-boost-poland",
         "source_type": SourceType.HTML,
+        "active": False,
     },
     {
         "name": "PARP — Promocja marki innowacyjnych MŚP",
         "slug": "parp-promocja-marki-innowacyjnych-msp",
         "url": "https://www.parp.gov.pl/component/grants/grants/promocja-marki-innowacyjnych-msp",
         "source_type": SourceType.HTML,
+        "active": False,
     },
 )
 
@@ -151,6 +155,7 @@ async def seed() -> None:
                 source.name = source_data["name"]
                 source.url = source_data["url"]
                 source.source_type = source_data["source_type"]
+                source.active = source_data.get("active", True)
 
         poland = await upsert_location(
             session,

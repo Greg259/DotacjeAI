@@ -252,6 +252,8 @@ async def crawl_source(
         raise CrawlError(f"Unexpected HTTP {response.status_code} for {source.slug}")
 
     raw = response.content
+    if b"/_Incapsula_Resource" in raw and len(raw) < 10_000:
+        raise CrawlError(f"Anti-bot challenge returned instead of content for {source.slug}")
     declared_size = response.headers.get("content-length")
     try:
         response_too_large = (
