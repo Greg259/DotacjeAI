@@ -2,7 +2,7 @@ import re
 from datetime import UTC, datetime
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.domain import ProgramDiscovery, Source, SourceSnapshot
@@ -27,6 +27,25 @@ KEYWORDS = {
     "msp": "sme",
     "przedsiębior": "enterprise",
     "przedsiebior": "enterprise",
+    "smart": "program_candidate",
+    "booster": "program_candidate",
+    "internacjonaliz": "program_candidate",
+    "kredyt ekologiczny": "program_candidate",
+    "automatyzac": "program_candidate",
+    "wzornictwo": "program_candidate",
+    "promocja marki": "program_candidate",
+    "transformac": "program_candidate",
+}
+STRONG_TAGS = {
+    "grant",
+    "call",
+    "startup",
+    "vc",
+    "innovation",
+    "research",
+    "sme",
+    "enterprise",
+    "program_candidate",
 }
 OFFICIAL_SUFFIXES = (
     "parp.gov.pl",
@@ -62,9 +81,9 @@ def discover_links(text: str) -> list[tuple[str, str, list[str]]]:
             continue
         title = match.group("title").strip()[:500]
         url = _normalize_url(match.group("url"))
-        searchable = f"{title} {url or ''}".casefold()
+        searchable = f"{title} {urlparse(url).path if url else ''}".casefold()
         tags = sorted({tag for keyword, tag in KEYWORDS.items() if keyword in searchable})
-        if not url or not tags or url in seen:
+        if not url or not (set(tags) & STRONG_TAGS) or url in seen:
             continue
         seen.add(url)
         discovered.append((title, url, tags))
@@ -95,7 +114,18 @@ async def discover_from_indexes(session: AsyncSession) -> tuple[int, int]:
         )
         if not snapshot:
             continue
-        for title, url, tags in discover_links(snapshot.normalized_text or ""):
+        found = discover_links(snapshot.normalized_text or "")
+        seen_urls = {url for _, url, _ in found}
+        await session.execute(
+            update(ProgramDiscovery)
+            .where(
+                ProgramDiscovery.index_source_id == source.id,
+                ProgramDiscovery.status == "new",
+                ProgramDiscovery.url.not_in(seen_urls),
+            )
+            .values(status="ignored", last_seen_at=now)
+        )
+        for title, url, tags in found:
             item = await session.scalar(select(ProgramDiscovery).where(ProgramDiscovery.url == url))
             if item is None:
                 session.add(

@@ -7,6 +7,7 @@ LINK: Ścieżka SMART — nabór dla MŚP -> https://www.parp.gov.pl/component/g
 LINK: Start-up z inwestorem venture capital -> https://funduszeeuropejskie.gov.pl/program-startup/#sekcja
 LINK: Facebook -> https://facebook.com/parp
 LINK: Kontakt -> https://www.parp.gov.pl/kontakt
+LINK: Fundusze Europejskie -> https://funduszeeuropejskie.gov.pl/
 """
     items = discover_links(text)
     assert len(items) == 2
