@@ -554,3 +554,11 @@ Dodano formularz na koncie, prywatną listę zgłoszeń i kolejkę administrator
 Użytkownik poprosił o sprawdzenie brakujących sprintów, utworzenie konta testowego oraz ocenę możliwości sprzedaży aplikacji. Próba utworzenia konta została odrzucona przez istniejącą politykę bezpieczeństwa, ponieważ wskazane hasło miało 10 znaków, a minimum wynosi 12. Nie obniżono wymagań ani nie obchodzono walidacji.
 
 Audyt potwierdził, że przed betą priorytetem pozostają zewnętrzny backup i monitoring, rotacja klucza OpenRouter, pokrycie programów firmowych, e-mail i odzyskiwanie konta, alerty, testy bezpieczeństwa, dokumentacja prawna i zamknięta beta. Dla sprzedaży zaplanowano następnie płatności, integrację REGON po NIP, raporty PDF, zespoły doradców, CRM/API i rozwój pokrycia. Rekomendowane pozycjonowanie opiera się na audytowalnym dopasowaniu z dowodami, a pierwszy segment płatny stanowią doradcy oraz instalatorzy obsługujący wielu klientów.
+
+## 37. Sprint 10D — katalog dla firm i konto testowe
+
+Użytkownik zlecił wdrożenie 30–50 prawdziwych programów firmowych z PARP, NCBR, BGK i Funduszy Europejskich oraz utworzenie konta testowego `MichalK`. Konto zostało utworzone po podaniu hasła spełniającego politykę minimum 12 znaków; login jest normalizowany do `michalk`, a hasło nie trafia do dokumentacji ani Git.
+
+Oficjalne miesięczne arkusze Funduszy Europejskich zostały przefiltrowane do naborów dla przedsiębiorców. Powstał manifest 40 programów: 24 otwartych, 3 planowanych i 13 zakończonych. Zakończone nabory pozostają widoczne informacyjnie, ale reguła statusu blokuje pozytywną kwalifikację.
+
+Dodano ustrukturyzowane informacje firmowe: PKD, pomoc de minimis, koszty kwalifikowane, wkład własny i konsorcjum. Gdy oficjalny wykaz nie potwierdza wartości, karta pokazuje brak danych i odsyła do regulaminu. Każdy program ma źródło, test pozytywny, negatywny i „brak danych”. Import jest idempotentny, wersjonowany i audytowalny.

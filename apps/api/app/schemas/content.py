@@ -42,6 +42,22 @@ class ApplicationResource(StrictContentSchema):
     description: str | None = Field(default=None, max_length=1000)
 
 
+class BusinessRequirements(StrictContentSchema):
+    pkd_codes: list[str] = Field(default_factory=list, max_length=100)
+    pkd_description: str | None = Field(default=None, max_length=2000)
+    de_minimis: Literal["yes", "no", "unknown"] = "unknown"
+    de_minimis_description: str | None = Field(default=None, max_length=2000)
+    eligible_costs: list[str] = Field(default_factory=list, max_length=50)
+    own_contribution_percent: Decimal | None = Field(
+        default=None, ge=0, le=100, max_digits=5, decimal_places=2
+    )
+    own_contribution_description: str | None = Field(default=None, max_length=2000)
+    consortium: Literal["required", "allowed", "not_allowed", "unknown"] = "unknown"
+    consortium_description: str | None = Field(default=None, max_length=2000)
+    source_reference: str | None = Field(default=None, max_length=500)
+    source_url: HttpUrl | None = None
+
+
 class ProgramDetails(StrictContentSchema):
     key_takeaways: list[ProgramContentItem] = Field(default_factory=list, max_length=20)
     eligible_applicants: list[ProgramContentItem] = Field(default_factory=list, max_length=20)
@@ -51,3 +67,4 @@ class ProgramDetails(StrictContentSchema):
     application_steps: list[ProgramContentItem] = Field(default_factory=list, max_length=20)
     required_documents: list[ProgramContentItem] = Field(default_factory=list, max_length=30)
     application_resources: list[ApplicationResource] = Field(default_factory=list, max_length=30)
+    business_requirements: BusinessRequirements | None = None

@@ -25,6 +25,7 @@ PRIORITY_SOURCES = (
     "raszyn-ograniczanie-niskiej-emisji-2026",
     "fundusze-europejskie-wyszukiwarka",
     "ncbr-katalog-konkursow",
+    "fundusze-europejskie-katalog-wrzesien-2026",
 )
 
 

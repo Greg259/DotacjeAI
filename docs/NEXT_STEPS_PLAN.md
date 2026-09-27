@@ -2,10 +2,21 @@
 
 Aktualizacja: 2026-09-27.
 
+## Stan po Sprincie 10D
+
+- [x] Zaimportowano 40 zweryfikowanych kart firmowych: PARP, NCBR, BGK oraz Fundusze Europejskie.
+- [x] Rozróżniono 24 nabory otwarte, 3 planowane i 13 zakończonych.
+- [x] Dodano pola PKD, de minimis, kosztów kwalifikowanych, wkładu własnego i konsorcjów wraz z dowodem lub jawnym brakiem danych.
+- [x] Dodano po trzy scenariusze matchingu dla każdego programu: pozytywny, negatywny i „brak danych”.
+- [x] Dodano idempotentny, audytowalny importer katalogu.
+- [ ] W kolejnym sprincie wzbogacać najczęściej oglądane otwarte programy z pełnych regulaminów i załączników.
+
+Szczegóły: `SPRINT_10D_BUSINESS_CATALOG.md`.
+
 ## Priorytety po audycie sprzedażowym — 2026-09-27
 
 1. Sprint 08: zewnętrzny backup, zewnętrzny monitoring, rotacja OpenRouter, recovery i ochrona `main`.
-2. Sprint 10D: 30–50 zweryfikowanych programów firmowych oraz pełne reguły i testy jakości.
+2. [x] Sprint 10D: 40 zweryfikowanych programów firmowych oraz reguły i testy jakości.
 3. Sprint 09B: e-mail, weryfikacja adresu, reset hasła i historia bezpieczeństwa konta.
 4. Sprint 11: obserwowanie programów i zatwierdzone alerty o zmianach.
 5. Sprint 12: audyt bezpieczeństwa, RODO, WCAG, E2E i zamknięta beta.
@@ -34,7 +45,7 @@ Szczegóły: `SPRINT_09_ACCOUNTS_PROFILES.md`.
 - [x] Dodano reguły statusu, beneficjenta, lokalizacji, rodzaju profilu i celu inwestycji.
 - [x] Dodano wyniki `spełnione`, `niespełnione`, `brak danych` oraz ranking programów.
 - [x] Każda decyzja ma jawne uzasadnienie; AI nie decyduje o kwalifikacji.
-- [ ] Rozszerzyć produkcyjny katalog o zweryfikowane programy NCBR, PARP i Funduszy Europejskich.
+- [x] Rozszerzyć produkcyjny katalog o programy NCBR, PARP, BGK i Funduszy Europejskich.
 
 Szczegóły: `SPRINT_10_DETERMINISTIC_MATCHING.md`.
 

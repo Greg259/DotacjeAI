@@ -1,6 +1,16 @@
 # Status przygotowania serwera DotacjeAI
 
-Ostatnia weryfikacja: 2026-09-26.
+Ostatnia weryfikacja: 2026-09-27.
+
+## Sprint 10D — katalog firmowy
+
+- Przygotowano audytowalny manifest 40 oficjalnych programów firmowych.
+- Katalog obejmuje 24 nabory otwarte, 3 planowane i 13 zakończonych.
+- Uwzględniono PARP, NCBR, BGK oraz krajowe i regionalne Fundusze Europejskie.
+- Karty prezentują PKD, de minimis, koszty kwalifikowane, wkład własny i zasady konsorcjum; brak danych jest oznaczony jawnie.
+- Każdy program ma test pozytywny, negatywny i „brak danych”.
+- Import jest idempotentny, wersjonowany i zapisywany w audit log.
+- Konto testowe `michalk` zostało utworzone jako aktywne konto roli `user`; hasło nie jest zapisywane w dokumentacji.
 
 ## Stan końcowy
 

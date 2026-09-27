@@ -44,6 +44,7 @@ docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-com
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" up -d --build
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" restart caddy
 docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" run --rm --no-deps -T review python -m app.cli.seed_sources
+docker compose --env-file "${SECRETS_FILE}" --file "${APP_ROOT}/infra/docker-compose.yml" run --rm --no-deps -T review python -m app.cli.import_business_catalog
 "${APP_ROOT}/server/install_user_cron.sh"
 
 printf 'Wdrożono commit %s\n' "${ACTUAL_COMMIT}"

@@ -128,6 +128,27 @@ export default async function ProgramPage({ params }: { params: Params }) {
           <ContentList items={details.eligibility_conditions} />
         </section>
 
+        {details.business_requirements && (
+          <section className="detail-section">
+            <h2>Warunki dla przedsiębiorstw</h2>
+            <dl className="details">
+              <div><dt>PKD / branża</dt><dd>{details.business_requirements.pkd_codes.length ? details.business_requirements.pkd_codes.join(", ") : details.business_requirements.pkd_description ?? "Brak potwierdzonego ograniczenia PKD"}</dd></div>
+              <div><dt>Pomoc de minimis</dt><dd>{details.business_requirements.de_minimis === "yes" ? "Tak" : details.business_requirements.de_minimis === "no" ? "Nie" : "Do potwierdzenia w regulaminie"}{details.business_requirements.de_minimis_description ? ` — ${details.business_requirements.de_minimis_description}` : ""}</dd></div>
+              <div><dt>Wkład własny</dt><dd>{details.business_requirements.own_contribution_percent !== null && details.business_requirements.own_contribution_percent !== undefined ? `${Number(details.business_requirements.own_contribution_percent)}%` : details.business_requirements.own_contribution_description ?? "Do potwierdzenia w regulaminie"}</dd></div>
+              <div><dt>Konsorcjum</dt><dd>{details.business_requirements.consortium === "required" ? "Wymagane" : details.business_requirements.consortium === "allowed" ? "Dopuszczone" : details.business_requirements.consortium === "not_allowed" ? "Niedopuszczone" : "Do potwierdzenia"}{details.business_requirements.consortium_description ? ` — ${details.business_requirements.consortium_description}` : ""}</dd></div>
+            </dl>
+            {details.business_requirements.eligible_costs.length > 0 && (
+              <div className="content-item">
+                <h3>Koszty kwalifikowane / zakres wsparcia</h3>
+                <ul>{details.business_requirements.eligible_costs.map((cost) => <li key={cost}>{cost}</li>)}</ul>
+              </div>
+            )}
+            {(details.business_requirements.source_url || details.business_requirements.source_reference) && (
+              <p className="source-note">Źródło: {details.business_requirements.source_url ? <a href={details.business_requirements.source_url} target="_blank" rel="noreferrer">{details.business_requirements.source_reference ?? "oficjalna strona"} ↗</a> : details.business_requirements.source_reference}</p>
+            )}
+          </section>
+        )}
+
         <section className="detail-section">
           <h2>Kwoty i poziomy wsparcia</h2>
           {details.funding_options.length ? (

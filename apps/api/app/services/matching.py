@@ -169,6 +169,13 @@ def _subject_rule(program: Program, profile: PropertyProfile) -> MatchRuleResult
     if profile.profile_kind == ProfileKind.BUSINESS:
         sizes = {item.business_size for item in program.business_sizes}
         if sizes:
+            if profile.business_size is None:
+                return _rule(
+                    "subject",
+                    MatchRuleStatus.MISSING_DATA,
+                    "Uzupełnij wielkość przedsiębiorstwa w profilu.",
+                    program=program,
+                )
             status = (
                 MatchRuleStatus.FULFILLED
                 if profile.business_size in sizes

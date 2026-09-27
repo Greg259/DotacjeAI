@@ -83,6 +83,19 @@ export interface ProgramDetails {
   application_steps: ProgramContentItem[];
   required_documents: ProgramContentItem[];
   application_resources: ApplicationResource[];
+  business_requirements?: {
+    pkd_codes: string[];
+    pkd_description: string | null;
+    de_minimis: "yes" | "no" | "unknown";
+    de_minimis_description: string | null;
+    eligible_costs: string[];
+    own_contribution_percent: string | null;
+    own_contribution_description: string | null;
+    consortium: "required" | "allowed" | "not_allowed" | "unknown";
+    consortium_description: string | null;
+    source_reference: string | null;
+    source_url: string | null;
+  } | null;
 }
 
 export interface ProgramDetail extends ProgramItem {

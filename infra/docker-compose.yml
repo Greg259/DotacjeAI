@@ -8,7 +8,7 @@ x-logging: &default-logging
 
 x-api-environment: &api-environment
   APP_ENV: production
-  APP_VERSION: "0.11.0"
+  APP_VERSION: "0.12.0"
   LOG_LEVEL: INFO
   SESSION_DAYS: ${SESSION_DAYS:-30}
   SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}
@@ -101,7 +101,8 @@ services:
   api:
     image: dotacje-ai-api:local
     build:
-      context: ../apps/api
+      context: ..
+      dockerfile: apps/api/Dockerfile
     restart: unless-stopped
     environment: *api-environment
     depends_on:
@@ -183,7 +184,8 @@ services:
   migrate:
     image: dotacje-ai-api:local
     build:
-      context: ../apps/api
+      context: ..
+      dockerfile: apps/api/Dockerfile
     command: ["alembic", "upgrade", "head"]
     restart: "no"
     environment: *api-environment
