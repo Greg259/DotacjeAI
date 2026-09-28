@@ -7,8 +7,8 @@ Data wdrożenia: 2026-09-27.
 Sprint dostarcza kontrolowany katalog 40 programów i naborów dla przedsiębiorstw:
 
 - 24 nabory otwarte,
-- 3 nabory planowane,
-- 13 świeżo zakończonych, zachowanych informacyjnie z prawidłowym statusem,
+- 2 nabory planowane,
+- 14 świeżo zakończonych, zachowanych informacyjnie z prawidłowym statusem,
 - programy PARP, NCBR, BGK oraz krajowe i regionalne Fundusze Europejskie,
 - 40 scenariuszy pozytywnych, 40 negatywnych i 40 scenariuszy „brak danych”.
 
@@ -57,3 +57,14 @@ Kontrola odbiorowa powinna potwierdzić liczbę kart, rozkład statusów, dział
 ## Ograniczenie świadome
 
 Arkusze miesięczne potwierdzają przede wszystkim status, termin, grupę docelową, zakres i budżet naboru. Szczegółowe wartości pomocy publicznej i pełne listy kosztów będą stopniowo wzbogacane z regulaminów indywidualnych. Do tego czasu aplikacja jawnie sygnalizuje brak danych zamiast obiecywać kwalifikację.
+
+## Odbiór produkcyjny
+
+- Commit aplikacji: `aee5bdb3400e9ee2fee0f253c2a771a79e65175d`.
+- GitHub Actions: run 54, wynik `success`.
+- API: wersja `0.12.0`.
+- Publiczny katalog firmowy: 40 kart, w tym 24 otwarte, 2 planowane i 14 zakończonych.
+- Wszystkie pięć kontenerów: `healthy`.
+- Publiczna karta BGK i sekcja warunków firmowych: HTTP 200.
+- Backup przed wdrożeniem: Restic `075946ec`; kontrola repozytorium, sum SHA-256 i pełne odtworzenie PostgreSQL zakończone poprawnie.
+- Monitoring: `OK` dla HTTPS, API, kontenerów, dysku i świeżości backupu.

@@ -2907,133 +2907,11 @@
       }
     },
     {
-      "slug": "firma-maopolskie-5-19-5-19-regionalne-sciezki-rowerowe-velomaopolska-typ-a-regionalne-sciezki-rowerowe-velomaopolska-2026-02-19-8eaace4b",
-      "title": "5.19 Regionalne ścieżki rowerowe VeloMałopolska, typ A. Regionalne ścieżki rowerowe VeloMałopolska",
-      "organizer": "Urząd Marszałkowski Województwa Małopolskiego, Departament Funduszy Europejskich",
-      "summary": "Jedynym wnioskodawcą uprawnionym do aplikowania o środki w ramach przedmiotowego konkursu jest Województwo Małopolskie. Pozostałe podmioty mogą występować jedynie jako partnerzy w projekcie.",
-      "status": "open",
-      "application_start": "2026-02-19",
-      "application_end": "2026-12-30",
-      "location_slugs": [
-        "malopolskie"
-      ],
-      "beneficiary_types": [
-        "enterprise"
-      ],
-      "investment_categories": [
-        "innovation"
-      ],
-      "business_sizes": [
-        "micro",
-        "small",
-        "medium",
-        "large"
-      ],
-      "official_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu",
-      "eligibility_rules": [
-        {
-          "code": "business_applicant",
-          "label": "Wnioskodawca będący przedsiębiorstwem",
-          "profile_field": "legal_form",
-          "operator": "in",
-          "expected": [
-            "sole_proprietorship",
-            "company",
-            "cooperative",
-            "other"
-          ],
-          "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu",
-          "source_reference": "Oficjalny wykaz naborów, grupa docelowa",
-          "evidence_quote": "przedsiębiorcy",
-          "blocking": true
-        }
-      ],
-      "details": {
-        "key_takeaways": [
-          {
-            "title": "Status naboru",
-            "description": "Nabór otwarty.",
-            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-            "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-          }
-        ],
-        "eligible_applicants": [
-          {
-            "title": "Grupa docelowa",
-            "description": "przedsiębiorcy",
-            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-            "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-          }
-        ],
-        "eligibility_conditions": [
-          {
-            "title": "Warunek wejściowy",
-            "description": "przedsiębiorcy",
-            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-            "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-          }
-        ],
-        "funding_options": [],
-        "important_information": [
-          {
-            "title": "Budżet naboru",
-            "description": "Budżet całego naboru: 49.45 mln zł. Nie jest to maksymalna kwota dla pojedynczego wnioskodawcy.",
-            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-            "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-          }
-        ],
-        "application_steps": [
-          {
-            "title": "Sprawdź dokumentację i złóż wniosek",
-            "description": "Otwórz oficjalną stronę, pobierz aktualny regulamin i załączniki, a następnie skorzystaj z systemu wskazanego przez instytucję.",
-            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-            "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-          }
-        ],
-        "required_documents": [],
-        "application_resources": [
-          {
-            "title": "Oficjalna strona naboru",
-            "url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu",
-            "resource_type": "official_page",
-            "description": "Aktualne zasady, dokumenty i kanał składania wniosku."
-          }
-        ],
-        "business_requirements": {
-          "pkd_codes": [],
-          "pkd_description": "W oficjalnym wykazie nie wskazano zamkniętej listy kodów PKD; należy sprawdzić regulamin naboru.",
-          "de_minimis": "unknown",
-          "de_minimis_description": "Wymaga potwierdzenia w regulaminie i dokumentach pomocy publicznej.",
-          "eligible_costs": [
-            "Jedynym wnioskodawcą uprawnionym do aplikowania o środki w ramach przedmiotowego konkursu jest Województwo Małopolskie. Pozostałe podmioty mogą występować jedynie jako partnerzy w projekcie."
-          ],
-          "own_contribution_percent": null,
-          "own_contribution_description": "Wysokość wkładu zależy od typu projektu, wielkości firmy i mapy pomocy; wymaga potwierdzenia w regulaminie.",
-          "consortium": "unknown",
-          "consortium_description": "Oficjalny wykaz nie potwierdza wymogu konsorcjum.",
-          "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-          "source_url": "https://www.fundusze.malopolska.pl/nabory/13639-dzialanie-519-regionalne-sciezki-rowerowe-velomalopolska-typ-projektu"
-        }
-      },
-      "matching_tests": {
-        "profile_field": "legal_form",
-        "positive": "company",
-        "negative": "ngo",
-        "missing": null
-      },
-      "catalog_evidence": {
-        "source": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
-        "source_file": "tmp_regionalne.xlsx",
-        "sheet": "Małopolskie",
-        "number": "5.19"
-      }
-    },
-    {
       "slug": "firma-aktualne-konkurencyjne-1-5-pozyczki-na-rozwoj-turystyki-pozyczki-udzielane-w-trybie-ciagym-45a7e61b",
       "title": "Pożyczki na rozwój turystyki",
       "organizer": "Pożyczki udzielane są przez regionalnych pośredników finansowych",
       "summary": "Wsparcie będzie przeznaczone na unowocześnienie mikro, małych i średnich działających w branży turystycznej, np. rozwój i doposażenie obiektów noclegowych lub gastronomicznych, rozwój infrastruktury sportowej i rekreacyjnej, wyrób regionalnych produktów, transport turystyczny i inne inwestycje w branży okołoturystycznej.",
-      "status": "planned",
+      "status": "open",
       "application_start": null,
       "application_end": null,
       "location_slugs": [
@@ -3073,7 +2951,7 @@
         "key_takeaways": [
           {
             "title": "Status naboru",
-            "description": "Nabór planowany — wnioski będzie można składać od daty rozpoczęcia.",
+            "description": "Pożyczki są udzielane w trybie ciągłym.",
             "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
             "source_url": "https://www.bgk.pl/programy-i-fundusze/fundusze/fundusze-europejskie-dla-polski-wschodniej-2021-2027/pozyczka-na-rozwoj-turystyki/"
           }
@@ -4834,6 +4712,129 @@
         "source_file": "official_bgk",
         "sheet": "BGK",
         "number": "FENG 5.1"
+      }
+    },
+    {
+      "slug": "firma-parp-2-12-granty-na-eurogranty-2025-08-12-6ee3482c",
+      "title": "Granty na eurogranty",
+      "organizer": "Polska Agencja Rozwoju Przedsiębiorczości",
+      "summary": "Wsparcie przygotowania projektu do programu UE zarządzanego centralnie, w tym poszukiwania partnerów, przygotowania, korekty i prezentacji projektu.",
+      "status": "closed",
+      "application_start": "2025-08-12",
+      "application_end": "2026-09-03",
+      "location_slugs": [
+        "polska"
+      ],
+      "beneficiary_types": [
+        "enterprise",
+        "sme",
+        "research_organization"
+      ],
+      "investment_categories": [
+        "innovation",
+        "internationalization"
+      ],
+      "business_sizes": [
+        "micro",
+        "small",
+        "medium"
+      ],
+      "official_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/",
+      "eligibility_rules": [
+        {
+          "code": "business_size",
+          "label": "Status MŚP",
+          "profile_field": "business_size",
+          "operator": "in",
+          "expected": [
+            "micro",
+            "small",
+            "medium"
+          ],
+          "blocking": true,
+          "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/",
+          "source_reference": "Oficjalny wykaz naborów, grupa docelowa",
+          "evidence_quote": "MŚP i organizacje badawcze"
+        }
+      ],
+      "details": {
+        "key_takeaways": [
+          {
+            "title": "Status naboru",
+            "description": "Nabór zakończony; karta pozostaje w katalogu informacyjnie.",
+            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+            "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+          }
+        ],
+        "eligible_applicants": [
+          {
+            "title": "Grupa docelowa",
+            "description": "MŚP i organizacje badawcze",
+            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+            "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+          }
+        ],
+        "eligibility_conditions": [
+          {
+            "title": "Warunek wejściowy",
+            "description": "MŚP i organizacje badawcze",
+            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+            "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+          }
+        ],
+        "funding_options": [],
+        "important_information": [
+          {
+            "title": "Budżet naboru",
+            "description": "Budżet całego naboru: 20 mln zł. Nie jest to maksymalna kwota dla jednego wnioskodawcy.",
+            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+            "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+          }
+        ],
+        "application_steps": [
+          {
+            "title": "Sprawdź dokumentację",
+            "description": "Otwórz oficjalną stronę i sprawdź aktualny harmonogram kolejnych naborów.",
+            "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+            "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+          }
+        ],
+        "required_documents": [],
+        "application_resources": [
+          {
+            "title": "Oficjalna strona naboru",
+            "url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/",
+            "resource_type": "official_page",
+            "description": "Regulamin, dokumenty i informacje o naborze."
+          }
+        ],
+        "business_requirements": {
+          "pkd_codes": [],
+          "pkd_description": "W oficjalnym wykazie nie wskazano zamkniętej listy kodów PKD.",
+          "de_minimis": "unknown",
+          "de_minimis_description": "Wymaga potwierdzenia w regulaminie i dokumentach pomocy publicznej.",
+          "eligible_costs": [
+            "Wsparcie przygotowania projektu do programu UE zarządzanego centralnie, w tym poszukiwania partnerów, przygotowania, korekty i prezentacji projektu."
+          ],
+          "own_contribution_percent": null,
+          "own_contribution_description": "Wymaga potwierdzenia w regulaminie.",
+          "consortium": "allowed",
+          "consortium_description": "Wsparcie może obejmować poszukiwanie partnerów projektu europejskiego.",
+          "source_reference": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+          "source_url": "https://www.funduszeunijne.gov.pl/nabory/212-granty-na-eurogranty-2/"
+        }
+      },
+      "matching_tests": {
+        "profile_field": "business_size",
+        "positive": "small",
+        "negative": "large",
+        "missing": null
+      },
+      "catalog_evidence": {
+        "source": "Wykaz naborów Funduszy Europejskich — wrzesień 2026",
+        "source_file": "tmp_krajowe.xlsx",
+        "sheet": "Aktualne_konkurencyjne",
+        "number": "2.12"
       }
     }
   ]

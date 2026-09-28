@@ -559,6 +559,6 @@ Audyt potwierdził, że przed betą priorytetem pozostają zewnętrzny backup i 
 
 Użytkownik zlecił wdrożenie 30–50 prawdziwych programów firmowych z PARP, NCBR, BGK i Funduszy Europejskich oraz utworzenie konta testowego `MichalK`. Konto zostało utworzone po podaniu hasła spełniającego politykę minimum 12 znaków; login jest normalizowany do `michalk`, a hasło nie trafia do dokumentacji ani Git.
 
-Oficjalne miesięczne arkusze Funduszy Europejskich zostały przefiltrowane do naborów dla przedsiębiorców. Powstał manifest 40 programów: 24 otwartych, 3 planowanych i 13 zakończonych. Zakończone nabory pozostają widoczne informacyjnie, ale reguła statusu blokuje pozytywną kwalifikację.
+Oficjalne miesięczne arkusze Funduszy Europejskich zostały przefiltrowane do naborów dla przedsiębiorców. Powstał manifest 40 programów: 24 otwartych, 2 planowanych i 14 zakończonych. Zakończone nabory pozostają widoczne informacyjnie, ale reguła statusu blokuje pozytywną kwalifikację. Końcowa kontrola poprawiła pożyczkę turystyczną BGK na status otwarty w trybie ciągłym oraz zastąpiła nabór, w którym firma mogła być tylko partnerem, programem PARP „Granty na eurogranty”.
 
 Dodano ustrukturyzowane informacje firmowe: PKD, pomoc de minimis, koszty kwalifikowane, wkład własny i konsorcjum. Gdy oficjalny wykaz nie potwierdza wartości, karta pokazuje brak danych i odsyła do regulaminu. Każdy program ma źródło, test pozytywny, negatywny i „brak danych”. Import jest idempotentny, wersjonowany i audytowalny.

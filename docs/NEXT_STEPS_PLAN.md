@@ -5,7 +5,7 @@ Aktualizacja: 2026-09-27.
 ## Stan po Sprincie 10D
 
 - [x] Zaimportowano 40 zweryfikowanych kart firmowych: PARP, NCBR, BGK oraz Fundusze Europejskie.
-- [x] Rozróżniono 24 nabory otwarte, 3 planowane i 13 zakończonych.
+- [x] Rozróżniono 24 nabory otwarte, 2 planowane i 14 zakończonych.
 - [x] Dodano pola PKD, de minimis, kosztów kwalifikowanych, wkładu własnego i konsorcjów wraz z dowodem lub jawnym brakiem danych.
 - [x] Dodano po trzy scenariusze matchingu dla każdego programu: pozytywny, negatywny i „brak danych”.
 - [x] Dodano idempotentny, audytowalny importer katalogu.
