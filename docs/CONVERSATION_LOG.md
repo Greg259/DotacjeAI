@@ -564,3 +564,7 @@ Oficjalne miesięczne arkusze Funduszy Europejskich zostały przefiltrowane do n
 Dodano ustrukturyzowane informacje firmowe: PKD, pomoc de minimis, koszty kwalifikowane, wkład własny i konsorcjum. Gdy oficjalny wykaz nie potwierdza wartości, karta pokazuje brak danych i odsyła do regulaminu. Każdy program ma źródło, test pozytywny, negatywny i „brak danych”. Import jest idempotentny, wersjonowany i audytowalny.
 
 Końcowy audyt rozdzielił strony informacyjne od prawdziwych dokumentów i formularzy. Usunięto w ten sposób osiem fałszywych alarmów dostępności pochodzących z WAF BGK oraz błędów łańcucha certyfikatu serwisów regionalnych. Nie zatwierdzano automatycznie istniejącej kolejki redakcyjnej; żadne z 34 oczekujących zadań REVIEW nie dotyczy katalogu firmowego. Produkcja działa na commicie `7288755`, GitHub Actions run 57 zakończył się sukcesem, a odbiór potwierdził 51 publicznych kart, 40 programów firmowych i jeden niedostępny dokument. Backup `1acbcb3d` został w pełni odtworzony wraz z bazą PostgreSQL. Konto `michalk` jest aktywne z rolą `user`; hasło nie zostało zapisane w dokumentacji.
+
+## 38. Naprawa logowania konta testowego
+
+Użytkownik zgłosił brak możliwości logowania na konto `MichalK`. Konto istniało, było aktywne i miało rolę `user`; login jest normalizowany do `michalk`. Ponownie ustawiono hash hasła przez wejście standardowe, aby znak specjalny nie został zinterpretowany przez powłokę Windows. Produkcyjny test `POST /api/auth/login` zakończył się HTTP 200. Hasła nie zapisano w repozytorium ani dokumentacji.
