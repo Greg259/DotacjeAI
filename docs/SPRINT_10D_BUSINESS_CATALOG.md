@@ -29,7 +29,8 @@ Sprint dostarcza kontrolowany katalog 40 programów i naborów dla przedsiębior
 - Walidacja i idempotentny import: `app.services.business_catalog`.
 - CLI: `python -m app.cli.import_business_catalog`.
 - Wersja aplikacji: `0.12.0`.
-- Import tworzy lub aktualizuje program, źródło, wersję, dokument, relacje filtrów i audit log.
+- Import tworzy lub aktualizuje program, źródło, wersję, relacje filtrów i audit log.
+- Oficjalna strona naboru pozostaje dowodem źródłowym i linkiem na karcie, ale nie jest traktowana jak plik regulaminu lub formularza. Eliminuje to fałszywe alarmy dostępności wywołane przez WAF albo błędy certyfikatu stron urzędowych.
 - Ponowne uruchomienie tego samego manifestu nie tworzy kolejnych wersji.
 - Program usunięty z autorytatywnego manifestu jest wycofywany z publikacji i otrzymuje wpis audit log; jego historia nie jest kasowana.
 - Oficjalny wykaz zbiorczy jest monitorowany cyklicznie; zmiany nadal wymagają standardowego REVIEW. Strony pojedynczych naborów są zapisane jako dowody i będą włączane do monitoringu etapami podczas wzbogacania regulaminów.
@@ -61,11 +62,13 @@ Arkusze miesięczne potwierdzają przede wszystkim status, termin, grupę docelo
 
 ## Odbiór produkcyjny
 
-- Commit aplikacji: `aee5bdb3400e9ee2fee0f253c2a771a79e65175d`.
-- GitHub Actions: run 54, wynik `success`.
+- Commit aplikacji: `728875594437ce00f93d6869503c8a4ab7145ec7`.
+- GitHub Actions: run 57, wynik `success`.
 - API: wersja `0.12.0`.
 - Publiczny katalog firmowy: 40 kart, w tym 24 otwarte, 2 planowane i 14 zakończonych.
 - Wszystkie pięć kontenerów: `healthy`.
 - Publiczna karta BGK i sekcja warunków firmowych: HTTP 200.
-- Backup przed wdrożeniem: Restic `075946ec`; kontrola repozytorium, sum SHA-256 i pełne odtworzenie PostgreSQL zakończone poprawnie.
+- Backup przed wdrożeniem: Restic `1acbcb3d`; kontrola repozytorium, sum SHA-256 i pełne odtworzenie PostgreSQL zakończone poprawnie.
 - Monitoring: `OK` dla HTTPS, API, kontenerów, dysku i świeżości backupu.
+- Konto testowe `michalk` istnieje, jest aktywne i ma rolę `user`; hasło nie jest przechowywane w dokumentacji ani repozytorium.
+- Katalog firmowy nie utworzył żadnego oczekującego zadania REVIEW. Końcowy odbiór potwierdził 51 kart publicznych łącznie oraz jeden rzeczywiście niedostępny dokument w całym portalu.

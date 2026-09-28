@@ -288,3 +288,15 @@ Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
 - zaakceptowane katalogi i śledzone programy są automatycznie uwzględniane w cyklicznym crawlerze;
 - historia zgłoszeń trafia do eksportu danych i jest usuwana wraz z kontem;
 - szczegóły: `SPRINT_10C_USER_SOURCE_SUGGESTIONS.md`.
+
+## Sprint 10D — produkcyjny katalog dla firm (2026-09-28)
+
+- wdrożono autorytatywny manifest 40 programów: 24 otwarte, 2 planowane i 14 zakończonych;
+- katalog obejmuje PARP, NCBR, BGK oraz krajowe i regionalne Fundusze Europejskie;
+- każda karta posiada dane i dowód dotyczący PKD, de minimis, kosztów kwalifikowanych, wkładu własnego i konsorcjum albo jawne oznaczenie braku potwierdzenia;
+- każdy z 40 programów ma test pozytywny, negatywny i „brak danych”; matching pozostaje deterministyczny;
+- oficjalne strony naborów są linkami źródłowymi, a nie dokumentami do pobrania, dzięki czemu WAF i błędy certyfikatu nie zawyżają licznika niedostępnych formularzy;
+- aktywne konto testowe `michalk` ma rolę `user`; sekret nie został zapisany w Git ani dokumentacji;
+- produkcja: commit `7288755`, API `0.12.0`, GitHub Actions run 57 `success`, pięć zdrowych kontenerów;
+- odbiór: 51 kart publicznych, 40 firmowych, 0 oczekujących REVIEW dotyczących katalogu firmowego i 1 niedostępny dokument w całym portalu;
+- backup Restic `1acbcb3d` przeszedł kontrolę repozytorium, sumę SHA-256 i pełne odtworzenie PostgreSQL.

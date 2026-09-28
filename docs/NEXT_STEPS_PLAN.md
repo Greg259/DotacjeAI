@@ -340,6 +340,15 @@ Stan po decyzji REVIEW: dwa programy publiczne, dwa zadania zatwierdzone, jeden 
 4. Przed publiczną betą dodać zewnętrzny monitoring oraz backup poza VPS.
 5. Na końcu prac unieważnić ujawniony klucz OpenRouter i wprowadzić nowy bezpośrednio na VPS.
 
+## Po Sprincie 10D
+
+1. Przejrzeć 34 istniejące zadania REVIEW ze starszego monitoringu i wdrożyć deduplikację powtarzalnych zmian dynamicznych stron.
+2. Wzbogacać 40 kart firmowych bezpośrednio z regulaminów o konkretne PKD, intensywność pomocy, koszty kwalifikowane i wymagany wkład własny.
+3. Dodać e-mail, odzyskiwanie konta i alerty o nowych lub zmienionych dopasowaniach.
+4. Przed betą uruchomić backup poza VPS oraz monitoring zewnętrzny.
+5. Przeprowadzić testy bezpieczeństwa i zamkniętą betę na profilach rzeczywistych firm.
+6. Na samym końcu unieważnić ujawniony klucz OpenRouter i wprowadzić nowy wyłącznie na VPS.
+
 ## Stan po rozszerzeniu kart — 2026-09-24
 
 1. [x] Rozszerzyć model ekstrakcji o warunki, beneficjentów, warianty finansowania, ograniczenia, kroki, załączniki i formularze.
