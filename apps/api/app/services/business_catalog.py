@@ -148,6 +148,30 @@ async def import_business_catalog(
     for slug in REGIONS:
         locations[slug] = await _location(session, slug, parent=poland)
 
+    catalog_slugs = {entry.slug for entry in catalog.programs}
+    stale_programs = list(
+        (
+            await session.scalars(
+                select(Program).where(
+                    Program.slug.like("firma-%"),
+                    Program.slug.not_in(catalog_slugs),
+                    Program.is_published.is_(True),
+                )
+            )
+        ).all()
+    )
+    for stale in stale_programs:
+        stale.is_published = False
+        session.add(
+            AuditLog(
+                actor=actor,
+                action="business_catalog.retire",
+                entity_type="program",
+                entity_id=stale.id,
+                details={"slug": stale.slug, "manifest_sha256": digest},
+            )
+        )
+
     created = updated = unchanged = 0
     for entry in catalog.programs:
         official_url = str(entry.official_url)
@@ -297,5 +321,6 @@ async def import_business_catalog(
         "created": created,
         "updated": updated,
         "unchanged": unchanged,
+        "retired": len(stale_programs),
         "total": len(catalog.programs),
     }

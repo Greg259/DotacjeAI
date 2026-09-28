@@ -1,6 +1,7 @@
 from datetime import date
 from pathlib import Path
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app.db.base import Base
@@ -93,7 +94,42 @@ async def test_catalog_import_is_idempotent() -> None:
     async with session_factory() as session:
         second = await import_business_catalog(session, CATALOG_PATH, actor="test")
         await session.commit()
+    async with session_factory() as session:
+        session.add(
+            Program(
+                slug="firma-usuniety-z-manifestu",
+                title="Stary program",
+                organizer="Test",
+                is_published=True,
+            )
+        )
+        await session.commit()
+        third = await import_business_catalog(session, CATALOG_PATH, actor="test")
+        await session.commit()
+        stale = await session.scalar(
+            select(Program).where(Program.slug == "firma-usuniety-z-manifestu")
+        )
 
-    assert first == {"created": 40, "updated": 0, "unchanged": 0, "total": 40}
-    assert second == {"created": 0, "updated": 0, "unchanged": 40, "total": 40}
+    assert first == {
+        "created": 40,
+        "updated": 0,
+        "unchanged": 0,
+        "retired": 0,
+        "total": 40,
+    }
+    assert second == {
+        "created": 0,
+        "updated": 0,
+        "unchanged": 40,
+        "retired": 0,
+        "total": 40,
+    }
+    assert third == {
+        "created": 0,
+        "updated": 0,
+        "unchanged": 40,
+        "retired": 1,
+        "total": 40,
+    }
+    assert stale is not None and stale.is_published is False
     await engine.dispose()

@@ -31,6 +31,7 @@ Sprint dostarcza kontrolowany katalog 40 programów i naborów dla przedsiębior
 - Wersja aplikacji: `0.12.0`.
 - Import tworzy lub aktualizuje program, źródło, wersję, dokument, relacje filtrów i audit log.
 - Ponowne uruchomienie tego samego manifestu nie tworzy kolejnych wersji.
+- Program usunięty z autorytatywnego manifestu jest wycofywany z publikacji i otrzymuje wpis audit log; jego historia nie jest kasowana.
 - Oficjalny wykaz zbiorczy jest monitorowany cyklicznie; zmiany nadal wymagają standardowego REVIEW. Strony pojedynczych naborów są zapisane jako dowody i będą włączane do monitoringu etapami podczas wzbogacania regulaminów.
 
 ## Testy
