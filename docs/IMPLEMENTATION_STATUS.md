@@ -10,7 +10,7 @@ Ostatnia weryfikacja: 2026-09-28.
 - Zawiera warunki, kwoty, wymagane dokumenty, instrukcję składania wniosku oraz formularze.
 - Obsługuje profile nieruchomości i przedsiębiorstw, w tym wymagania PKD, de minimis, kosztów, wkładu własnego i konsorcjum.
 - Widok druku A4 umożliwia zapis PDF bez ujawniania danych poza sesją użytkownika.
-- Produkcja działa na commicie `63c2dbe`; GitHub Actions run 62 zakończył się sukcesem, a backup przed wdrożeniem ma identyfikator `e0b2271e`.
+- Produkcja działa na commicie `63c2dbe`; GitHub Actions run 62 zakończył się sukcesem. Backup `e0b2271e` przeszedł kontrolę repozytorium, odtworzenie 474 plików i katalogów, SHA-256 dumpa oraz pełny import PostgreSQL.
 
 ## Sprint 10D — katalog firmowy
 

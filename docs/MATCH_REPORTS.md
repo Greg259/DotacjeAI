@@ -47,5 +47,5 @@ Przycisk **Drukuj / zapisz PDF** wywołuje systemowe okno drukowania przeglądar
 - Produkcyjny build Next.js: sukces; trasa raportu występuje w manifeście routingu.
 - GitHub Actions run 62 dla commita `63c2dbe`: sukces.
 - Wdrożenie na VPS: commit `63c2dbe01f079e26b24f49f8395a7478a8a30603`.
-- Backup przed wdrożeniem: snapshot Restic `e0b2271e`.
+- Backup przed wdrożeniem: snapshot Restic `e0b2271e`; repozytorium, 474 pliki i katalogi, SHA-256 dumpa oraz pełny import PostgreSQL zostały poprawnie zweryfikowane.
 - Odbiór: 51 programów, 34 zadania REVIEW, 1 niedostępny dokument, poprawne zabezpieczenia API i pięć zdrowych kontenerów.
