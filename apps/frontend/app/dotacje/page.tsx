@@ -13,5 +13,5 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 export default async function ProgramsPage({ searchParams }: { searchParams: SearchParams }) {
   const values = await searchParams;
   const programs = await getPrograms(values);
-  return <div className="shell section"><p className="eyebrow">Baza programów</p><h1>Dotacje dla domów i mieszkań</h1><p className="lead compact">Wyniki: {programs.total}. Użyj filtrów, aby zawęzić listę.</p><Filters values={values} /><ProgramList items={programs.items} /><Pagination total={programs.total} limit={programs.limit} offset={programs.offset} values={values} /></div>;
+  return <div className="shell section"><p className="eyebrow">Zweryfikowana baza programów</p><h1>Dotacje dla osób prywatnych i firm</h1><p className="lead compact">Znaleziono {programs.total} programów. Użyj filtrów, aby zobaczyć wsparcie odpowiadające Twojej lokalizacji i inwestycji.</p><Filters values={values} /><ProgramList items={programs.items} /><Pagination total={programs.total} limit={programs.limit} offset={programs.offset} values={values} /></div>;
 }

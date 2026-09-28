@@ -29,6 +29,20 @@ RULE_LABELS = {
     "category": "Cel inwestycji",
 }
 
+PROPERTY_BENEFICIARIES = {
+    BeneficiaryType.NATURAL_PERSON,
+    BeneficiaryType.OWNER,
+    BeneficiaryType.CO_OWNER,
+    BeneficiaryType.TENANT,
+    BeneficiaryType.HOUSING_COMMUNITY,
+}
+BUSINESS_BENEFICIARIES = {
+    BeneficiaryType.ENTERPRISE,
+    BeneficiaryType.SME,
+    BeneficiaryType.RESEARCH_ORGANIZATION,
+    BeneficiaryType.CONSORTIUM,
+}
+
 
 def _rule(
     code: str,
@@ -375,6 +389,14 @@ def _outcome(rules: list[MatchRuleResult]) -> MatchOutcome:
     return MatchOutcome.ELIGIBLE
 
 
+def _matches_profile_kind(program: Program, profile_kind: ProfileKind) -> bool:
+    """Keep property and business recommendation pools strictly separated."""
+    beneficiaries = {item.beneficiary_type for item in program.beneficiary_types}
+    if profile_kind == ProfileKind.BUSINESS:
+        return bool(program.business_sizes) or bool(beneficiaries & BUSINESS_BENEFICIARIES)
+    return bool(program.property_types) or bool(beneficiaries & PROPERTY_BENEFICIARIES)
+
+
 async def match_profile(
     session: AsyncSession, profile: PropertyProfile, *, today: date | None = None
 ) -> ProfileMatchesResponse:
@@ -401,6 +423,8 @@ async def match_profile(
     )
     results = []
     for program in programs:
+        if not _matches_profile_kind(program, profile.profile_kind):
+            continue
         rules = [
             _status_rule(program, current_day),
             _beneficiary_rule(program, profile),

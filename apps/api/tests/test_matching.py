@@ -28,7 +28,6 @@ from app.models.enums import (
     InvestmentCategory,
     LocationType,
     MatchOutcome,
-    MatchRuleStatus,
     ProfileKind,
     ProgramStatus,
     PropertyType,
@@ -212,9 +211,11 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
         )
 
     assert home_matches.results[0].slug == "pompa-dla-domu"
+    assert [item.slug for item in home_matches.results] == ["pompa-dla-domu"]
     assert home_matches.results[0].outcome == MatchOutcome.ELIGIBLE
     assert home_matches.results[0].score == 100
     assert company_matches.results[0].slug == "badania-dla-msp"
+    assert [item.slug for item in company_matches.results] == ["badania-dla-msp"]
     assert company_matches.results[0].outcome == MatchOutcome.ELIGIBLE
     assert company_matches.results[0].score == 100
     assert len(company_matches.results[0].rules) == 8
@@ -227,7 +228,4 @@ async def test_matching_is_deterministic_for_property_and_business_profiles() ->
         item for item in missing_data_matches.results if item.slug == "badania-dla-msp"
     )
     assert missing_data.outcome == MatchOutcome.POSSIBLE
-    rejected = next(item for item in company_matches.results if item.slug == "pompa-dla-domu")
-    assert rejected.outcome == MatchOutcome.NOT_ELIGIBLE
-    assert any(rule.status == MatchRuleStatus.NOT_FULFILLED for rule in rejected.rules)
     await engine.dispose()
