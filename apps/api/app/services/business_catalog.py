@@ -22,7 +22,7 @@ from app.models.domain import (
     Source,
     SourceSnapshot,
 )
-from app.models.enums import DocumentState, DocumentType, LocationType, SourceType
+from app.models.enums import LocationType, SourceType
 from app.schemas.extraction import ExtractionCandidate
 
 REGIONS = {
@@ -196,6 +196,30 @@ async def import_business_catalog(
             session.add(program)
             await session.flush()
 
+        # The official call page is an evidence URL, not a downloadable regulation or
+        # application form. Older imports represented it as ProgramDocument, which made
+        # the document monitor report WAF/SSL responses as unavailable documents.
+        removed_documents = await session.execute(
+            delete(ProgramDocument).where(
+                ProgramDocument.program_id == program.id,
+                ProgramDocument.title == "Oficjalna strona naboru",
+            )
+        )
+        if removed_documents.rowcount:
+            session.add(
+                AuditLog(
+                    actor=actor,
+                    action="business_catalog.informational_document_removed",
+                    entity_type="program",
+                    entity_id=program.id,
+                    details={
+                        "slug": program.slug,
+                        "url": official_url,
+                        "reason": "official_page_is_evidence_not_downloadable_document",
+                    },
+                )
+            )
+
         extracted = entry.model_dump(
             mode="json", exclude={"matching_tests", "catalog_evidence", "evidence"}
         )
@@ -283,23 +307,6 @@ async def import_business_catalog(
             approved_at=verified_at,
         )
         session.add(version)
-        document = await session.scalar(
-            select(ProgramDocument).where(
-                ProgramDocument.program_id == program.id,
-                ProgramDocument.url == official_url,
-            )
-        )
-        if document is None:
-            session.add(
-                ProgramDocument(
-                    program_id=program.id,
-                    title="Oficjalna strona naboru",
-                    url=official_url,
-                    document_type=DocumentType.ANNOUNCEMENT,
-                    state=DocumentState.CURRENT,
-                    last_checked_at=verified_at,
-                )
-            )
         session.add(
             AuditLog(
                 actor=actor,

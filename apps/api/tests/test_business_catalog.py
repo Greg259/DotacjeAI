@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app.db.base import Base
-from app.models.domain import Program, PropertyProfile
+from app.models.domain import Program, ProgramDocument, PropertyProfile
 from app.models.enums import (
     BeneficiaryType,
     BusinessLegalForm,
@@ -94,6 +94,7 @@ async def test_catalog_import_is_idempotent() -> None:
     async with session_factory() as session:
         second = await import_business_catalog(session, CATALOG_PATH, actor="test")
         await session.commit()
+        business_documents = list((await session.scalars(select(ProgramDocument))).all())
     async with session_factory() as session:
         session.add(
             Program(
@@ -124,6 +125,7 @@ async def test_catalog_import_is_idempotent() -> None:
         "retired": 0,
         "total": 40,
     }
+    assert business_documents == []
     assert third == {
         "created": 0,
         "updated": 0,
