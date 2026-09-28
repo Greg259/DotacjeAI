@@ -49,6 +49,7 @@ export function MatchResults({ profileId }: { profileId: string }) {
       <div className="match-heading"><div><span className={`match-outcome ${item.outcome}`}>{outcomeLabels[item.outcome]}</span><h2>#{item.rank} · <Link href={`/dotacje/${item.slug}`}>{item.title}</Link></h2><p>{item.organizer}</p></div><strong className="match-score">{item.score}%<small>reguł spełnionych</small></strong></div>
       {item.missing_data.length > 0 && <p className="missing-summary"><strong>Wymaga uzupełnienia:</strong> {item.missing_data.join(", ")}.</p>}
       <ul className="match-rules">{item.rules.map((rule) => <li key={rule.code}><span className={`rule-status ${rule.status}`}>{ruleLabels[rule.status]}</span><div><strong>{rule.label}</strong><p>{rule.explanation}</p>{rule.source_url && <p className="rule-evidence"><a href={rule.source_url} rel="noreferrer" target="_blank">Oficjalne źródło</a>{rule.source_reference && <> · {rule.source_reference}</>}{rule.evidence_quote && <><br />Dowód: „{rule.evidence_quote}”</>}</p>}{!rule.blocking && <small>Warunek informacyjny — nie blokuje wyniku.</small>}</div></li>)}</ul>
+      <div className="match-actions"><Link className="secondary-button" href={`/konto/profil/${profileId}/dopasowania/${item.slug}/raport`}>Pełny raport dopasowania</Link></div>
     </article>)}</div>}
   </>;
 }
