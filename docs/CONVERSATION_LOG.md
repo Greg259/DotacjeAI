@@ -574,3 +574,11 @@ Użytkownik zgłosił brak możliwości logowania na konto `MichalK`. Konto istn
 Użytkownik polecił całkowicie oddzielić dopasowania dotacji mieszkaniowych od programów dla przedsiębiorstw oraz poprawić czytelność wszystkich stron, dodać dark mode i sprawdzić skalowanie. Matching otrzymał etap kwalifikacji programu do rodzaju profilu przed liczeniem pozostałych reguł. Produkcyjna kontrola wykazała 11 programów dla nieruchomości, 40 dla firm i 0 wspólnych; istniejący profil domu zwrócił 11 wyników i żadnego programu firmowego.
 
 Frontend otrzymał nowy system wizualny, responsywne układy desktop/tablet/mobile, dwurzędową nawigację mobilną oraz jasny i ciemny motyw zapamiętywany lokalnie. Kontrola wizualna objęła stronę główną i katalog, a pełny build przeszedł lokalnie, w GitHub Actions i na VPS. Wdrożono commit `0f4ffe5`; run 60 zakończył się sukcesem. Backup `b6c9acbc` przeszedł pełne odtworzenie PostgreSQL.
+
+## 40. Drukowalny raport dopasowania
+
+Użytkownik poprosił o przycisk raportu przy każdym dopasowaniu. Raport miał pokazywać wszystkie dane użyte z profilu, informacje pobrane z wniosków i regulaminów, przyczynę wyniku oraz — na końcu — formularze i instrukcję ubiegania się o dotację. Wymagane było także drukowanie.
+
+Dodano chronioną trasę raportu dla konkretnego profilu i programu. Widok łączy profil, deterministyczne reguły dopasowania oraz pełną kartę programu. Rozdziela pochodzenie danych, pokazuje braki, cytaty, paragrafy i oficjalne odnośniki. Dla firm uwzględnia PKD, pomoc de minimis, koszty kwalifikowane, wkład własny i konsorcjum. Końcowe sekcje zawierają kolejne kroki, wnioski, formularze, instrukcje i regulaminy.
+
+Przycisk drukowania korzysta z osobnego układu A4, który ukrywa interfejs i pozwala zapisać raport jako PDF. Typecheck, lokalny i kontenerowy build Next.js oraz GitHub Actions run 62 zakończyły się sukcesem. Na VPS wdrożono commit `63c2dbe`; automatyczny backup przed wydaniem utworzył snapshot `e0b2271e`. Kontrola produkcyjna potwierdziła 51 programów, 34 REVIEW, 1 niedostępny dokument, ochronę API i nagłówki bezpieczeństwa.

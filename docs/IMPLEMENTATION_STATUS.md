@@ -1,6 +1,16 @@
 # Status przygotowania serwera DotacjeAI
 
-Ostatnia weryfikacja: 2026-09-27.
+Ostatnia weryfikacja: 2026-09-28.
+
+## Raporty dopasowania
+
+- Każdy wynik dopasowania ma chroniony, drukowalny raport.
+- Raport rozdziela dane profilu od danych programu i dowodów z regulaminu.
+- Wyjaśnia każdą regułę oraz pokazuje braki danych, cytaty i oficjalne odnośniki.
+- Zawiera warunki, kwoty, wymagane dokumenty, instrukcję składania wniosku oraz formularze.
+- Obsługuje profile nieruchomości i przedsiębiorstw, w tym wymagania PKD, de minimis, kosztów, wkładu własnego i konsorcjum.
+- Widok druku A4 umożliwia zapis PDF bez ujawniania danych poza sesją użytkownika.
+- Produkcja działa na commicie `63c2dbe`; GitHub Actions run 62 zakończył się sukcesem, a backup przed wdrożeniem ma identyfikator `e0b2271e`.
 
 ## Sprint 10D — katalog firmowy
 
