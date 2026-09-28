@@ -568,3 +568,9 @@ Końcowy audyt rozdzielił strony informacyjne od prawdziwych dokumentów i form
 ## 38. Naprawa logowania konta testowego
 
 Użytkownik zgłosił brak możliwości logowania na konto `MichalK`. Konto istniało, było aktywne i miało rolę `user`; login jest normalizowany do `michalk`. Ponownie ustawiono hash hasła przez wejście standardowe, aby znak specjalny nie został zinterpretowany przez powłokę Windows. Produkcyjny test `POST /api/auth/login` zakończył się HTTP 200. Hasła nie zapisano w repozytorium ani dokumentacji.
+
+## 39. Rozdzielenie dopasowań i profesjonalizacja UI
+
+Użytkownik polecił całkowicie oddzielić dopasowania dotacji mieszkaniowych od programów dla przedsiębiorstw oraz poprawić czytelność wszystkich stron, dodać dark mode i sprawdzić skalowanie. Matching otrzymał etap kwalifikacji programu do rodzaju profilu przed liczeniem pozostałych reguł. Produkcyjna kontrola wykazała 11 programów dla nieruchomości, 40 dla firm i 0 wspólnych; istniejący profil domu zwrócił 11 wyników i żadnego programu firmowego.
+
+Frontend otrzymał nowy system wizualny, responsywne układy desktop/tablet/mobile, dwurzędową nawigację mobilną oraz jasny i ciemny motyw zapamiętywany lokalnie. Kontrola wizualna objęła stronę główną i katalog, a pełny build przeszedł lokalnie, w GitHub Actions i na VPS. Wdrożono commit `0f4ffe5`; run 60 zakończył się sukcesem. Backup `b6c9acbc` przeszedł pełne odtworzenie PostgreSQL.

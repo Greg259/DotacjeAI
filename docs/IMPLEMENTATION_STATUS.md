@@ -300,3 +300,14 @@ Pełny raport: `SPRINT_07_CATALOG_QUALITY.md`.
 - produkcja: commit `7288755`, API `0.12.0`, GitHub Actions run 57 `success`, pięć zdrowych kontenerów;
 - odbiór: 51 kart publicznych, 40 firmowych, 0 oczekujących REVIEW dotyczących katalogu firmowego i 1 niedostępny dokument w całym portalu;
 - backup Restic `1acbcb3d` przeszedł kontrolę repozytorium, sumę SHA-256 i pełne odtworzenie PostgreSQL.
+
+## Rozdzielenie matchingu i odświeżenie UI (2026-09-28)
+
+- dopasowania są najpierw filtrowane według rodzaju profilu: nieruchomość albo przedsiębiorstwo;
+- produkcyjne pule zawierają odpowiednio 11 i 40 programów, bez części wspólnej;
+- profil domu konta testowego zwraca 11 wyników i 0 kart firmowych;
+- wdrożono profesjonalny system wizualny, tryb jasny/ciemny i zapamiętywanie preferencji;
+- poprawiono skalowanie nagłówka, kart, filtrów, formularzy, szczegółów programu i matchingu;
+- przeprowadzono kontrolę desktop/mobile, typecheck, build, testy API i odbiór produkcyjny;
+- produkcja: commit `0f4ffe5`, GitHub Actions run 60 `success`, backup `b6c9acbc` w pełni odtworzony;
+- szczegóły: `MATCHING_UI_REFRESH.md`.
