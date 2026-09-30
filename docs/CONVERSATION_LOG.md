@@ -582,3 +582,9 @@ Użytkownik poprosił o przycisk raportu przy każdym dopasowaniu. Raport miał 
 Dodano chronioną trasę raportu dla konkretnego profilu i programu. Widok łączy profil, deterministyczne reguły dopasowania oraz pełną kartę programu. Rozdziela pochodzenie danych, pokazuje braki, cytaty, paragrafy i oficjalne odnośniki. Dla firm uwzględnia PKD, pomoc de minimis, koszty kwalifikowane, wkład własny i konsorcjum. Końcowe sekcje zawierają kolejne kroki, wnioski, formularze, instrukcje i regulaminy.
 
 Przycisk drukowania korzysta z osobnego układu A4, który ukrywa interfejs i pozwala zapisać raport jako PDF. Typecheck, lokalny i kontenerowy build Next.js oraz GitHub Actions run 62 zakończyły się sukcesem. Na VPS wdrożono commit `63c2dbe`; automatyczny backup przed wydaniem utworzył snapshot `e0b2271e`, który przeszedł kontrolę repozytorium, odtworzenie 474 plików i katalogów, SHA-256 dumpa oraz pełny import PostgreSQL. Kontrola produkcyjna potwierdziła 51 programów, 34 REVIEW, 1 niedostępny dokument, ochronę API i nagłówki bezpieczeństwa. Test rzeczywistego profilu potwierdził HTTP 200 raportu, 11 dopasowań nieruchomości, 5 reguł, 3 zasoby aplikacyjne i 5 dokumentów dla sprawdzanego programu.
+
+## 41. Drugie konto testowe i przekazanie sesji
+
+Użytkownik polecił utworzyć drugie konto testowe `Dominik`. Konto zostało utworzone standardowym endpointem rejestracji, login znormalizowano do `dominik`, przypisano rolę `user`, a świeże logowanie produkcyjne zwróciło HTTP 200. Hasła nie zapisano w Git ani dokumentacji.
+
+Na prośbę użytkownika utworzono `docs/CONTINUE_SESSION.md`: skrócony dokument przekazania dla kolejnej sesji Codexa. Zawiera lokalizacje, stan systemu, ostatnie wdrożenie, otwarte zadania, bezpieczny sposób dostępu oraz gotowy prompt rozpoczynający dalszą pracę. Pełna historia pozostaje w niniejszym pliku.
